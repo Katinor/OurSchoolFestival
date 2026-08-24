@@ -10,7 +10,7 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-/Assets/Resources/ImportedResources/
+/[Aa]ssets/Resources/ImportedResources/
 *.log
 
 # MemoryCaptures can get excessive in size.
