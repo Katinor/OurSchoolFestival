@@ -24,6 +24,34 @@ public enum ETileBuilding
     End = 2,
 }
 
+public struct SCost
+{
+    public int moneyCurrent;
+    public int moneyIncrease;
+    public int materialsCurrent;
+    public int materialsIncrease;
+    public int menpowerCurrent;
+    public int menpowerIncrease;
+    public bool canUseMaterials;
+
+    public SCost(int moneyCurrent, int moneyIncrease, int materialsCurrent, int materialsIncrease, int menpowerCurrent, int menpowerIncrease)
+    {
+        this.moneyCurrent = moneyCurrent;
+        this.moneyIncrease = moneyIncrease;
+        this.materialsCurrent = materialsCurrent;
+        this.materialsIncrease = materialsIncrease;
+        this.menpowerCurrent = menpowerCurrent;
+        this.menpowerIncrease = menpowerIncrease;
+        this.canUseMaterials = false;
+    }
+
+    public SCost(int moneyCurrent, int moneyIncrease, int materialsCurrent, int materialsIncrease, int menpowerCurrent, int menpowerIncrease, bool canUseMaterials)
+        : this(moneyCurrent, moneyIncrease, materialsCurrent, materialsIncrease, menpowerCurrent, menpowerIncrease)
+    {
+        this.canUseMaterials = canUseMaterials;
+    } 
+}
+
 public class CTile : MonoBehaviour
 {
     [Header("타일 정보")]
@@ -109,11 +137,6 @@ public class CTile : MonoBehaviour
         }
     }
 
-    public virtual bool OnAction(GameManager gameManager)
-    {
-        return false;
-    }
-
     public virtual int OnCalculatePoint()
     {
         return _internalPoints;
@@ -132,8 +155,32 @@ public class CTile : MonoBehaviour
         return 0;
     }
 
+    public virtual bool IsUpgradable(GameManager gameManager)
+    {
+        return false;
+    }
+
+    public virtual bool OnAction(GameManager gameManager)
+    {
+        return false;
+    }
+
+    public virtual bool IsActionable(GameManager gameManager)
+    {
+        return false;
+    }
+
     protected virtual void Start()
     {
+        if (((_tileState & ETileState.Road) != ETileState.None) && ((_tileState & ETileState.Built) != ETileState.None))
+        {
+            Test_TilemapSelector tempClass = FindObjectOfType<Test_TilemapSelector>();
+            if(tempClass != null)
+            {
+                CPrint.Log("축제 안정도 증가");
+                tempClass.IncreaseRoad(1);
+            }
+        }
         if (_builtTransform != null)
         {
             _building = ETileBuilding.Start;
