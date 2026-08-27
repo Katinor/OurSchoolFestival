@@ -9,13 +9,23 @@ public partial class Test_TilemapSelector
         {
             if ((tempClass.TileState & ETileState.Upgradable) != ETileState.None)
             {
-                if (_upgradeSe != null)
+                if (CheckResource(tempClass.Cost) >= 0)
                 {
-                    _upgradeSe.Play();
+                    if (_upgradeSe != null)
+                    {
+                        _upgradeSe.Play();
+                    }
+                    tempClass.Upgrade(_resources, _tilemap, _tileBases, _lastSelectedPosition);
+                    OnClickElse();
+                    _gameState = EGameState.Idle;
+                    return;
                 }
-                tempClass.Upgrade(_tilemap, _tileBases, _lastSelectedPosition);
-                OnClickElse();
-                _gameState = EGameState.Idle;
+                else
+                {
+                    CreateError("자원 부족함", true);
+                    return;
+                }
+                    
             }
             else
             {
@@ -25,6 +35,33 @@ public partial class Test_TilemapSelector
         else
         {
             return;
+        }
+    }
+
+    public void CallCard(CCard card)
+    {
+        if (card.AvailableToUse())
+        {
+            ShowQuestion
+                (
+                    $"{card.CardName}을 사용합니까?",
+                    ActionCard,
+                    card
+                );
+        }
+        else
+        {
+            CreateError("자원 부족함", true);
+        }
+    }
+
+    private void ActionCard(CCard card)
+    {
+        card.UseCard();
+        Destroy(card.gameObject);
+        if (_upgradeSe != null)
+        {
+            _upgradeSe.Play();
         }
     }
 
@@ -44,16 +81,16 @@ public partial class Test_TilemapSelector
 
     private void CallNextDay()
     {
-        _moneyCurrent += _moneyIncrease;
-        _materialsCurrent += _materialsIncrease;
-        _menpowerRemains += _menpowerCurrent;
-        while(_menpowerRemains >= 8)
+        _resources.moneyCurrent += _resources.moneyIncrease;
+        _resources.materialsCurrent += _resources.materialsIncrease;
+        _resources.menpowerRemain += _resources.menpowerCurrent;
+        while(_resources.menpowerRemain >= 8)
         {
-            _menpowerRemains -= 8;
-            _festivalInterest += 1;
+            _resources.menpowerRemain -= 8;
+            _resources.festivalInterest += 1;
         }
-        _menpowerRamainsSlider.value = _menpowerRemains / 8f;
-        _menpowerCurrent = _menpowerIncrease;
+        _menpowerRamainsSlider.value = _resources.menpowerRemain / 8f;
+        _resources.menpowerCurrent = _resources.menpowerIncrease;
     }
 
     private void CallAccept()
@@ -78,14 +115,14 @@ public partial class Test_TilemapSelector
         }
         else
         {
-            CreateError("비용 부족함!");
+            CreateError("자원 부족함", true);
         }
     }
 
     private void ActionCommon01(GameObject go, Vector3Int position)
     {
-        _moneyCurrent -= 11;
-        _menpowerIncrease += 1;
+        _resources.moneyCurrent -= 11;
+        _resources.menpowerIncrease += 1;
         if (_upgradeSe != null)
         {
             _upgradeSe.Play();
@@ -103,14 +140,14 @@ public partial class Test_TilemapSelector
         }
         else
         {
-            CreateError("비용 부족함!");
+            CreateError("자원 부족함", true);
         }
     }
 
     private void ActionCommon02(GameObject go, Vector3Int position)
     {
-        _moneyCurrent -= 14;
-        _festivalInterest += 1;
+        _resources.moneyCurrent -= 14;
+        _resources.festivalInterest += 1;
         if (_upgradeSe != null)
         {
             _upgradeSe.Play();
@@ -130,13 +167,13 @@ public partial class Test_TilemapSelector
         }
         else
         {
-            CreateError("비용 부족함!");
+            CreateError("자원 부족함", true);
         }
     }
 
     private void ActionCommon03(GameObject go, Vector3Int position)
     {
-        _moneyCurrent -= 23;
+        _resources.moneyCurrent -= 23;
         CPrint.V3("타일 지을 곳", position);
         _tilemap.SetTile(position, _tileBases[GetIndex(ETempTileCatalog.Trees)]);
         if (_upgradeSe != null)
@@ -159,13 +196,13 @@ public partial class Test_TilemapSelector
         }
         else
         {
-            CreateError("비용 부족함!");
+            CreateError("자원 부족함", true);
         }
     }
 
     private void ActionCommon04(GameObject go, Vector3Int position)
     {
-        _moneyCurrent -= 18;
+        _resources.moneyCurrent -= 18;
         CPrint.V3("타일 지을 곳", position);
         _tilemap.SetTile(position, _tileBases[GetIndex(ETempTileCatalog.RoadBuilt)]);
         if (_upgradeSe != null)

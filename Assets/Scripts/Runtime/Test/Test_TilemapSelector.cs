@@ -1,12 +1,10 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
-using Unity.VisualScripting;
 
 public enum ETempTileCatalog
 {
@@ -33,6 +31,12 @@ public partial class Test_TilemapSelector : MonoBehaviour
     [Header("캔버스")]
     [SerializeField] Canvas _canvas;
 
+    [Header("에러 캔버스")]
+    [SerializeField] Canvas _errorCanvas;
+
+    [Header("카드캔버스")]
+    [SerializeField] Canvas _cardCanvas;
+
     [Header("에러 프리팹")]
     [SerializeField] GameObject _errorPrefab;
 
@@ -58,6 +62,7 @@ public partial class Test_TilemapSelector : MonoBehaviour
     [SerializeField] private TMP_Text _tileName;
     [SerializeField] private TMP_Text _tileDescription;
     [SerializeField] private Button _upgradeButton;
+    [SerializeField] private TMP_Text _tileUpgradeCost;
     [SerializeField] private float _rightPanelXOn = 640;
     [SerializeField] private float _rightPanelXOff = 1180;
     [SerializeField] private float _panelMove = 1500;
@@ -81,6 +86,7 @@ public partial class Test_TilemapSelector : MonoBehaviour
     [SerializeField] private TMP_Text _menpowerCurrentText;
     [SerializeField] private TMP_Text _menpowerIncreaseText;
     [SerializeField] private Slider _menpowerRamainsSlider;
+    [SerializeField] private TMP_Text _techText;
     [SerializeField] private Button _debugNextDay;
 
     [Header("지표메뉴")]
@@ -104,18 +110,9 @@ public partial class Test_TilemapSelector : MonoBehaviour
     private LayerMask _hitMask = 0;
     private EGameState _gameState = EGameState.Idle;
 
-    private int _moneyCurrent = 50;
-    private int _moneyIncrease = 20;
-    private int _materialsCurrent = 0;
-    private int _materialsIncrease = 1;
-    private int _menpowerCurrent = 0;
-    private int _menpowerIncrease = 1;
+    private CResources _resources;
+    private Dictionary<ETech, int> _currentTech;
 
-    private int _menpowerRemains = 0;
-
-    private int _festivalSuccess = 0;
-    private int _festivalInterest = 0;
-    private int _festivalRoad = 0;
     private int _questionValue = 0;
     private Action<GameObject, Vector3Int> _questionAction = null;
     private string _questionString = null;
@@ -124,17 +121,35 @@ public partial class Test_TilemapSelector : MonoBehaviour
     private ETileState _questionMask;
     private ETileState _questionMaskReverse;
 
+    private Action<CCard> _questionCard = null;
+    private CCard _questionArgCard = null;
+    private bool _questionIsCard = false;
+
     private bool _rightUIOn = false;
     private bool _leftUIOn = false;
     #endregion
 
+    public CResources Resources
+    {
+        get { return _resources; }
+        set { _resources = value; }
+    }
+
+    public Dictionary<ETech, int> CurrentTech
+    {
+        get { return _currentTech; }
+        set { _currentTech = value; }
+    }
+
     void Start()
     {
+        _resources = new CResources(50, 20, 0, 1, 0, 1);
         _hitMask |= LayerMask.GetMask("Tilemap");
         _tilemap = this.GetComponentInChildren<Tilemap>();
         CPrint.Log($"{_hitMask.value} = (Tilemap)");
         _rightPanelTransform.anchoredPosition3D = new Vector3(_rightPanelXOff, 0, 0);
         _upgradeButton.gameObject.SetActive(false);
+        _currentTech = new Dictionary<ETech, int>();
         if (_upgradeButton != null)
         {
             _upgradeButton.onClick.AddListener(
@@ -189,11 +204,14 @@ public partial class Test_TilemapSelector : MonoBehaviour
         {
             case EGameState.Idle:
             case EGameState.TileInspect:
+                if (Input.GetMouseButtonDown(1))
+                {
+                    OnClickElse();
+                    _gameState = EGameState.Idle;
+                }
                 if (Input.GetMouseButtonDown(0))
                 {
-                    CPrint.Log("EGameState.Idle | TileInspect");
                     Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-                    CPrint.V3("마우스 입력 감지 : ", ray.GetPoint(0));
                     if (EventSystem.current.IsPointerOverGameObject())
                     {
                         CPrint.Log("UI 클릭함");
@@ -201,7 +219,6 @@ public partial class Test_TilemapSelector : MonoBehaviour
                     }
                     if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _hitMask))
                     {
-                        CPrint.V3("Mouse input detected", hit.point);
                         Vector3 hitPoint = hit.point;
                         if (findObjectByTile(hitPoint, out Vector3Int posInCell, out GameObject go))
                         {
@@ -211,9 +228,7 @@ public partial class Test_TilemapSelector : MonoBehaviour
                         }
                         else
                         {
-                            CPrint.V3($"클릭위치", hit.point);
                             OnClickElse();
-                            CreateError("아무때나 클릭함", true);
                             _gameState = EGameState.Idle;
                         }
                     }
@@ -221,11 +236,16 @@ public partial class Test_TilemapSelector : MonoBehaviour
                 break;
             case EGameState.TileSelect:
                 ChangeBottomText("타일을 선택하세요.");
+                if (Input.GetMouseButtonDown(1))
+                {
+                    CreateError("취소함", true);
+                    ChangeBottomText("");
+                    _gameState = EGameState.Idle;
+                    break;
+                }
                 if (Input.GetMouseButtonDown(0))
                 {
-                    CPrint.Log("EGameState.TileSelect");
                     Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-                    CPrint.V3("마우스 입력 감지 : ", ray.GetPoint(0));
                     if (EventSystem.current.IsPointerOverGameObject())
                     {
                         CPrint.Log("UI 클릭함");
@@ -233,19 +253,14 @@ public partial class Test_TilemapSelector : MonoBehaviour
                     }
                     if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _hitMask))
                     {
-                        CPrint.V3("Mouse input detected", hit.point);
                         Vector3 hitPoint = hit.point;
                         if (findObjectByTile(hitPoint, out Vector3Int posInCell, out GameObject go))
                         {
                             CPrint.V3($"클릭대상 - {go.name}", posInCell);
                             if (go.TryGetComponent<CTile>(out CTile tempClass))
                             {
-                                CPrint.Log($"타겟 : {tempClass.TileState}");
-                                CPrint.Log($"정방향 : {_questionMask} - {(tempClass.TileState & _questionMask)}");
-                                CPrint.Log($"역방향 : {_questionMaskReverse} - {(tempClass.TileState & _questionMaskReverse)}");
                                 if (_questionMask == ETileState.None && _questionMaskReverse == ETileState.None)
                                 {
-                                    CPrint.Log("마스크가 둘 다 없음");
                                     ChangeBottomText("");
                                     ShowQuestion(
                                             _questionString,
@@ -319,14 +334,20 @@ public partial class Test_TilemapSelector : MonoBehaviour
                 }
                 break;
             case EGameState.Question:
+                if (Input.GetMouseButtonDown(1))
+                {
+                    CreateError("취소함", true);
+                    HideQuestion();
+                }
+
                 if (_questionValue == 0)
                 {
                     break;
                 }
                 else if (_questionValue == 1)
                 {
-                    CPrint.Log("확인버튼!");
-                    _questionAction(_questionArgGO, _questionArgVector);
+                    if (_questionIsCard) _questionCard(_questionArgCard);
+                    else _questionAction(_questionArgGO, _questionArgVector);
                 }
                 HideQuestion();
                 break;
@@ -340,31 +361,64 @@ public partial class Test_TilemapSelector : MonoBehaviour
     public int CheckResource(int moneyCurrent, int moneyIncrease,
         int materialsCurrent, int materialsIncrease, int menpowerCurrent, int menpowerIncrease, bool canUseMaterials = false)
     {
-        if (_moneyCurrent < moneyCurrent)
+        if (_resources.moneyCurrent < moneyCurrent)
         {
-            if ((canUseMaterials) && (_moneyCurrent + 2 * (materialsCurrent) < moneyCurrent)) return -1;
+            if (!canUseMaterials) return -1;
+            else if ((_resources.moneyCurrent + 2 * (_resources.materialsCurrent) < moneyCurrent)) return -1;
             else return 1;
         }
-        if (_moneyIncrease < moneyIncrease) return -1;
-        if (_materialsCurrent < materialsCurrent) return -1;
-        if (_materialsIncrease <  materialsIncrease) return -1;
-        if (_menpowerCurrent < menpowerCurrent) return -1;
-        if (_menpowerIncrease < menpowerIncrease) return -1;
+        if (_resources.moneyIncrease < moneyIncrease) return -1;
+        if (_resources.materialsCurrent < materialsCurrent) return -1;
+        if (_resources.materialsIncrease <  materialsIncrease) return -1;
+        if (_resources.menpowerCurrent < menpowerCurrent) return -1;
+        if (_resources.menpowerIncrease < menpowerIncrease) return -1;
         return 0;
     }
 
     public int CheckResource(SCost cost)
     {
-        if (_moneyCurrent < cost.moneyCurrent)
+        if (_resources.moneyCurrent < cost.moneyCurrent)
         {
-            if ((cost.canUseMaterials) && (_moneyCurrent + 2 * (cost.materialsCurrent) < cost.moneyCurrent)) return -1;
+            if (!cost.canUseMaterials) return -1;
+            else if ((_resources.moneyCurrent + 2 * (_resources.materialsCurrent) < cost.moneyCurrent)) return -1;
             else return 1;
         }
-        if (_moneyIncrease < cost.moneyIncrease) return -1;
-        if (_materialsCurrent < cost.materialsCurrent) return -1;
-        if (_materialsIncrease < cost.materialsIncrease) return -1;
-        if (_menpowerCurrent < cost.menpowerCurrent) return -1;
-        if (_menpowerIncrease < cost.menpowerIncrease) return -1;
+        if (_resources.moneyIncrease < cost.moneyIncrease) return -1;
+        if (_resources.materialsCurrent < cost.materialsCurrent) return -1;
+        if (_resources.materialsIncrease < cost.materialsIncrease) return -1;
+        if (_resources.menpowerCurrent < cost.menpowerCurrent) return -1;
+        if (_resources.menpowerIncrease < cost.menpowerIncrease) return -1;
         return 0;
+    }
+
+    public void ReloadTech()
+    {
+        _techText.text = "";
+        foreach(KeyValuePair<ETech, int> target in _currentTech)
+        {
+            for (int i = 0; i < target.Value; i++)
+            {
+                _techText.text += TechParserForReload(target.Key);
+            }
+        }
+    }
+
+    private string TechParserForReload(ETech tech)
+    {
+        switch (tech)
+        {
+            case ETech.Science:
+                return "<sprite=9>";
+            case ETech.Music:
+                return "<sprite=10>";
+            case ETech.Art:
+                return "<sprite=11>";
+            case ETech.Exercise:
+                return "<sprite=12>";
+            case ETech.Cult:
+                return "<sprite=13>";
+            default:
+                return "";
+        }
     }
 }

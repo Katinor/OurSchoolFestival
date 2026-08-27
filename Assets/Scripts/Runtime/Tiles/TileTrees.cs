@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TileTrees : CTile
+﻿public class TileTrees : CTile
 {
     public TileTrees()
     {
@@ -17,8 +13,7 @@ public class TileTrees : CTile
         Test_TilemapSelector tempClass = FindObjectOfType<Test_TilemapSelector>();
         if (tempClass != null)
         {
-            CPrint.Log("축제 완성도 증가");
-            tempClass.IncreaseSuccess(1);
+            tempClass.Resources.festivalSuccess = tempClass.Resources.festivalSuccess + 1;
         }
     }
 }

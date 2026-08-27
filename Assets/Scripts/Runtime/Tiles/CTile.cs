@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -24,34 +21,6 @@ public enum ETileBuilding
     End = 2,
 }
 
-public struct SCost
-{
-    public int moneyCurrent;
-    public int moneyIncrease;
-    public int materialsCurrent;
-    public int materialsIncrease;
-    public int menpowerCurrent;
-    public int menpowerIncrease;
-    public bool canUseMaterials;
-
-    public SCost(int moneyCurrent, int moneyIncrease, int materialsCurrent, int materialsIncrease, int menpowerCurrent, int menpowerIncrease)
-    {
-        this.moneyCurrent = moneyCurrent;
-        this.moneyIncrease = moneyIncrease;
-        this.materialsCurrent = materialsCurrent;
-        this.materialsIncrease = materialsIncrease;
-        this.menpowerCurrent = menpowerCurrent;
-        this.menpowerIncrease = menpowerIncrease;
-        this.canUseMaterials = false;
-    }
-
-    public SCost(int moneyCurrent, int moneyIncrease, int materialsCurrent, int materialsIncrease, int menpowerCurrent, int menpowerIncrease, bool canUseMaterials)
-        : this(moneyCurrent, moneyIncrease, materialsCurrent, materialsIncrease, menpowerCurrent, menpowerIncrease)
-    {
-        this.canUseMaterials = canUseMaterials;
-    } 
-}
-
 public class CTile : MonoBehaviour
 {
     [Header("타일 정보")]
@@ -63,6 +32,7 @@ public class CTile : MonoBehaviour
     protected string _description;
     protected ETileState _tileState = ETileState.None;
     protected ETileBuilding _building;
+    protected SCost _cost;
 
     protected string _actionName = null;
     protected string _actionDescription = null;
@@ -84,6 +54,12 @@ public class CTile : MonoBehaviour
         protected set { _description = value; }
     }
 
+    public SCost Cost
+    {
+        get { return _cost; }
+        protected set { _cost = value; }
+    }
+    
     public ETileState TileState
     {
         get { return _tileState; }
@@ -147,10 +123,11 @@ public class CTile : MonoBehaviour
     /// <param name="tilemap"></param>
     /// <param name="position"></param>
     /// <returns></returns>
-    public virtual int Upgrade(Tilemap tilemap, List<TileBase> tileBases, Vector3Int position)
+    public virtual int Upgrade(CResources resource, Tilemap tilemap, List<TileBase> tileBases, Vector3Int position)
     {
         // 비용에 문제가 있다면 Return하는 함수 필요
         CPrint.V3($"타일 업그레이드", position);
+        resource.PayCost(_cost);
         tilemap.SetTile(position, tileBases[Test_TilemapSelector.GetIndex(_upgradeResult)]);
         return 0;
     }
@@ -178,7 +155,7 @@ public class CTile : MonoBehaviour
             if(tempClass != null)
             {
                 CPrint.Log("축제 안정도 증가");
-                tempClass.IncreaseRoad(1);
+                tempClass.Resources.festivalRoad += 1;
             }
         }
         if (_builtTransform != null)
