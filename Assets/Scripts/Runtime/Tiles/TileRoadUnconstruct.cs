@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TileRoadUnconstruct : CTile
+﻿public class TileRoadUnconstruct : CTile
 {
     public TileRoadUnconstruct()
     {
@@ -10,5 +6,6 @@ public class TileRoadUnconstruct : CTile
         this._description = "도로를 짓기 좋은 땅입니다.";
         this._tileState = ETileState.Road | ETileState.Upgradable;
         this._upgradeResult = ETempTileCatalog.RoadBuilt;
+        this._cost = new SCost(18, 0, 0, 0, 0, 0);
     }
 }

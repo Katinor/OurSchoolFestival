@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Xml.Schema;
 using TMPro;
 using UnityEngine;
 
@@ -64,15 +63,15 @@ public partial class Test_TilemapSelector
 
     private void ResourceSync()
     {
-        _moneyCurrentText.text = _moneyCurrent.ToString();
-        _moneyIncreaseText.text = "+" + _moneyIncrease.ToString();
-        _materialsCurrentText.text = _materialsCurrent.ToString();
-        _materialsIncreaseText.text = "+" + _materialsIncrease.ToString();
-        _menpowerCurrentText.text = _menpowerCurrent.ToString();
-        _menpowerIncreaseText.text = "+" + _menpowerIncrease.ToString();
-        _successText.text = Clamp(_festivalSuccess, 0, 14).ToString();
-        _interestText.text = Clamp(_festivalInterest, 0, 19).ToString();
-        _roadText.text = Clamp(_festivalRoad, 0, 8).ToString();
+        _moneyCurrentText.text = _resources.moneyCurrent.ToString();
+        _moneyIncreaseText.text = "+" + _resources.moneyIncrease.ToString();
+        _materialsCurrentText.text = _resources.materialsCurrent.ToString();
+        _materialsIncreaseText.text = "+" + _resources.materialsIncrease.ToString();
+        _menpowerCurrentText.text = _resources.menpowerCurrent.ToString();
+        _menpowerIncreaseText.text = "+" + _resources.menpowerIncrease.ToString();
+        _successText.text = Clamp(_resources.festivalSuccess, 0, 14).ToString();
+        _interestText.text = Clamp(_resources.festivalInterest, 0, 19).ToString();
+        _roadText.text = Clamp(_resources.festivalRoad, 0, 8).ToString();
     }
 
     private int Clamp(int target, int min, int max)
@@ -95,9 +94,9 @@ public partial class Test_TilemapSelector
         }
     }
 
-    private void CreateError(string text, bool trackMouse = false)
+    public void CreateError(string text, bool trackMouse = false)
     {
-        GameObject go = Instantiate(_errorPrefab, _canvas.transform);
+        GameObject go = Instantiate(_errorPrefab, _errorCanvas.transform);
         if (go.TryGetComponent<TMP_Text>(out TMP_Text goText))
         {
             StartCoroutine(CreateErrorCoroutine(goText, text, trackMouse));
@@ -163,29 +162,56 @@ public partial class Test_TilemapSelector
     }
     private void ShowQuestion(string text, Action<GameObject, Vector3Int> action = null, GameObject actionArgGO = null)
     {
+        if (_gameState == EGameState.Question)
+        {
+            HideQuestion();
+        }
         _questionPanel.gameObject.SetActive(true);
         _questionText.text = text;
         _questionValue = 0;
+        _questionIsCard = false;
         _questionAction = action;
         _questionArgGO = actionArgGO;
         _questionArgVector = Vector3Int.zero;
         _gameState = EGameState.Question;
     }
+
     private void ShowQuestion(string text, Action<GameObject, Vector3Int> action, GameObject actionArgGO, Vector3Int actionArgVector)
     {
+        if (_gameState == EGameState.Question)
+        {
+            HideQuestion();
+        }
         _questionPanel.gameObject.SetActive(true);
         _questionText.text = text;
         _questionValue = 0;
+        _questionIsCard = false;
         _questionAction = action;
         _questionArgGO = actionArgGO;
         _questionArgVector = actionArgVector;
         _gameState = EGameState.Question;
     }
+    private void ShowQuestion(string text, Action<CCard> action, CCard card)
+    {
+        if (_gameState == EGameState.Question)
+        {
+            HideQuestion();
+        }
+        _questionPanel.gameObject.SetActive(true);
+        _questionText.text = text;
+        _questionValue = 0;
+        _questionIsCard = true;
+        _questionCard = action;
+        _questionArgCard = card;
+        _gameState = EGameState.Question;
+    }
+
     private void HideQuestion()
     {
         _questionPanel.gameObject.SetActive(false);
         _questionValue = 0;
         _questionAction = null;
+        _questionCard = null;
         _gameState = EGameState.Idle;
     }
     private void ShowTilechecker(string text, Action<GameObject, Vector3Int> action, ETileState mask, ETileState maskReversed, GameObject actionArgGO = null)

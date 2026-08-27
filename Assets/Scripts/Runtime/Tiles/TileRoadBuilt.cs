@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TileRoadBuilt : CTile
+﻿public class TileRoadBuilt : CTile
 {
     public TileRoadBuilt()
     {

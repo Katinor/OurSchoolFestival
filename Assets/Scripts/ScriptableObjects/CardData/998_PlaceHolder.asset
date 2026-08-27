@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 998_PlaceHolder
+  m_EditorClassIdentifier: 
+  _cardName: "\uBC84\uC2A4\uD0B9 \uBD80\uC2A4"
+  _desctiption: <sprite=10> +1
+  _illust: {fileID: 2800000, guid: 2a90cb63f8ac5b64898d1c5230cf6855, type: 3}
+  _costInfo:
+    moneyCurrent: 8
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _tagList: []
+  _actionList:
+  - action: 10
+    level: 1

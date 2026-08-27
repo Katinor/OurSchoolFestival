@@ -77,6 +77,7 @@ public partial class Test_TilemapSelector
             if ((tempClass.TileState & ETileState.Upgradable) != ETileState.None)
             {
                 _upgradeButton.gameObject.SetActive(true);
+                _tileUpgradeCost.text = UpgradeCostParser(tempClass.Cost);
             }
             else
             {
@@ -110,21 +111,13 @@ public partial class Test_TilemapSelector
         ChangeBottomText("");
     }
 
+    private string UpgradeCostParser(SCost cost)
+    {
+        return $"업그레이드 ({cost.toCostString()})";
+    }
+    
     public static int GetIndex(ETempTileCatalog tileCatalog)
     {
         return (int)tileCatalog;
-    }
-
-    public void IncreaseRoad(int value)
-    {
-        _festivalRoad += value;
-    }
-    public void IncreaseInterest(int value)
-    {
-        _festivalInterest += value;
-    }
-    public void IncreaseSuccess(int value)
-    {
-        _festivalSuccess += value;
     }
 }
