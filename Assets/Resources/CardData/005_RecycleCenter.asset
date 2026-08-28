@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 005_RecycleCenter
+  m_EditorClassIdentifier: 
+  _cardId: 5
+  _cardName: "\uC7AC\uD65C\uC6A9 \uC13C\uD130"
+  _desctiption: "<sprite=3> -1 <sprite=1> +4\n<b>\uAC74\uC124</b> : \uBD80\uC2A4\n<i><size=75%>\uC7AC\uD65C\uC6A9\uC740
+    \uC5B8\uC81C\uB098 \uB2F5\uC774 \uB429\uB2C8\uB2E4.</size></i>"
+  _illust: {fileID: 2800000, guid: 4381f89e22af08c4b99aada7d358816e, type: 3}
+  _costInfo:
+    moneyCurrent: 12
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 1
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _tagList: []
+  _actionList:
+  - action: 1
+    level: 4
+  - action: 14
+    level: 4

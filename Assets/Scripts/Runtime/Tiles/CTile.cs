@@ -27,7 +27,7 @@ public class CTile : MonoBehaviour
     [SerializeField] private Renderer _baseRenderer;
     [SerializeField] private AudioSource _selectSound;
     [SerializeField] private Transform _builtTransform;
-    protected ETempTileCatalog _upgradeResult;
+    protected ETileCatalog _upgradeResult;
     protected string _name;
     protected string _description;
     protected ETileState _tileState = ETileState.None;
@@ -123,12 +123,12 @@ public class CTile : MonoBehaviour
     /// <param name="tilemap"></param>
     /// <param name="position"></param>
     /// <returns></returns>
-    public virtual int Upgrade(CResources resource, Tilemap tilemap, List<TileBase> tileBases, Vector3Int position)
+    public virtual int Upgrade(CResources resource, GameManager manager, List<TileBase> tileBases, Vector3Int position)
     {
         // 비용에 문제가 있다면 Return하는 함수 필요
         CPrint.V3($"타일 업그레이드", position);
         resource.PayCost(_cost);
-        tilemap.SetTile(position, tileBases[Test_TilemapSelector.GetIndex(_upgradeResult)]);
+        manager.BuildTile(_upgradeResult, position);
         return 0;
     }
 
@@ -151,7 +151,7 @@ public class CTile : MonoBehaviour
     {
         if (((_tileState & ETileState.Road) != ETileState.None) && ((_tileState & ETileState.Built) != ETileState.None))
         {
-            Test_TilemapSelector tempClass = FindObjectOfType<Test_TilemapSelector>();
+            GameManager tempClass = FindObjectOfType<GameManager>();
             if(tempClass != null)
             {
                 CPrint.Log("축제 안정도 증가");

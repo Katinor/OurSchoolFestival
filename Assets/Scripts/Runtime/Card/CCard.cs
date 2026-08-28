@@ -13,22 +13,27 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private TMP_Text _tagLabel;
     [SerializeField] private TMP_Text _descriptionLabel;
     [SerializeField] private Button _useButton;
+    [SerializeField] private Button _deleteButton;
     [SerializeField] private RawImage _illust;
 
     private string _cardName;
     private GameCard _gameCard;
+    private bool _isDeletable;
     private SCost _cost;
     private bool _canUseMaterials = false;
     private List<TechData> _techData;
-    private Test_TilemapSelector _tilemapSelector;
-    private List<Func<Test_TilemapSelector, int, bool>> _actionFuncList;
+    private GameManager _gameManager;
+    private List<Func<GameManager, int, bool>> _actionFuncList;
+    private Func<GameManager, ETileCatalog, Vector3Int, bool> _actionTileFunc;
+    private ETileCatalog _actionBuilding;
     private List<int> _actionLevelList;
     private bool _hasTileAction = false;
+    private bool _isTileRoad = false;
 
     private RectTransform _rectTransform;
     private bool _isLooking = false;
-    private readonly float YOnPosition = 176f;
-    private readonly float YOffPosition = -184f;
+    private readonly float YOnPosition = 120f;      // 176f;
+    private readonly float YOffPosition = -240f;    //-184f;
     private readonly float MovementSpeed = 1800f;
 
     public string CardName
@@ -37,9 +42,27 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         protected set { _cardName = value; }
     }
 
+    public bool IsDeletable
+    {
+        get { return _isDeletable; }
+        protected set { _isDeletable = value; }
+    }
+
+    public bool HasTileAction
+    {
+        get { return _hasTileAction; }
+        protected set { _hasTileAction = value; }
+    }
+
+    public bool IsTileRoad
+    {
+        get { return _isTileRoad; }
+        protected set { _isTileRoad = value; }
+    }
+
     void Awake()
     {
-        _actionFuncList = new List<Func<Test_TilemapSelector, int, bool>>();
+        _actionFuncList = new List<Func<GameManager, int, bool>>();
         _actionLevelList = new List<int>();
         if(_testCard != null)
         {
@@ -51,11 +74,16 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void Start()
     {
-        _tilemapSelector = FindObjectOfType<Test_TilemapSelector>();
+        _gameManager = FindObjectOfType<GameManager>();
         if (_useButton != null)
         {
             _useButton.onClick.AddListener(
-                () => _tilemapSelector.CallCard(this));
+                () => _gameManager.CallCard(this));
+        }
+        if (_deleteButton != null)
+        {
+            _deleteButton.onClick.AddListener(
+                () => _gameManager.DeleteCard(this));
         }
     }
 
@@ -93,6 +121,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         _nameLabel.text = targetCard.CardName;
         _cardName = targetCard.CardName;
+        _isDeletable = targetCard.IsDeletable;
         _costLabel.text = targetCard.CostInfo.moneyCurrent.ToString();
         _techData = targetCard.TagList;
         _tagLabel.text = "";
@@ -153,7 +182,10 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     _actionFuncList.Add(CCardStatic.CardCult);
                     break;
                 case EAction.Tile:
-                    _actionFuncList.Add(CCardStatic.CardTile);
+                    _actionFuncList.Add(CCardStatic.CardEmpty);
+                    _actionTileFunc = CCardStatic.CardTile;
+                    if (targetCard.ActionList[i].level < 0) _isTileRoad = true;
+                    _actionBuilding = (ETileCatalog) Mathf.Abs(targetCard.ActionList[i].level);
                     _hasTileAction = true;
                     break;
                 case EAction.CustomScript:
@@ -201,13 +233,17 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         return "";
     }
 
-    public void UseCard()
+    public void UseCard(Vector3Int pos, bool skipTile = false)
     {
-        _tilemapSelector.Resources.PayCost(_cost);
+        _gameManager.Resources.PayCost(_cost);
         bool isDone = true;
         for(int i = 0; i < _actionFuncList.Count; i++)
         {
-            if(!_actionFuncList[i](_tilemapSelector, _actionLevelList[i])) isDone = false;
+            if(!_actionFuncList[i](_gameManager, _actionLevelList[i])) isDone = false;
+        }
+        if (_hasTileAction && !skipTile)
+        {
+            _gameManager.BuildTile(_actionBuilding, pos);
         }
         if (isDone)
         {
@@ -217,18 +253,37 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             CPrint.Error($"{_cardName} 발동 실패");
         }
+        transform.SetParent(null);
+        Destroy(gameObject);
+    }
+
+    public void DeleteCard()
+    {
+        transform.SetParent(null);
         Destroy(gameObject);
     }
 
     public bool AvailableToUse()
     {
-        if (_tilemapSelector.CheckResource(_cost) < 0) return false;
+        if (_gameManager.CheckResource(_cost) < 0) return false;
         for(int i = 0; i < _techData.Count; i++)
         {
             TechData tempData = _techData[i];
-            if (_tilemapSelector.CurrentTech.ContainsKey(tempData.tag))
+            if(tempData.tag == ETech.Success)
             {
-                if (_tilemapSelector.CurrentTech[tempData.tag] < tempData.level) return false;
+                if (_gameManager.Resources.festivalSuccess < tempData.level) return false;
+            }
+            else if(tempData.tag == ETech.Interest)
+            {
+                if (_gameManager.Resources.festivalInterest < tempData.level) return false;
+            }
+            else if (tempData.tag == ETech.Road)
+            {
+                if (_gameManager.Resources.festivalRoad < tempData.level) return false;
+            }
+            else if (_gameManager.CurrentTech.ContainsKey(tempData.tag))
+            {
+                if (_gameManager.CurrentTech[tempData.tag] < tempData.level) return false;
             }
             else return false;
         }

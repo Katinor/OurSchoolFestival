@@ -10,7 +10,7 @@
     protected override void Start()
     {
         base.Start();
-        Test_TilemapSelector tempClass = FindObjectOfType<Test_TilemapSelector>();
+        GameManager tempClass = FindObjectOfType<GameManager>();
         if (tempClass != null)
         {
             tempClass.Resources.festivalSuccess = tempClass.Resources.festivalSuccess + 1;

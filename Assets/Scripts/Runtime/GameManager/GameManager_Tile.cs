@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public partial class Test_TilemapSelector
+public partial class GameManager
 {
     private void DrawMapTiles()
     {
@@ -9,18 +9,18 @@ public partial class Test_TilemapSelector
         {
             CPrint.Error("타일맵 찾을 수 없음.");
         }
-        if (_tileBases[GetIndex(ETempTileCatalog.RoadBase)] == null)
+        if (_tileBases[GetIndex(ETileCatalog.RoadBase)] == null)
         {
             CPrint.Error("길 찾을 수 없음.");
             return;
         }
-        if (_tileBases[GetIndex(ETempTileCatalog.Basement)] == null)
+        if (_tileBases[GetIndex(ETileCatalog.Basement)] == null)
         {
             CPrint.Error("땅 찾을 수 없음.");
             return;
         }
-        TileBase baseRoad = _tileBases[GetIndex(ETempTileCatalog.RoadBase)];
-        TileBase baseLand = _tileBases[GetIndex(ETempTileCatalog.Basement)];
+        TileBase baseRoad = _tileBases[GetIndex(ETileCatalog.RoadBase)];
+        TileBase baseLand = _tileBases[GetIndex(ETileCatalog.Basement)];
 
 
         _tilemap.ClearAllTiles();
@@ -116,8 +116,13 @@ public partial class Test_TilemapSelector
         return $"업그레이드 ({cost.toCostString()})";
     }
     
-    public static int GetIndex(ETempTileCatalog tileCatalog)
+    public static int GetIndex(ETileCatalog tileCatalog)
     {
         return (int)tileCatalog;
+    }
+
+    public void BuildTile(ETileCatalog tile, Vector3Int pos)
+    {
+        _tilemap.SetTile(pos, _tileBases[GetIndex(tile)]);
     }
 }
