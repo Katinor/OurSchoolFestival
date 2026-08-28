@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 003_FestivalHQ
+  m_EditorClassIdentifier: 
+  _cardId: 3
+  _cardName: "\uCD95\uC81C \uBCF8\uBD80"
+  _desctiption: "<sprite=5> -2 <sprite=1> +5\n<b>\uAC74\uC124</b> : \uBD80\uC2A4\n<i><size=75%>\uB354
+    \uD6A8\uC728\uC801\uC778 \uCD95\uC81C \uAD00\uB9AC\uB294 \uC790\uBCF8\uC744 \uC544\uAEF4\uC90D\uB2C8\uB2E4.</size></i>"
+  _illust: {fileID: 2800000, guid: 4381f89e22af08c4b99aada7d358816e, type: 3}
+  _costInfo:
+    moneyCurrent: 20
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 2
+  _isDeletable: 1
+  _tagList:
+  - tag: 3
+    level: 4
+  _actionList:
+  - action: 1
+    level: 5
+  - action: 14
+    level: 4

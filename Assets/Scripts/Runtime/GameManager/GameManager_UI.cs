@@ -3,7 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public partial class Test_TilemapSelector
+public partial class GameManager
 {
     private void LeftPanelMove()
     {
@@ -117,7 +117,7 @@ public partial class Test_TilemapSelector
         {
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle
                 (
-                    _canvas.GetComponent<RectTransform>(),
+                    _errorCanvas.GetComponent<RectTransform>(),
                     Input.mousePosition,
                     null,
                     out Vector2 localPoint)
@@ -160,6 +160,38 @@ public partial class Test_TilemapSelector
         }
         Destroy(go.gameObject);
     }
+    private void ShowQuestion(string text, Action<CCard, Vector3Int> action, CCard card, bool tileSkiped = true)
+    {
+        if (_gameState == EGameState.Question)
+        {
+            HideQuestion();
+        }
+        _questionPanel.gameObject.SetActive(true);
+        _questionText.text = text;
+        _questionValue = 0;
+        _questionIsCard = true;
+        _questionCard = action;
+        _questionArgCard = card;
+        _questionArgVector = Vector3Int.zero;
+        _questionIsTileSkiped = tileSkiped;
+        _gameState = EGameState.Question;
+    }
+    private void ShowQuestion(string text, Action<CCard, Vector3Int> action, CCard card, Vector3Int actionArgVector)
+    {
+        if (_gameState == EGameState.Question)
+        {
+            HideQuestion();
+        }
+        _questionPanel.gameObject.SetActive(true);
+        _questionText.text = text;
+        _questionValue = 0;
+        _questionIsCard = true;
+        _questionCard = action;
+        _questionArgCard = card;
+        _questionArgVector = actionArgVector;
+        _questionIsTileSkiped = false;
+        _gameState = EGameState.Question;
+    }
     private void ShowQuestion(string text, Action<GameObject, Vector3Int> action = null, GameObject actionArgGO = null)
     {
         if (_gameState == EGameState.Question)
@@ -191,20 +223,6 @@ public partial class Test_TilemapSelector
         _questionArgVector = actionArgVector;
         _gameState = EGameState.Question;
     }
-    private void ShowQuestion(string text, Action<CCard> action, CCard card)
-    {
-        if (_gameState == EGameState.Question)
-        {
-            HideQuestion();
-        }
-        _questionPanel.gameObject.SetActive(true);
-        _questionText.text = text;
-        _questionValue = 0;
-        _questionIsCard = true;
-        _questionCard = action;
-        _questionArgCard = card;
-        _gameState = EGameState.Question;
-    }
 
     private void HideQuestion()
     {
@@ -214,9 +232,21 @@ public partial class Test_TilemapSelector
         _questionCard = null;
         _gameState = EGameState.Idle;
     }
+    private void ShowTilechecker(string text, Action<CCard, Vector3Int> action, ETileState mask, ETileState maskReversed, CCard card)
+    {
+        _questionString = text;
+        _questionIsCard = true;
+        _questionCard = action;
+        _questionArgCard = card;
+        _questionMask = mask;
+        _questionMaskReverse = maskReversed;
+        _gameState = EGameState.TileSelect;
+    }
+
     private void ShowTilechecker(string text, Action<GameObject, Vector3Int> action, ETileState mask, ETileState maskReversed, GameObject actionArgGO = null)
     {
         _questionString = text;
+        _questionIsCard = false;
         _questionAction = action;
         _questionArgGO = actionArgGO;
         _questionMask = mask;

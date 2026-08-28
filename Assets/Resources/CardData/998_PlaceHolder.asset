@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
   m_Name: 998_PlaceHolder
   m_EditorClassIdentifier: 
+  _cardId: 998
   _cardName: "\uBC84\uC2A4\uD0B9 \uBD80\uC2A4"
-  _desctiption: <sprite=10> +1
+  _desctiption: "<sprite=10> +1\n<b>\uAC74\uC124</b> : \uBD80\uC2A4\n<i><size=75%>\uAC70\uB9AC\uC5D0
+    \uAC00\uB4DD\uCC2C \uC74C\uC545\uC18C\uB9AC\uAC00 \uCD95\uC81C\uB97C\n\uD65C\uAE30\uCC28\uAC8C
+    \uB9CC\uB4E4 \uAC83 \uC785\uB2C8\uB2E4.</size></i>"
   _illust: {fileID: 2800000, guid: 2a90cb63f8ac5b64898d1c5230cf6855, type: 3}
   _costInfo:
     moneyCurrent: 8
@@ -22,7 +25,10 @@ MonoBehaviour:
     materialsIncrease: 0
     menpowerCurrent: 0
     menpowerIncrease: 0
+  _isDeletable: 1
   _tagList: []
   _actionList:
   - action: 10
     level: 1
+  - action: 14
+    level: 4

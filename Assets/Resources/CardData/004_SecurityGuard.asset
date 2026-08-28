@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 004_SecurityGuard
+  m_EditorClassIdentifier: 
+  _cardId: 4
+  _cardName: "\uC548\uC804\uC694\uC6D0 \uD655\uCDA9"
+  _desctiption: "<sprite=1> -2 <sprite=5> +3\n<b>\uB3C4\uB85C \uAC74\uC124</b>\n<i><size=75%>\uB3C4\uB85C\uB97C
+    \uAE54\uACE0, \uC548\uC804\uC694\uC6D0\uC744 \uD655\uCDA9\uD569\uB2C8\uB2E4.</size></i>"
+  _illust: {fileID: 2800000, guid: 4381f89e22af08c4b99aada7d358816e, type: 3}
+  _costInfo:
+    moneyCurrent: 15
+    moneyIncrease: 2
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _tagList: []
+  _actionList:
+  - action: 5
+    level: 3
+  - action: 14
+    level: -2

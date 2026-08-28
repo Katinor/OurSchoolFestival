@@ -2,31 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public struct TechData
-{
-    public ETech tag;
-    public int level;
-}
-
-[Serializable]
-public struct ActionData
-{
-    public EAction action;
-    public int level;
-}
-
 [CreateAssetMenu(fileName = "NewCard", menuName = "CardData")]
 public class GameCard : ScriptableObject
 {
+    [SerializeField] private int _cardId;
     [SerializeField] private string _cardName;
     [SerializeField][TextArea(2, 10)] private string _desctiption;
     [SerializeField] private Texture _illust;
     [SerializeField] private SCostInfo _costInfo;
+    [SerializeField] private bool _isDeletable = true;
     [SerializeField] private List<TechData> _tagList = new List<TechData>();
     [SerializeField] private List<ActionData> _actionList = new List<ActionData>();
 
-
+    public int CardId
+    {
+        get { return _cardId; }
+        protected set { _cardId = value; }
+    }
     public string CardName
     {
         get { return _cardName; }
@@ -51,6 +43,11 @@ public class GameCard : ScriptableObject
         protected set { _costInfo = value; }
     }
 
+    public bool IsDeletable
+    {
+        get { return _isDeletable; }
+        protected set { _isDeletable = value;}
+    }
     public List<TechData> TagList
     {
         get { return _tagList; }

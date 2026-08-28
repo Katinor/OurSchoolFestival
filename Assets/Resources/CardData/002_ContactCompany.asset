@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 002_ContactCompany
+  m_EditorClassIdentifier: 
+  _cardId: 2
+  _cardName: "\uC790\uC7AC \uD68C\uC0AC \uACC4\uC57D"
+  _desctiption: "<sprite=1> -1 <sprite=5> -1 <sprite=3> +2\n<i><size=75%>\uC9C1\uC811
+    \uD68C\uC0AC\uC640 \uACC4\uC57D\uD574 \uC790\uC7AC\uB97C \uB9E4\uC785\uD574\uBD05\uC2DC\uB2E4.</size></i>"
+  _illust: {fileID: 2800000, guid: 9972fe6c44da8bc43bc7701014232f6d, type: 3}
+  _costInfo:
+    moneyCurrent: 11
+    moneyIncrease: 1
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 1
+  _isDeletable: 1
+  _tagList:
+  - tag: 3
+    level: 3
+  _actionList:
+  - action: 3
+    level: 2

@@ -49,6 +49,20 @@ public struct SCost
 }
 
 [Serializable]
+public struct TechData
+{
+    public ETech tag;
+    public int level;
+}
+
+[Serializable]
+public struct ActionData
+{
+    public EAction action;
+    public int level;
+}
+
+[Serializable]
 public struct SCostInfo
 {
     public int moneyCurrent;
@@ -95,6 +109,10 @@ public class CResources
         this.materialsIncrease -= cost.materialsIncrease;
         this.menpowerCurrent -= cost.menpowerCurrent;
         this.menpowerIncrease -= cost.menpowerIncrease;
+    }
+    public void PayCost(int moneyCurrent, int moneyIncrease, int materialsCurrent, int materialsIncrease, int menpowerCurrent, int menpowerIncrease)
+    {
+        PayCost(new SCost(moneyCurrent, moneyIncrease, materialsCurrent, materialsIncrease, menpowerCurrent, menpowerIncrease));
     }
 }
 
