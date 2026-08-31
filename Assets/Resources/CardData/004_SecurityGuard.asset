@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardId: 4
   _cardName: "\uC548\uC804\uC694\uC6D0 \uD655\uCDA9"
-  _desctiption: "<sprite=1> -2 <sprite=5> +3\n<b>\uB3C4\uB85C \uAC74\uC124</b>\n<i><size=75%>\uB3C4\uB85C\uB97C
-    \uAE54\uACE0, \uC548\uC804\uC694\uC6D0\uC744 \uD655\uCDA9\uD569\uB2C8\uB2E4.</size></i>"
-  _illust: {fileID: 2800000, guid: 4381f89e22af08c4b99aada7d358816e, type: 3}
+  _description: "<sprite=1>-2 <sprite=5>+3\n<b>\uB3C4\uB85C \uAC74\uC124</b>"
+  _tooltip: "<size=150%>\uB3C4\uB85C \uAC74\uC124</size>\n\uB3C4\uB85C\uD130\uB97C
+    \uACE8\uB77C \uB3C4\uB85C\uB97C \uAC74\uC124\uD569\uB2C8\uB2E4."
+  _illust: {fileID: 2800000, guid: 2b59f476cb4f65947a98117b73219c07, type: 3}
   _costInfo:
     moneyCurrent: 15
     moneyIncrease: 2
@@ -25,9 +26,13 @@ MonoBehaviour:
     menpowerCurrent: 0
     menpowerIncrease: 0
   _isDeletable: 1
-  _tagList: []
+  _tagList:
+  - tag: 0
+    level: 1
   _actionList:
   - action: 5
     level: 3
   - action: 14
     level: -2
+  _tileAdditionalDesc: 
+  _comments: 022

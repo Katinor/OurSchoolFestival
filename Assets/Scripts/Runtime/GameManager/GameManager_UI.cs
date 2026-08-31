@@ -94,6 +94,15 @@ public partial class GameManager
         }
     }
 
+    private void RefreshMatPanel(CCard card)
+    {
+        _materialsCount.text = _usingMatCount.ToString();
+        int remainMoney = card.Cost;
+        remainMoney -= _usingMatCount * 2;
+        if (remainMoney < 0) remainMoney = 0;
+        _materialsText.text = $"자재를 {_usingMatCount} 만큼 사용하고\r\n남은 {remainMoney} 은/는 자본으로 지불합니다. ";
+    }
+
     public void CreateError(string text, bool trackMouse = false)
     {
         GameObject go = Instantiate(_errorPrefab, _errorCanvas.transform);
@@ -160,11 +169,38 @@ public partial class GameManager
         }
         Destroy(go.gameObject);
     }
+
+    private void ShowMaterialChecker(CCard card)
+    {
+        if (_gameState == EGameState.MaterialCount)
+        {
+            HideMaterialChecker();
+        }
+        if (_onQuestionSe != null)
+        {
+            _onQuestionSe.Play();
+        }
+        _usingMatCount = 0;
+        _questionValue = 0;
+        _questionArgCard = card;
+        _materialsPanel.gameObject.SetActive(true);
+        _gameState = EGameState.MaterialCount;
+    }
+
+    private void HideMaterialChecker()
+    {
+        _materialsPanel.gameObject.SetActive(false);
+    }
+
     private void ShowQuestion(string text, Action<CCard, Vector3Int> action, CCard card, bool tileSkiped = true)
     {
         if (_gameState == EGameState.Question)
         {
             HideQuestion();
+        }
+        if (_onQuestionSe != null)
+        {
+            _onQuestionSe.Play();
         }
         _questionPanel.gameObject.SetActive(true);
         _questionText.text = text;
@@ -182,6 +218,10 @@ public partial class GameManager
         {
             HideQuestion();
         }
+        if (_onQuestionSe != null)
+        {
+            _onQuestionSe.Play();
+        }
         _questionPanel.gameObject.SetActive(true);
         _questionText.text = text;
         _questionValue = 0;
@@ -198,6 +238,10 @@ public partial class GameManager
         {
             HideQuestion();
         }
+        if (_onQuestionSe != null)
+        {
+            _onQuestionSe.Play();
+        }
         _questionPanel.gameObject.SetActive(true);
         _questionText.text = text;
         _questionValue = 0;
@@ -213,6 +257,10 @@ public partial class GameManager
         if (_gameState == EGameState.Question)
         {
             HideQuestion();
+        }
+        if (_onQuestionSe != null)
+        {
+            _onQuestionSe.Play();
         }
         _questionPanel.gameObject.SetActive(true);
         _questionText.text = text;
@@ -232,8 +280,13 @@ public partial class GameManager
         _questionCard = null;
         _gameState = EGameState.Idle;
     }
+
     private void ShowTilechecker(string text, Action<CCard, Vector3Int> action, ETileState mask, ETileState maskReversed, CCard card)
     {
+        if (_onQuestionSe != null)
+        {
+            _onQuestionSe.Play();
+        }
         _questionString = text;
         _questionIsCard = true;
         _questionCard = action;
@@ -245,6 +298,10 @@ public partial class GameManager
 
     private void ShowTilechecker(string text, Action<GameObject, Vector3Int> action, ETileState mask, ETileState maskReversed, GameObject actionArgGO = null)
     {
+        if (_onQuestionSe != null)
+        {
+            _onQuestionSe.Play();
+        }
         _questionString = text;
         _questionIsCard = false;
         _questionAction = action;

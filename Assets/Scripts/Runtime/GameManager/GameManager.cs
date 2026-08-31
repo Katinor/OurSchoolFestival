@@ -11,15 +11,19 @@ public enum ETileCatalog
     RoadBase,
     RoadBuilt,
     Trees,
-    Booth
+    Booth,
+    Foodbooth,
+    FestivalHQ
 }
 
 public enum EGameState
 {
     Idle,
     TileInspect,
+    MaterialCount,
     TileSelect,
     Question,
+    NextDay
 }
 
 public partial class GameManager : MonoBehaviour
@@ -45,6 +49,12 @@ public partial class GameManager : MonoBehaviour
 
     [Header("카메라")]
     [SerializeField] Camera _mainCamera;
+
+    [Header("선택지 등장")]
+    [SerializeField] AudioSource _onQuestionSe;
+
+    [Header("일반 사운드")]
+    [SerializeField] AudioSource _onChooseSe;
 
     [Header("업그레이드")]
     [SerializeField] AudioSource _upgradeSe;
@@ -102,6 +112,15 @@ public partial class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text _questionText;
     [SerializeField] private Button _questionYes;
     [SerializeField] private Button _questionNo;
+
+    [Header("자재물음메뉴")]
+    [SerializeField] private RectTransform _materialsPanel;
+    [SerializeField] private TMP_Text _materialsCount;
+    [SerializeField] private TMP_Text _materialsText;
+    [SerializeField] private Button _materialsYes;
+    [SerializeField] private Button _materialsNo;
+    [SerializeField] private Button _materialsUp;
+    [SerializeField] private Button _materialsDown;
     #endregion
 
     #region Member Variable
@@ -128,11 +147,17 @@ public partial class GameManager : MonoBehaviour
     private CCard _questionArgCard = null;
     private bool _questionIsCard = false;
     private bool _questionIsTileSkiped = false;
+    private int _usingMatCount = 0;
 
     private bool _rightUIOn = false;
     private bool _leftUIOn = false;
     #endregion
 
+    public Grid GameGrid
+    {
+        get { return _grid; }
+        protected set { _grid = value; }
+    }
     public CResources Resources
     {
         get { return _resources; }
@@ -143,6 +168,12 @@ public partial class GameManager : MonoBehaviour
     {
         get { return _currentTech; }
         set { _currentTech = value; }
+    }
+    
+    public EGameState GameState
+    {
+        get { return _gameState; }
+        protected set { _gameState = value; }
     }
 
     void Start()
@@ -166,6 +197,9 @@ public partial class GameManager : MonoBehaviour
             case EGameState.TileInspect:
                 UpdateIdle();
                 break;
+            case EGameState.MaterialCount:
+                UpdateMaterialCheck();
+                break;
             case EGameState.TileSelect:
                 UpdateTileSelect();
                 break;
@@ -178,7 +212,7 @@ public partial class GameManager : MonoBehaviour
         RightPanelMove();
         ResourceSync();
     }
-    public int CheckResource(int moneyCurrent, int moneyIncrease,
+    public bool CheckResource(int moneyCurrent, int moneyIncrease,
         int materialsCurrent, int materialsIncrease, int menpowerCurrent, int menpowerIncrease, bool canUseMaterials = false)
     {
         bool canUse = true;
@@ -186,11 +220,18 @@ public partial class GameManager : MonoBehaviour
         if (_resources.moneyCurrent < moneyCurrent)
         {
             //구현 후 사용
-            //if (!canUseMaterials) return -1;
-            //else if ((_resources.moneyCurrent + 2 * (_resources.materialsCurrent) < moneyCurrent)) return -1;
-            //else return 1;
-            canUse = false;
-            log += "자본, ";
+            if (!canUseMaterials)
+            {
+                CPrint.Log("마테리얼을 못쓰는데 쌈");
+                canUse = false;
+                log += "자본, ";
+            }
+            else if ((_resources.moneyCurrent + 2 * (_resources.materialsCurrent) < moneyCurrent))
+            {
+                CPrint.Log($"{_resources.moneyCurrent + 2 * (_resources.materialsCurrent)} < {moneyCurrent} : 자재써도 불가 ");
+                canUse = false;
+                log += "자본, ";
+            }   
         }
         if (_resources.moneyIncrease < moneyIncrease)
         {
@@ -219,16 +260,16 @@ public partial class GameManager : MonoBehaviour
         }
         if (canUse)
         {
-            return 0;
+            return true;
         }
         else
         {
             CPrint.Warn($"자원 부족 : {log}");
-            return -1;
+            return false;
         }
     }
 
-    public int CheckResource(SCost cost)
+    public bool CheckResource(SCost cost)
     {
         return CheckResource(cost.moneyCurrent, cost.moneyIncrease, cost.materialsCurrent,
             cost.materialsIncrease, cost.menpowerCurrent, cost.menpowerIncrease, cost.canUseMaterials);

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
 
 public partial class GameManager
 {
@@ -59,6 +60,50 @@ public partial class GameManager
             _cardAddButton.onClick.AddListener(
                 () => CallCardAdd());
         }
+        if (_materialsYes != null)
+        {
+            _materialsYes.onClick.AddListener(
+                () => CallMatAccept());
+        }
+        if (_materialsNo != null)
+        {
+            _materialsNo.onClick.AddListener(
+                () => CallMatDecline());
+        }
+        if (_materialsUp != null)
+        {
+            _materialsUp.onClick.AddListener(
+                () => CallMatIncrease());
+        }
+        if (_materialsDown != null)
+        {
+            _materialsDown.onClick.AddListener(
+                () => CallMatDecrease());
+        }
+    }
+
+    private void CatchCommonKeyaction()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            _leftButton1.onClick.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            _leftButton2.onClick.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            _leftButton3.onClick.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            _leftButton4.onClick.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            _leftButton5.onClick.Invoke();
+        }
     }
 
     private void CallUpgrade()
@@ -68,7 +113,7 @@ public partial class GameManager
         {
             if ((tempClass.TileState & ETileState.Upgradable) != ETileState.None)
             {
-                if (CheckResource(tempClass.Cost) >= 0)
+                if (CheckResource(tempClass.Cost))
                 {
                     if (_upgradeSe != null)
                     {
@@ -97,23 +142,41 @@ public partial class GameManager
         }
     }
 
-    public void CallCard(CCard card)
+    public void CallCard(CCard card, bool alreadyPaiedMaterials)
     {
         if (card.AvailableToUse())
         {
-            if (card.HasTileAction)
+            if (card.CanPayMaterials && !alreadyPaiedMaterials)
             {
-                if (card.IsTileRoad)
+                ShowMaterialChecker(card);
+            }
+            else
+            {
+                if (card.HasTileAction)
                 {
-                    if (_resources.festivalRoad >= 8)
+                    if (card.IsTileRoad)
                     {
-                        ShowQuestion
-                        (
-                            $"{card.CardName}을 사용합니까?\n(도로가 꽉 차, 타일 건설은 생략합니다.)",
-                            ActionCardUse,
-                            card,
-                            true
-                        );
+                        if (_resources.festivalRoad >= 8)
+                        {
+                            ShowQuestion
+                            (
+                                $"{card.CardName}을 사용합니까?\n(도로가 꽉 차, 타일 건설은 생략합니다.)",
+                                ActionCardUse,
+                                card,
+                                true
+                            );
+                        }
+                        else
+                        {
+                            ShowTilechecker
+                            (
+                                $"{card.CardName}을 사용합니까?",
+                                ActionCardUse,
+                                ETileState.Road,
+                                ETileState.Built,
+                                card
+                            );
+                        }
                     }
                     else
                     {
@@ -121,32 +184,21 @@ public partial class GameManager
                         (
                             $"{card.CardName}을 사용합니까?",
                             ActionCardUse,
-                            ETileState.Road,
-                            ETileState.Built,
+                            ETileState.None,
+                            ETileState.Built | ETileState.Road,
                             card
                         );
-                    }      
+                    }
                 }
                 else
                 {
-                    ShowTilechecker
+                    ShowQuestion
                     (
                         $"{card.CardName}을 사용합니까?",
                         ActionCardUse,
-                        ETileState.None,
-                        ETileState.Built | ETileState.Road,
                         card
                     );
-                }    
-            }
-            else
-            {
-                ShowQuestion
-                (
-                    $"{card.CardName}을 사용합니까?",
-                    ActionCardUse,
-                    card
-                );
+                }
             }
         }
         else
@@ -174,7 +226,7 @@ public partial class GameManager
 
     private void ActionCardUse(CCard card, Vector3Int position)
     {
-        card.UseCard(position, _questionIsTileSkiped);
+        card.UseCard(position, _usingMatCount, _questionIsTileSkiped);
         if (_upgradeSe != null)
         {
             _upgradeSe.Play();
@@ -227,6 +279,41 @@ public partial class GameManager
     {
         _questionValue = -1;
     }
+    private void CallMatAccept()
+    {
+        _questionValue = 1;
+    }
+
+    private void CallMatDecline()
+    {
+        _questionValue = -1;
+    }
+
+    private void CallMatIncrease()
+    {
+        if (_onChooseSe != null)
+        {
+            _onChooseSe.Play();
+        }
+        _usingMatCount += 1;
+        if (_usingMatCount > _resources.materialsCurrent)
+        {
+            _usingMatCount = _resources.materialsCurrent;
+        }
+    }
+
+    private void CallMatDecrease()
+    {
+        if (_onChooseSe != null)
+        {
+            _onChooseSe.Play();
+        }
+        _usingMatCount -= 1;
+        if (_usingMatCount < 0)
+        {
+            _usingMatCount = 0;
+        }
+    }
 
     private void CallCardAdd()
     {
@@ -242,20 +329,26 @@ public partial class GameManager
 
     private void CallCommon01()
     {
-        if (CheckResource(11, 0, 0, 0, 0, 0) == 0)
+        if(_gameState == EGameState.Idle || _gameState == EGameState.TileInspect)
         {
-            ShowQuestion
-                (
-                    "비용을 써서 학생회 인원을 확충합니다.\n진행합니까?",
-                    ActionCommon01
-                );
+            if (CheckResource(11, 0, 0, 0, 0, 0))
+            {
+                ShowQuestion
+                    (
+                        "비용을 써서 학생회 인원을 충원합니다.\n진행합니까?",
+                        ActionCommon01
+                    );
+            }
+            else
+            {
+                CreateError("자원 부족함", true);
+            }
         }
         else
         {
-            CreateError("자원 부족함", true);
+            CreateError("현재 상태에선 불가능합니다.", true);
         }
     }
-
     private void ActionCommon01(GameObject go, Vector3Int position)
     {
         _resources.PayCost(11, 0, 0, 0, 0, 0);
@@ -267,20 +360,26 @@ public partial class GameManager
     }
     private void CallCommon02()
     {
-        if (CheckResource(14, 0, 0, 0, 0, 0) == 0)
+        if (_gameState == EGameState.Idle || _gameState == EGameState.TileInspect)
         {
-            ShowQuestion
-                (
-                    "비용을 써서 대규모 광고를 합니다.\n진행합니까?",
-                    ActionCommon02
-                );
+            if (CheckResource(14, 0, 0, 0, 0, 0))
+            {
+                ShowQuestion
+                    (
+                        "비용을 써서 대규모 광고를 합니다.\n진행합니까?",
+                        ActionCommon02
+                    );
+            }
+            else
+            {
+                CreateError("자원 부족함", true);
+            }
         }
         else
         {
-            CreateError("자원 부족함", true);
+            CreateError("현재 상태에선 불가능합니다.", true);
         }
     }
-
     private void ActionCommon02(GameObject go, Vector3Int position)
     {
         _resources.PayCost(14, 0, 0, 0, 0, 0);
@@ -292,22 +391,28 @@ public partial class GameManager
     }
     private void CallCommon03()
     {
-        if (CheckResource(23, 0, 0, 0, 0, 0) == 0)
+        if (_gameState == EGameState.Idle || _gameState == EGameState.TileInspect)
         {
-            ShowTilechecker
-                (
-                    "해당 위치에 나무를 심습니다.\n진행합니까?",
-                    ActionCommon03,
-                    ETileState.None,
-                    ETileState.Built | ETileState.Road
-                );
-        }
+            if (CheckResource(23, 0, 0, 0, 0, 0))
+            {
+                ShowTilechecker
+                    (
+                        "해당 위치에 나무를 심습니다.\n진행합니까?",
+                        ActionCommon03,
+                        ETileState.None,
+                        ETileState.Built | ETileState.Road
+                    );
+            }
+            else
+            {
+                CreateError("자원 부족함", true);
+            }
+            }
         else
         {
-            CreateError("자원 부족함", true);
+            CreateError("현재 상태에선 불가능합니다.", true);
         }
     }
-
     private void ActionCommon03(GameObject go, Vector3Int position)
     {
         _resources.PayCost(23, 0, 0, 0, 0, 0);
@@ -318,25 +423,30 @@ public partial class GameManager
             _upgradeSe.Play();
         }
     }
-
     private void CallCommon04()
     {
-        if (CheckResource(18, 0, 0, 0, 0, 0) == 0)
+        if (_gameState == EGameState.Idle || _gameState == EGameState.TileInspect)
         {
-            ShowTilechecker
-                (
-                    "해당 위치에 도로를 설치합니다.\n진행합니까?",
-                    ActionCommon04,
-                    ETileState.Road,
-                    ETileState.Built
-                );
+            if (CheckResource(18, 0, 0, 0, 0, 0))
+            {
+                ShowTilechecker
+                    (
+                        "해당 위치에 도로를 설치합니다.\n진행합니까?",
+                        ActionCommon04,
+                        ETileState.Road,
+                        ETileState.Built
+                    );
+            }
+            else
+            {
+                CreateError("자원 부족함", true);
+            }
         }
         else
         {
-            CreateError("자원 부족함", true);
+            CreateError("현재 상태에선 불가능합니다.", true);
         }
     }
-
     private void ActionCommon04(GameObject go, Vector3Int position)
     {
         _resources.PayCost(18, 0, 0, 0, 0, 0);
@@ -349,28 +459,36 @@ public partial class GameManager
     }
     private void CallCommon05()
     {
-        if (CheckResource(25, 0, 0, 0, 0, 0) == 0)
+        if (_gameState == EGameState.Idle || _gameState == EGameState.TileInspect)
         {
-            ShowTilechecker
-                (
-                    "해당 위치에 부스를 건설합니다.\n진행합니까?",
-                    ActionCommon05,
-                    ETileState.None,
-                    ETileState.Built | ETileState.Road
-                );
+            if (CheckResource(25, 0, 0, 0, 0, 0))
+            {
+                ShowTilechecker
+                    (
+                        "해당 위치에 간이 음식점을 건설합니다.\n진행합니까?",
+                        ActionCommon05,
+                        ETileState.None,
+                        ETileState.Built | ETileState.Road
+                    );
+            }
+            else
+            {
+                CreateError("자원 부족함", true);
+            }
         }
         else
         {
-            CreateError("자원 부족함", true);
+            CreateError("현재 상태에선 불가능합니다.", true);
         }
     }
-
     private void ActionCommon05(GameObject go, Vector3Int position)
     {
         _resources.PayCost(25, 0, 0, 0, 0, 0);
         _resources.moneyIncrease += 1;
         CPrint.V3("타일 지을 곳", position);
-        _tilemap.SetTile(position, _tileBases[GetIndex(ETileCatalog.Booth)]);
+        _tilemap.SetTile(position, _tileBases[GetIndex(ETileCatalog.Foodbooth)]);
+        findTileByPosition(position, out CTile tile);
+        tile.TileInfo = "<sprite=1> 1";
         if (_upgradeSe != null)
         {
             _upgradeSe.Play();

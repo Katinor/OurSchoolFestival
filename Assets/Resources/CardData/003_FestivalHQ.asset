@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardId: 3
   _cardName: "\uCD95\uC81C \uBCF8\uBD80"
-  _desctiption: "<sprite=5> -2 <sprite=1> +5\n<b>\uAC74\uC124</b> : \uBD80\uC2A4\n<i><size=75%>\uB354
-    \uD6A8\uC728\uC801\uC778 \uCD95\uC81C \uAD00\uB9AC\uB294 \uC790\uBCF8\uC744 \uC544\uAEF4\uC90D\uB2C8\uB2E4.</size></i>"
-  _illust: {fileID: 2800000, guid: 4381f89e22af08c4b99aada7d358816e, type: 3}
+  _description: "<sprite=1>+5 <sprite=5>-2\n<b>\uAC74\uC124</b> : \uCD95\uC81C \uBCF8\uBD80"
+  _flavorText: "\uCD95\uC81C\uAC00 \uC5B4\uB290\uC815\uB3C4 \uAD1C\uCC2E\uAC8C \uBCF4\uC774\uAE30
+    \uC2DC\uC791\uD588\uC73C\uB2C8,\n\uCD95\uC81C\uC758 \uC2EC\uC7A5\uC744 \uC138\uC6CC\uBD05\uC2DC\uB2E4!"
+  _tooltip: "<size=150%>\uAC74\uC124</size>\n\uD2B9\uC815 \uD0C0\uC77C\uC744 \uAC74\uC124\uD569\uB2C8\uB2E4.\n<size=150%>\uCD95\uC81C
+    \uBCF8\uBD80</size>\n\uCD95\uC81C\uC758 \uC2EC\uC7A5\uC785\uB2C8\uB2E4!\n\uC778\uC811\uD55C
+    \uBAA8\uB4E0 \uD0C0\uC77C \uB9CC\uD07C \uCD95\uC81C\uC810\uC218\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  _illust: {fileID: 2800000, guid: 0e65c6c21cf4e4b41870ca1713f34722, type: 3}
   _costInfo:
     moneyCurrent: 20
     moneyIncrease: 0
@@ -26,10 +30,14 @@ MonoBehaviour:
     menpowerIncrease: 2
   _isDeletable: 1
   _tagList:
+  - tag: 0
+    level: 1
   - tag: 3
     level: 4
   _actionList:
   - action: 1
     level: 5
   - action: 14
-    level: 4
+    level: 6
+  _tileAdditionalDesc: 
+  _comments: 008

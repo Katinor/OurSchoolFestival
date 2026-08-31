@@ -34,6 +34,19 @@ public struct SCost
     
     }
 
+    public SCost(SCost baseCost, int usingMat)
+        : this(baseCost.moneyCurrent, baseCost.moneyIncrease, baseCost.materialsCurrent, baseCost.materialsIncrease,
+              baseCost.menpowerCurrent, baseCost.menpowerIncrease)
+    {
+        this.moneyCurrent -= usingMat * 2;
+        if (this.moneyCurrent < 0)
+        {
+            this.moneyCurrent = 0;
+        }
+        this.materialsCurrent += usingMat;
+        canUseMaterials = false;
+    }
+
     public string toCostString()
     {
         string tempString = "";

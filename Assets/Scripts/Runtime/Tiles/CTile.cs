@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,9 +10,11 @@ public enum ETileState
     None        = 0,        // 0 : 상태 없음
     Built       = 1 << 0,   // 1 : 건설됨
     Road        = 1 << 1,   // 2 : 도로가 지어져야하는 위치
-    Action      = 1 << 2,   // 4 : 사용효과가 있는 타일
-    Point       = 1 << 3,   // 8 : 승점을 제공하는 타일
+    Text        = 1 << 2,   // 4 : 텍스트 있음
+    Action      = 1 << 3,   // 8 : 사용효과가 있는 타일
     Upgradable  = 1 << 4,   // 16 : 업그레이드 가능 타일
+    Point       = 1 << 5,   // 32 : 승점을 제공하는 타일
+    PointUp     = 1 << 6,   // 64 : 승점타일을 강화하는 타일
 }
 
 public enum ETileBuilding
@@ -27,12 +30,20 @@ public class CTile : MonoBehaviour
     [SerializeField] private Renderer _baseRenderer;
     [SerializeField] private AudioSource _selectSound;
     [SerializeField] private Transform _builtTransform;
-    protected ETileCatalog _upgradeResult;
+    [SerializeField] private GameObject _textObject;
+    [SerializeField] private TMP_Text _tileText;
+
     protected string _name;
     protected string _description;
+    protected string _tileInfo;
+    protected ETileCatalog _tileInCatalog;
     protected ETileState _tileState = ETileState.None;
     protected ETileBuilding _building;
     protected SCost _cost;
+    protected Vector3Int _tilePosition;
+
+    protected GameManager _gameManager;
+    protected ETileCatalog _upgradeResult;
 
     protected string _actionName = null;
     protected string _actionDescription = null;
@@ -54,6 +65,17 @@ public class CTile : MonoBehaviour
         protected set { _description = value; }
     }
 
+    public string TileInfo
+    {
+        get { return _tileInfo; }
+        set { _tileInfo = value; }
+    }
+
+    public ETileCatalog TileInCatalog
+    {
+        get { return _tileInCatalog; }
+        protected set { _tileInCatalog = value; }
+    }
     public SCost Cost
     {
         get { return _cost; }
@@ -149,14 +171,10 @@ public class CTile : MonoBehaviour
 
     protected virtual void Start()
     {
-        if (((_tileState & ETileState.Road) != ETileState.None) && ((_tileState & ETileState.Built) != ETileState.None))
+        _gameManager = FindObjectOfType<GameManager>();
+        if (_gameManager == null)
         {
-            GameManager tempClass = FindObjectOfType<GameManager>();
-            if(tempClass != null)
-            {
-                CPrint.Log("축제 안정도 증가");
-                tempClass.Resources.festivalRoad += 1;
-            }
+            CPrint.Error("게임매니저 못찾음");
         }
         if (_builtTransform != null)
         {
@@ -167,6 +185,21 @@ public class CTile : MonoBehaviour
         {
             _building = ETileBuilding.End;
         }
+        if ((_tileState & ETileState.Text) == ETileState.None)
+        {
+            if (_textObject)
+            {
+                _textObject.SetActive(false);
+            }
+        }
+        else
+        {
+            if (_textObject)
+            {
+                _textObject.SetActive(true);
+            }
+        }
+        _tilePosition = _gameManager.GameGrid.WorldToCell(transform.position);
     }
 
     protected virtual void Update()
@@ -205,6 +238,14 @@ public class CTile : MonoBehaviour
                     break;
             }
         }
-        
+        if ((_tileState & ETileState.Text) != ETileState.None)
+        {
+            _tileText.text = _tileInfo;
+        }
+    }
+
+    public virtual int OnScore()
+    {
+        return 0;
     }
 }

@@ -7,5 +7,6 @@
         this._tileState = ETileState.Upgradable;
         this._upgradeResult = ETileCatalog.Trees;
         this._cost = new SCost(0, 0, 8, 0 ,0 ,0);
+        this._tileInCatalog = ETileCatalog.Basement;
     } 
 }

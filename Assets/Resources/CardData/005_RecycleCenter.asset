@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardId: 5
   _cardName: "\uC7AC\uD65C\uC6A9 \uC13C\uD130"
-  _desctiption: "<sprite=3> -1 <sprite=1> +4\n<b>\uAC74\uC124</b> : \uBD80\uC2A4\n<i><size=75%>\uC7AC\uD65C\uC6A9\uC740
-    \uC5B8\uC81C\uB098 \uB2F5\uC774 \uB429\uB2C8\uB2E4.</size></i>"
-  _illust: {fileID: 2800000, guid: 4381f89e22af08c4b99aada7d358816e, type: 3}
+  _description: "<sprite=1>+4 <sprite=3>-1\n<b>\uAC74\uC124</b> : \uBD80\uC2A4"
+  _flavorText: 
+  _tooltip: "<size=150%>\uAC74\uC124</size>\n\uD2B9\uC815 \uD0C0\uC77C\uC744 \uAC74\uC124\uD569\uB2C8\uB2E4.\n<size=150%>\uBD80\uC2A4</size>\n\uD3C9\uBC94\uD558\uAC8C
+    \uC0DD\uAE34 \uBD80\uC2A4\uC785\uB2C8\uB2E4.\n\uBCC4\uB2E4\uB978 \uD6A8\uACFC\uB294
+    \uC5C6\uC774, \uACF5\uAC04\uC744 \uCC28\uC9C0\uD569\uB2C8\uB2E4."
+  _illust: {fileID: 2800000, guid: 4549147f65b9ff54694f59caaac67d24, type: 3}
   _costInfo:
     moneyCurrent: 12
     moneyIncrease: 0
@@ -25,9 +28,13 @@ MonoBehaviour:
     menpowerCurrent: 0
     menpowerIncrease: 0
   _isDeletable: 1
-  _tagList: []
+  _tagList:
+  - tag: 0
+    level: 1
   _actionList:
   - action: 1
     level: 4
   - action: 14
     level: 4
+  _tileAdditionalDesc: 
+  _comments: 041
