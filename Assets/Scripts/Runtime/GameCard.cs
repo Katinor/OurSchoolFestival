@@ -7,12 +7,16 @@ public class GameCard : ScriptableObject
 {
     [SerializeField] private int _cardId;
     [SerializeField] private string _cardName;
-    [SerializeField][TextArea(2, 10)] private string _desctiption;
+    [SerializeField][TextArea(2, 10)] private string _description;
+    [SerializeField][TextArea(2, 10)] private string _flavorText;
+    [SerializeField][TextArea(2, 10)] private string _tooltip;
     [SerializeField] private Texture _illust;
     [SerializeField] private SCostInfo _costInfo;
     [SerializeField] private bool _isDeletable = true;
     [SerializeField] private List<TechData> _tagList = new List<TechData>();
     [SerializeField] private List<ActionData> _actionList = new List<ActionData>();
+    [SerializeField][TextArea(2, 10)] private string _tileAdditionalDesc;
+    [SerializeField][TextArea(2, 10)] private string _comments;
 
     public int CardId
     {
@@ -27,8 +31,13 @@ public class GameCard : ScriptableObject
 
     public string Description
     {
-        get { return _desctiption; }
-        protected set { _desctiption = value; }
+        get { return _description; }
+        protected set { _description = value; }
+    }
+    public string FlavorText
+    {
+        get { return _flavorText; }
+        protected set { _flavorText = value; }
     }
 
     public Texture Illust
@@ -58,6 +67,18 @@ public class GameCard : ScriptableObject
     {
         get { return _actionList; }
         protected set { _actionList = value; }
+    }
+
+    public string Tooltip
+    {
+        get { return _tooltip; }
+        set { _tooltip = value; }
+    }
+
+    public string AdditionalDescription
+    {
+        get { return _tileAdditionalDesc; }
+        set { _tileAdditionalDesc = value; }
     }
 
 }

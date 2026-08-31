@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 using UnityEngine.UI;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -18,21 +19,26 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private string _cardName;
     private GameCard _gameCard;
+    private string _tileAdditionalDescription;
+    private string _tooltip;
     private bool _isDeletable;
     private SCost _cost;
+    private int _costMoney;
     private bool _canUseMaterials = false;
     private List<TechData> _techData;
     private GameManager _gameManager;
+    private OnMouseTooltipCard _onMouseTooltipCard;
     private List<Func<GameManager, int, bool>> _actionFuncList;
     private Func<GameManager, ETileCatalog, Vector3Int, bool> _actionTileFunc;
     private ETileCatalog _actionBuilding;
     private List<int> _actionLevelList;
     private bool _hasTileAction = false;
     private bool _isTileRoad = false;
+    private bool _canPayMaterials = false;
 
     private RectTransform _rectTransform;
     private bool _isLooking = false;
-    private readonly float YOnPosition = 120f;      // 176f;
+    private readonly float YOnPosition = 180f;      // 176f;
     private readonly float YOffPosition = -240f;    //-184f;
     private readonly float MovementSpeed = 1800f;
 
@@ -40,6 +46,12 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         get { return _cardName; }
         protected set { _cardName = value; }
+    }
+
+    public int Cost
+    {
+        get { return _costMoney; }
+        protected set { _costMoney = value; }
     }
 
     public bool IsDeletable
@@ -60,10 +72,16 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         protected set { _isTileRoad = value; }
     }
 
+    public bool CanPayMaterials
+    {
+        get { return _canPayMaterials; }
+        protected set { _canPayMaterials = value; }
+    }
     void Awake()
     {
         _actionFuncList = new List<Func<GameManager, int, bool>>();
         _actionLevelList = new List<int>();
+        _cost = new SCost();
         if(_testCard != null)
         {
             _gameCard = _testCard;
@@ -75,10 +93,14 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        if (!_onMouseTooltipCard)
+        {
+            _onMouseTooltipCard = FindObjectOfType<OnMouseTooltipCard>();
+        }
         if (_useButton != null)
         {
             _useButton.onClick.AddListener(
-                () => _gameManager.CallCard(this));
+                () => _gameManager.CallCard(this, false));
         }
         if (_deleteButton != null)
         {
@@ -91,6 +113,17 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (_isLooking)
         {
+            if (_gameManager.GameState == EGameState.Idle || _gameManager.GameState == EGameState.TileInspect)
+            {
+                if (Input.GetKeyDown(KeyCode.Z))
+                {
+                    _useButton.onClick.Invoke();
+                }
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    _deleteButton.onClick.Invoke();
+                }
+            }
             if (_rectTransform.anchoredPosition3D.y <= YOnPosition)
             {
                 _rectTransform.anchoredPosition3D += Vector3.up * MovementSpeed * Time.deltaTime;
@@ -117,7 +150,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    public void Setup(GameCard targetCard)
+    public void Setup(GameCard targetCard, OnMouseTooltipCard tooltipClass = null)
     {
         _nameLabel.text = targetCard.CardName;
         _cardName = targetCard.CardName;
@@ -125,14 +158,22 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         _costLabel.text = targetCard.CostInfo.moneyCurrent.ToString();
         _techData = targetCard.TagList;
         _tagLabel.text = "";
-        for(int i = 0; i < _techData.Count; i++)
+        _canPayMaterials = false;
+        for (int i = 0; i < _techData.Count; i++)
         {
             if (i > 0) _tagLabel.text += ", ";
             _tagLabel.text += TagTranslator(_techData[i]);
+            if (_techData[i].tag == ETech.Structure)
+            {
+                _canPayMaterials = true;
+            }
         }
         _cost = new SCost(targetCard.CostInfo, _canUseMaterials);
+        _costMoney = _cost.moneyCurrent;
 
-        _descriptionLabel.text = targetCard.Description;
+        _descriptionLabel.text = $"{targetCard.Description}\n<i><size=75%>{targetCard.FlavorText}</size><i>";
+        _tooltip = targetCard.Tooltip;
+        _onMouseTooltipCard = tooltipClass;
         _illust.texture = targetCard.Illust;
 
         for(int i = 0; i < targetCard.ActionList.Count; i++)
@@ -199,11 +240,16 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         _isLooking = true;
+        if (!string.IsNullOrWhiteSpace(_tooltip))
+        {
+            _onMouseTooltipCard.Enable(_tooltip);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         _isLooking = false;
+        _onMouseTooltipCard.Disable();
     }
 
     private string TagTranslator(TechData data)
@@ -233,9 +279,17 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         return "";
     }
 
-    public void UseCard(Vector3Int pos, bool skipTile = false)
+    public void UseCard(Vector3Int pos, int MaterialCount, bool skipTile = false)
     {
-        _gameManager.Resources.PayCost(_cost);
+        if (CanPayMaterials)
+        {
+            SCost newCost = new SCost(_cost, MaterialCount);
+            _gameManager.Resources.PayCost(newCost);
+        }
+        else
+        {
+            _gameManager.Resources.PayCost(_cost);
+        }   
         bool isDone = true;
         for(int i = 0; i < _actionFuncList.Count; i++)
         {
@@ -265,11 +319,15 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public bool AvailableToUse()
     {
-        if (_gameManager.CheckResource(_cost) < 0) return false;
+        if (!_gameManager.CheckResource(_cost)) return false;
         for(int i = 0; i < _techData.Count; i++)
         {
             TechData tempData = _techData[i];
-            if(tempData.tag == ETech.Success)
+            if (tempData.tag == ETech.Structure)
+            {
+                continue;
+            }
+            else if(tempData.tag == ETech.Success)
             {
                 if (_gameManager.Resources.festivalSuccess < tempData.level) return false;
             }

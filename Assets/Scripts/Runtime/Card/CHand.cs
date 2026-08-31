@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class CHand : MonoBehaviour
 {
     [SerializeField] private HorizontalLayoutGroup _layout;
+    [SerializeField] private OnMouseTooltipCard _tooltipClass;
     [SerializeField] private GameObject _cardPrefab;
     [SerializeField] private float _canvasWidth;
+
     private List<GameCard> AllCards;
     // private List<GameCard> _cardDeck;
     private Dictionary<int, GameCard> AllCardsDict;
@@ -66,7 +68,7 @@ public class CHand : MonoBehaviour
         int index = UnityEngine.Random.Range(0, AllCards.Count);
         GameObject go = Instantiate(_cardPrefab, _layout.transform);
         CCard card = go.GetComponent<CCard>();
-        card.Setup(AllCards[index]);
+        card.Setup(AllCards[index], _tooltipClass);
         return true;
     }
     public bool AddCard(int cardId)
@@ -74,7 +76,7 @@ public class CHand : MonoBehaviour
         if (GetHandSize() >= 10) return false;
         GameObject go = Instantiate(_cardPrefab, _layout.transform);
         CCard card = go.GetComponent<CCard>();
-        card.Setup(AllCardsDict[cardId]);
+        card.Setup(AllCardsDict[cardId], _tooltipClass);
         return true;
     }
 
@@ -83,7 +85,7 @@ public class CHand : MonoBehaviour
         if (GetHandSize() >= 10) return false;
         GameObject go = Instantiate(_cardPrefab, _layout.transform);
         CCard card = go.GetComponent<CCard>();
-        card.Setup(gameCard);
+        card.Setup(gameCard, _tooltipClass);
         return true;
     }
 }

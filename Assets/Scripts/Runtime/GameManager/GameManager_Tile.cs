@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public partial class GameManager
@@ -50,6 +52,37 @@ public partial class GameManager
         }
         go = _tilemap.GetInstantiatedObject(posInCell);
         if (go == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private bool findObjectByPosition(Vector3Int posInCell, out GameObject go)
+    {
+        if (Mathf.Abs(posInCell.x) > _gridSizeXRight || Mathf.Abs(posInCell.y) > _gridSizeYUpper)
+        {
+            go = null;
+            return false;
+        }
+        go = _tilemap.GetInstantiatedObject(posInCell);
+        if (go == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private bool findTileByPosition(Vector3Int posInCell, out CTile tile)
+    {
+        if (Mathf.Abs(posInCell.x) > _gridSizeXRight || Mathf.Abs(posInCell.y) > _gridSizeYUpper)
+        {
+            tile = null;
+            return false;
+        }
+        GameObject go = _tilemap.GetInstantiatedObject(posInCell);
+        tile = go.GetComponent<CTile>();
+        if (tile == null)
         {
             return false;
         }
@@ -121,8 +154,82 @@ public partial class GameManager
         return (int)tileCatalog;
     }
 
-    public void BuildTile(ETileCatalog tile, Vector3Int pos)
+    public void BuildTile(ETileCatalog tile, Vector3Int pos, string buildInfo = "")
     {
         _tilemap.SetTile(pos, _tileBases[GetIndex(tile)]);
+        if (!string.IsNullOrEmpty(buildInfo))
+        {
+            if (findTileByPosition(pos, out CTile tempClass))
+            {
+                tempClass.TileInfo = buildInfo;
+            }
+            else
+            {
+                CPrint.Error("CTile 찾기 실패");
+            }
+        }
     }
+
+    public List<CTile> FindNeighborTiles(Vector3Int pos, int radius = 1)
+    {
+        List<CTile> tempTileList = new List<CTile>();
+        List<Vector3Int> tempPosList = FindNeighborPosition(pos, radius);
+        for (int i = 0; i < tempPosList.Count; i++)
+        {
+            if (findTileByPosition(pos, out CTile tempClass))
+            {
+                tempTileList.Add(tempClass);
+            }
+            else
+            {
+                CPrint.Error("CTile 찾기 실패");
+            }
+        }
+
+        return tempTileList;
+    }
+
+    public List<Vector3Int> FindNeighborPosition(Vector3Int pos, int radius = 1)
+    {
+        List<Vector3Int> tempList = new List<Vector3Int>();
+        // 큐브 좌표계로 만들기
+        Vector3Int centerAsCube = new Vector3Int
+            (
+                // 전부 정수라 나머지는 자동으로 버려짐!
+                pos.x - ((pos.y - (Mathf.Abs(pos.y) % 2)) / 2),
+                pos.y,
+                (-1) * (pos.x - (int)((pos.y - (Mathf.Abs(pos.y) % 2)) / 2f)) - pos.y
+            );
+
+        for (int q = (-1) * radius; q <= radius; q++)
+        {
+            // s = -q -r이므로 -rad <= -q -r <= rad 를 만족하도록 범위 제한
+            int rMin = Mathf.Max(-radius, -q - radius);
+            int rMax = Mathf.Min(radius, -q + radius);
+
+            for (int r = rMin; r <= rMax; r++)
+            {
+                int s = (-1) * (q + r);
+                if (q == 0 && r == 0 && s == 0) continue;
+                Vector3Int targetAsCube = centerAsCube + new Vector3Int(q, r, s);
+                Vector3Int targetAsPos = new Vector3Int
+                    (
+                        targetAsCube.x + ((targetAsCube.y - (Mathf.Abs(targetAsCube.y) % 2)) / 2),
+                        targetAsCube.y,
+                        0
+                    );
+                if (InGrid(targetAsPos)) tempList.Add(targetAsPos);
+
+            } 
+        }
+        return tempList;
+    }
+
+    private bool InGrid(Vector3Int pos)
+    {
+        if (Mathf.Abs(pos.x) > _gridSizeXRight) return false;
+        if (Mathf.Abs(pos.y) > _gridSizeYUpper) return false;
+        return true;
+    }
+
 }

@@ -7,5 +7,6 @@
         this._tileState = ETileState.Road | ETileState.Upgradable;
         this._upgradeResult = ETileCatalog.RoadBuilt;
         this._cost = new SCost(18, 0, 0, 0, 0, 0);
+        this._tileInCatalog = ETileCatalog.RoadBase;
     }
 }
