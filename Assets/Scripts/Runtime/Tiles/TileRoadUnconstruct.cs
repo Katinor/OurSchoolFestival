@@ -7,6 +7,7 @@
         this._tileState = ETileState.Road | ETileState.Upgradable;
         this._upgradeResult = ETileCatalog.RoadBuilt;
         this._cost = new SCost(18, 0, 0, 0, 0, 0);
+        this._baseColor = new UnityEngine.Color(0f, 0f, 1f);
         this._tileInCatalog = ETileCatalog.RoadBase;
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.WSA;
 
 public partial class GameManager
 {
@@ -40,6 +41,11 @@ public partial class GameManager
                 }
             }
         }
+        List<CTile> tiles = GetAllTiles();
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            tiles[i].IsFirst = true;
+        }
     }
 
     private bool findObjectByTile(Vector3 hitpoint, out Vector3Int posInCell, out GameObject go)
@@ -73,74 +79,158 @@ public partial class GameManager
         return true;
     }
 
-    private bool findTileByPosition(Vector3Int posInCell, out CTile tile)
+    private bool findTileByPosition(Vector3Int? posInCell, out CTile tile)
     {
-        if (Mathf.Abs(posInCell.x) > _gridSizeXRight || Mathf.Abs(posInCell.y) > _gridSizeYUpper)
-        {
-            tile = null;
-            return false;
-        }
-        GameObject go = _tilemap.GetInstantiatedObject(posInCell);
-        tile = go.GetComponent<CTile>();
-        if (tile == null)
+        tile = null;
+        if (!posInCell.HasValue)
         {
             return false;
         }
-        return true;
+        else
+        {
+            if (Mathf.Abs(posInCell.Value.x) > _gridSizeXRight || Mathf.Abs(posInCell.Value.y) > _gridSizeYUpper)
+            {
+                tile = null;
+                return false;
+            }
+            GameObject go = _tilemap.GetInstantiatedObject(posInCell.Value);
+            tile = go.GetComponent<CTile>();
+            if (tile == null)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 
     private void OnClickTile(GameObject go, Vector3Int posInCell)
     {
         _rightUIOn = true;
-        CTile tempClass = null;
-        if (_lastObject != null)
+        CTile targetTile = null;
+        CTile tempTile = null;
+        List<CTile> tileList = null;
+        _camera.StartFocusing(posInCell);
+        if (_lastSelectedPosition != null)
         {
-            if (_lastObject.TryGetComponent<CTile>(out tempClass))
+            if (findTileByPosition(_lastSelectedPosition, out tempTile))
             {
-                tempClass.Highlights(_lastColor);
+                tempTile.OnResetShown();
+            }
+
+            if (_lastNearObject != null)
+            {
+                for (int i = 0; i < _lastNearObject.Count; i++)
+                {
+                    if (findTileByPosition(_lastNearObject[i], out tempTile))
+                    {
+                        tempTile.OnResetShown();
+                    }
+                }
             }
         }
-        if (go.TryGetComponent<CTile>(out tempClass))
+        if (go.TryGetComponent<CTile>(out targetTile))
         {
-            _lastColor = tempClass.getColor();
-            tempClass.Highlights(Color.yellow);
-            _tileName.text = tempClass.Name;
-            _tileDescription.text = tempClass.Description;
-            CPrint.Log($"{tempClass.TileState}");
-            if ((tempClass.TileState & ETileState.Upgradable) != ETileState.None)
+            targetTile.OnSelected();
+            if (targetTile.Radius > 0)
+            {
+                tileList = FindNeighborTiles(posInCell, targetTile.Radius);
+                for (int i = 0; i < tileList.Count; i++)
+                {
+                    tileList[i].OnSelectedByOthers();
+                }
+            }
+            _tileName.text = targetTile.Name;
+            _tileDescription.text = targetTile.GetDescription();
+            CPrint.Log($"{targetTile.TileState}");
+            if ((targetTile.TileState & ETileState.Upgradable) != ETileState.None)
             {
                 _upgradeButton.gameObject.SetActive(true);
-                _tileUpgradeCost.text = UpgradeCostParser(tempClass.Cost);
+                _tileUpgradeCost.text = UpgradeCostParser(targetTile.Cost);
             }
             else
             {
                 _upgradeButton.gameObject.SetActive(false);
             }
+            targetTile.PlaySound();
         }
         else
         {
             ChangeBottomText($"({posInCell.x}, {posInCell.y}) : CTile 없는 객체");
         }
-        _lastObject = go;
-        _lastSelectedObject = go;
+        _lastNearObject = FindNeighborPosition(posInCell, targetTile.Radius);
         _lastSelectedPosition = posInCell;
+    }
 
-        tempClass.PlaySound();
+    private void OnPointTile(GameObject go, Vector3Int posInCell)
+    {
+        CTile targetTile = null;
+        CTile tempTile = null;
+        List<CTile> tileList = null;
+        if (_lastSelectedPosition != null)
+        {
+            if (findTileByPosition(_lastSelectedPosition, out tempTile))
+            {
+                tempTile.OnResetShown();
+            }
+
+            if (_lastNearObject != null)
+            {
+                for (int i = 0; i < _lastNearObject.Count; i++)
+                {
+                    if (findTileByPosition(_lastNearObject[i], out tempTile))
+                    {
+                        tempTile.OnResetShown();
+                    }
+                }
+            }
+        }
+        if (go.TryGetComponent<CTile>(out targetTile))
+        {
+            targetTile.OnPoint(_questionTileRadius);
+            if (_questionTileRadius > 0)
+            {
+                tileList = FindNeighborTiles(posInCell, _questionTileRadius);
+                for (int i = 0; i < tileList.Count; i++)
+                {
+                    tileList[i].OnPointByOthers();
+                }
+            }
+        }
+        else
+        {
+            CPrint.Error("CTile 찾기 실패");
+        }
+        _lastNearObject = FindNeighborPosition(posInCell, _questionTileRadius);
+        _lastSelectedPosition = posInCell;
     }
 
     private void OnClickElse()
     {
         _rightUIOn = false;
         _leftUIOn = false;
-        CTile tempClass = null;
-        if (_lastObject != null)
+        _soundUIOn = false;
+        _camera.StopFocusing();
+        CTile tempTile = null;
+        if (_lastSelectedPosition != null)
         {
-            if (_lastObject.TryGetComponent<CTile>(out tempClass))
+            if (findTileByPosition(_lastSelectedPosition, out tempTile))
             {
-                tempClass.Highlights(_lastColor);
+                tempTile.OnResetShown();
+            }
+
+            if (_lastNearObject != null)
+            {
+                for (int i = 0; i < _lastNearObject.Count; i++)
+                {
+                    if (findTileByPosition(_lastNearObject[i], out tempTile))
+                    {
+                        tempTile.OnResetShown();
+                    }
+                }
             }
         }
-        _lastObject = null;
+        _lastSelectedPosition = null;
+        _lastNearObject = null;
         ChangeBottomText("");
     }
 
@@ -152,6 +242,11 @@ public partial class GameManager
     public static int GetIndex(ETileCatalog tileCatalog)
     {
         return (int)tileCatalog;
+    }
+
+    public TileBase GetTileBase(ETileCatalog tile)
+    {
+        return _tileBases[GetIndex(tile)];
     }
 
     public void BuildTile(ETileCatalog tile, Vector3Int pos, string buildInfo = "")
@@ -170,13 +265,35 @@ public partial class GameManager
         }
     }
 
+    public List<CTile> GetAllTiles()
+    {
+        List<CTile> tempTileList = new List<CTile>();
+        for (int i = (-1) * _gridSizeYUpper; i <= _gridSizeYUpper; i++)
+        {
+            for (int j = (-1) * _gridSizeXRight; j <= _gridSizeXRight; j++)
+            {
+                Vector3Int pos = new Vector3Int(j, i, 0);
+                if (findTileByPosition(pos, out CTile tempClass))
+                {
+                    tempTileList.Add(tempClass);
+                }
+                else
+                {
+                    CPrint.Error("CTile 찾기 실패");
+                }
+            }
+        }
+        CPrint.Log($"GetAllTiles : {tempTileList.Count}개");
+        return tempTileList;
+    }
+
     public List<CTile> FindNeighborTiles(Vector3Int pos, int radius = 1)
     {
         List<CTile> tempTileList = new List<CTile>();
         List<Vector3Int> tempPosList = FindNeighborPosition(pos, radius);
         for (int i = 0; i < tempPosList.Count; i++)
         {
-            if (findTileByPosition(pos, out CTile tempClass))
+            if (findTileByPosition(tempPosList[i], out CTile tempClass))
             {
                 tempTileList.Add(tempClass);
             }

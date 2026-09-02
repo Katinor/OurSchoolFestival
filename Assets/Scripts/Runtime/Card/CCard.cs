@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 using UnityEngine.UI;
-using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine.Tilemaps;
 
 public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    #region Inspector
     [SerializeField] GameCard _testCard;
     [SerializeField] private TMP_Text _nameLabel;
     [SerializeField] private TMP_Text _costLabel;
@@ -16,7 +17,9 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private Button _useButton;
     [SerializeField] private Button _deleteButton;
     [SerializeField] private RawImage _illust;
+    #endregion
 
+    #region Member Variable - CardData
     private string _cardName;
     private GameCard _gameCard;
     private string _tileAdditionalDescription;
@@ -30,22 +33,42 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private OnMouseTooltipCard _onMouseTooltipCard;
     private List<Func<GameManager, int, bool>> _actionFuncList;
     private Func<GameManager, ETileCatalog, Vector3Int, bool> _actionTileFunc;
+    private Func<GameManager, SScoreInfo> _actionScoreFunction;
     private ETileCatalog _actionBuilding;
     private List<int> _actionLevelList;
     private bool _hasTileAction = false;
+    private bool _hasPointFunction = false;
     private bool _isTileRoad = false;
     private bool _canPayMaterials = false;
+    private bool _isSingle = false;
+    private int _weight = 100;
+    #endregion
 
+    #region Member Variable - UI
     private RectTransform _rectTransform;
     private bool _isLooking = false;
     private readonly float YOnPosition = 180f;      // 176f;
     private readonly float YOffPosition = -240f;    //-184f;
     private readonly float MovementSpeed = 1800f;
+    #endregion
 
+    #region Property
     public string CardName
     {
         get { return _cardName; }
         protected set { _cardName = value; }
+    }
+
+    public GameCard Card
+    {
+        get { return _gameCard; }
+        protected set { _gameCard = value; }
+    }
+
+    public GameCard GameCard
+    {
+        get { return _gameCard; }
+        protected set { _gameCard = value; }
     }
 
     public int Cost
@@ -66,6 +89,12 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         protected set { _hasTileAction = value; }
     }
 
+    public bool HasPointFunction
+    {
+        get { return _hasTileAction; }
+        protected set { _hasTileAction = value; }
+    }
+
     public bool IsTileRoad
     {
         get { return _isTileRoad; }
@@ -77,6 +106,21 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         get { return _canPayMaterials; }
         protected set { _canPayMaterials = value; }
     }
+
+    public int Weight
+    {
+        get { return _weight; }
+        set { _weight = value; }
+    }
+
+    public bool IsSingle
+    {
+        get { return _isSingle; }
+        set { _isSingle = value; }
+    }
+    #endregion
+
+    #region Unity Event
     void Awake()
     {
         _actionFuncList = new List<Func<GameManager, int, bool>>();
@@ -149,9 +193,11 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             }
         }
     }
+    #endregion
 
     public void Setup(GameCard targetCard, OnMouseTooltipCard tooltipClass = null)
     {
+        _gameCard = targetCard;
         _nameLabel.text = targetCard.CardName;
         _cardName = targetCard.CardName;
         _isDeletable = targetCard.IsDeletable;
@@ -170,6 +216,8 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         _cost = new SCost(targetCard.CostInfo, _canUseMaterials);
         _costMoney = _cost.moneyCurrent;
+        _weight = targetCard.Weight;
+        _isSingle = targetCard.IsSingle;
 
         _descriptionLabel.text = $"{targetCard.Description}\n<i><size=75%>{targetCard.FlavorText}</size><i>";
         _tooltip = targetCard.Tooltip;
@@ -232,6 +280,11 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 case EAction.CustomScript:
                     _actionFuncList.Add(CCardStatic.CardCustom);
                     break;
+                case EAction.ScoreFunction:
+                    _actionFuncList.Add(CCardStatic.CardEmpty);
+                    _actionScoreFunction = CCardStatic.FindPointFunction(targetCard.ActionList[i].level);
+                    _hasPointFunction = true;
+                    break;
             }
             _actionLevelList.Add(targetCard.ActionList[i].level);
         }
@@ -260,11 +313,14 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 _canUseMaterials = true;
                 return "자재 결제가능";
             case ETech.Success:
-                return $"완성도 {data.level} 필요";
+                if (data.level > 0) return $"완성도 {data.level} 필요";
+                else return $"완성도 {-data.level} 이하";
             case ETech.Interest:
-                return $"관심도 {data.level} 필요";
+                if (data.level > 0) return $"관심도 {data.level} 필요";
+                else return $"관심도 {-data.level} 이하";
             case ETech.Road:
-                return $"안정도 {data.level} 필요";
+                if (data.level > 0) return $"안정도 {data.level} 필요";
+                else return $"안정도 {-data.level} 이하";
             case ETech.Science:
                 return $"과학 {data.level} 필요";
             case ETech.Music:
@@ -275,7 +331,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 return $"활동 {data.level} 필요";
             case ETech.Cult:
                 return $"사교 {data.level} 필요";
-        }
+                    }
         return "";
     }
 
@@ -298,6 +354,10 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (_hasTileAction && !skipTile)
         {
             _gameManager.BuildTile(_actionBuilding, pos);
+        }
+        if (_hasPointFunction)
+        {
+            _gameManager.AddScoreAction(_actionScoreFunction);
         }
         if (isDone)
         {
@@ -329,15 +389,36 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             }
             else if(tempData.tag == ETech.Success)
             {
-                if (_gameManager.Resources.festivalSuccess < tempData.level) return false;
+                if(tempData.level > 0)
+                {
+                    if (_gameManager.Resources.festivalSuccess < tempData.level) return false;
+                }
+                else
+                {
+                    if (_gameManager.Resources.festivalSuccess > -tempData.level) return false;
+                }
             }
             else if(tempData.tag == ETech.Interest)
             {
-                if (_gameManager.Resources.festivalInterest < tempData.level) return false;
+                if (tempData.level > 0)
+                {
+                    if (_gameManager.Resources.festivalInterest < tempData.level) return false;
+                }
+                else
+                {
+                    if (_gameManager.Resources.festivalInterest > -tempData.level) return false;
+                }
             }
             else if (tempData.tag == ETech.Road)
             {
-                if (_gameManager.Resources.festivalRoad < tempData.level) return false;
+                if (tempData.level > 0)
+                {
+                    if (_gameManager.Resources.festivalRoad < tempData.level) return false;
+                }
+                else
+                {
+                    if (_gameManager.Resources.festivalRoad > -tempData.level) return false;
+                }
             }
             else if (_gameManager.CurrentTech.ContainsKey(tempData.tag))
             {
@@ -348,4 +429,18 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         return true;
     }
 
+    public int GetRadius()
+    {
+        if (_hasTileAction)
+        {
+            TileBase _hexRuleTile = _gameManager.GetTileBase(_actionBuilding);
+            if (_hexRuleTile is RuleTile ruleTile)
+            {
+                CTile tempTile = ruleTile.m_DefaultGameObject.GetComponent<CTile>();
+                return tempTile.Radius;
+            }
+            else return -1;
+        }
+        else return -1;
+    }
 }

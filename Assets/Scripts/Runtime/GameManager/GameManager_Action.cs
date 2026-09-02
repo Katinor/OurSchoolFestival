@@ -15,9 +15,14 @@ public partial class GameManager
             _leftButtonToggle.onClick.AddListener(
                 () => CallLeftToggle());
         }
-        if (_debugNextDay != null)
+        if (_soundButtonToggle != null)
         {
-            _debugNextDay.onClick.AddListener(
+            _soundButtonToggle.onClick.AddListener(
+                () => CallSoundToggle());
+        }
+        if (_nextDayButton != null)
+        {
+            _nextDayButton.onClick.AddListener(
                 () => CallNextDay());
         }
         if (_questionYes != null)
@@ -104,22 +109,25 @@ public partial class GameManager
         {
             _leftButton5.onClick.Invoke();
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _leftButtonToggle.onClick.Invoke();
+        }
     }
 
     private void CallUpgrade()
     {
-        CTile tempClass;
-        if (_lastSelectedObject.TryGetComponent<CTile>(out tempClass))
+        if (findTileByPosition(_lastSelectedPosition, out CTile LastObject))
         {
-            if ((tempClass.TileState & ETileState.Upgradable) != ETileState.None)
+            if ((LastObject.TileState & ETileState.Upgradable) != ETileState.None)
             {
-                if (CheckResource(tempClass.Cost))
+                if (CheckResource(LastObject.Cost))
                 {
-                    if (_upgradeSe != null)
+                    _soundManager.PlaySE(EEffectSound.Success);
+                    if (!LastObject.Upgrade(_resources, this, _tileBases, _lastSelectedPosition))
                     {
-                        _upgradeSe.Play();
+                        CPrint.Error("문제 발생함");
                     }
-                    tempClass.Upgrade(_resources, this, _tileBases, _lastSelectedPosition);
                     OnClickElse();
                     _gameState = EGameState.Idle;
                     return;
@@ -129,16 +137,12 @@ public partial class GameManager
                     CreateError("자원 부족함", true);
                     return;
                 }
-                    
+
             }
             else
             {
                 return;
             }
-        }
-        else
-        {
-            return;
         }
     }
 
@@ -227,19 +231,13 @@ public partial class GameManager
     private void ActionCardUse(CCard card, Vector3Int position)
     {
         card.UseCard(position, _usingMatCount, _questionIsTileSkiped);
-        if (_upgradeSe != null)
-        {
-            _upgradeSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.Success);
     }
 
     private void ActionCardDelete(CCard card, Vector3Int position)
     {
         card.DeleteCard();
-        if (_upgradeSe != null)
-        {
-            _upgradeSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.Success);
     }
 
     private void CallLeftToggle()
@@ -256,18 +254,9 @@ public partial class GameManager
         }
     }
 
-    private void CallNextDay()
+    private void CallSoundToggle()
     {
-        _resources.moneyCurrent += _resources.moneyIncrease;
-        _resources.materialsCurrent += _resources.materialsIncrease;
-        _resources.menpowerRemain += _resources.menpowerCurrent;
-        while(_resources.menpowerRemain >= 8)
-        {
-            _resources.menpowerRemain -= 8;
-            _resources.festivalInterest += 1;
-        }
-        _menpowerRamainsSlider.value = _resources.menpowerRemain / 8f;
-        _resources.menpowerCurrent = _resources.menpowerIncrease;
+        _soundUIOn = !_soundUIOn;
     }
 
     private void CallAccept()
@@ -291,10 +280,8 @@ public partial class GameManager
 
     private void CallMatIncrease()
     {
-        if (_onChooseSe != null)
-        {
-            _onChooseSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.QuestionChoose);
+
         _usingMatCount += 1;
         if (_usingMatCount > _resources.materialsCurrent)
         {
@@ -304,10 +291,7 @@ public partial class GameManager
 
     private void CallMatDecrease()
     {
-        if (_onChooseSe != null)
-        {
-            _onChooseSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.QuestionChoose);
         _usingMatCount -= 1;
         if (_usingMatCount < 0)
         {
@@ -353,10 +337,7 @@ public partial class GameManager
     {
         _resources.PayCost(11, 0, 0, 0, 0, 0);
         _resources.menpowerIncrease += 1;
-        if (_upgradeSe != null)
-        {
-            _upgradeSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.Success);
     }
     private void CallCommon02()
     {
@@ -384,10 +365,7 @@ public partial class GameManager
     {
         _resources.PayCost(14, 0, 0, 0, 0, 0);
         _resources.festivalInterest += 1;
-        if (_upgradeSe != null)
-        {
-            _upgradeSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.Success);
     }
     private void CallCommon03()
     {
@@ -418,10 +396,7 @@ public partial class GameManager
         _resources.PayCost(23, 0, 0, 0, 0, 0);
         CPrint.V3("타일 지을 곳", position);
         _tilemap.SetTile(position, _tileBases[GetIndex(ETileCatalog.Trees)]);
-        if (_upgradeSe != null)
-        {
-            _upgradeSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.Success);
     }
     private void CallCommon04()
     {
@@ -452,10 +427,7 @@ public partial class GameManager
         _resources.PayCost(18, 0, 0, 0, 0, 0);
         CPrint.V3("타일 지을 곳", position);
         _tilemap.SetTile(position, _tileBases[GetIndex(ETileCatalog.RoadBuilt)]);
-        if (_upgradeSe != null)
-        {
-            _upgradeSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.Success);
     }
     private void CallCommon05()
     {
@@ -468,7 +440,8 @@ public partial class GameManager
                         "해당 위치에 간이 음식점을 건설합니다.\n진행합니까?",
                         ActionCommon05,
                         ETileState.None,
-                        ETileState.Built | ETileState.Road
+                        ETileState.Built | ETileState.Road,
+                        1
                     );
             }
             else
@@ -489,9 +462,6 @@ public partial class GameManager
         _tilemap.SetTile(position, _tileBases[GetIndex(ETileCatalog.Foodbooth)]);
         findTileByPosition(position, out CTile tile);
         tile.TileInfo = "<sprite=1> 1";
-        if (_upgradeSe != null)
-        {
-            _upgradeSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.Success);
     }
 }
