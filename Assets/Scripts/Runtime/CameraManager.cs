@@ -143,6 +143,7 @@ public class CameraManager : MonoBehaviour
             _focusCoroutine = null;
         }
         Vector3 worldCenterPos = _tilemap.GetCellCenterWorld(targetPosition);
+        CPrint.Log("포커스!");
         _focusCoroutine = StartCoroutine(FocusingToCoroutine(worldCenterPos));
     }
 
@@ -193,8 +194,9 @@ public class CameraManager : MonoBehaviour
         yield break;
     }
 
-    public void StopFocusing()
+    public void StopFocusing(bool onlyFocus = false)
     {
+        if (onlyFocus && !_isFocusing) return;
         if (_focusCoroutine != null)
         {
             StopCoroutine(_focusCoroutine);

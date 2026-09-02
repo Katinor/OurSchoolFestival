@@ -8,7 +8,7 @@ public class TileBasement : CTile
         this._tileState = ETileState.Upgradable;
         this._tileInfo = "";
         this._upgradeResult = ETileCatalog.Trees;
-        this._cost = new SCost(0, 0, 8, 0 ,0 ,0);
+        this._upgradeCost = new SCost(0, 0, 8, 0 ,0 ,0);
         this._baseColor = new UnityEngine.Color(1f, 0.5f, 0f);
         this._tileInCatalog = ETileCatalog.Basement;
     } 

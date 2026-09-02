@@ -150,6 +150,7 @@ public class CHand : MonoBehaviour
         {
             _cardDeck.RemoveAll(c => c.card.CardId == selectedCard.CardId);
             CalculateTotalWeight();
+            CPrint.Log($"덱 삭제 - {selectedCard.CardId}:{selectedCard.CardName} (남은 카드 : {_cardDeck.Count}");
         }
         GameObject go = Instantiate(_cardPrefab, _layout.transform);
         CCard card = go.GetComponent<CCard>();

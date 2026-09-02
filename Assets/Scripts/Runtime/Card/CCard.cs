@@ -159,7 +159,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             if (_gameManager.GameState == EGameState.Idle || _gameManager.GameState == EGameState.TileInspect)
             {
-                if (Input.GetKeyDown(KeyCode.Z))
+                if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space))
                 {
                     _useButton.onClick.Invoke();
                 }
@@ -377,9 +377,9 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Destroy(gameObject);
     }
 
-    public bool AvailableToUse()
+    public int AvailableToUse()
     {
-        if (!_gameManager.CheckResource(_cost)) return false;
+        if (!_gameManager.CheckResource(_cost)) return 1;
         for(int i = 0; i < _techData.Count; i++)
         {
             TechData tempData = _techData[i];
@@ -391,42 +391,42 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             {
                 if(tempData.level > 0)
                 {
-                    if (_gameManager.Resources.festivalSuccess < tempData.level) return false;
+                    if (_gameManager.Resources.festivalSuccess < tempData.level) return 2;
                 }
                 else
                 {
-                    if (_gameManager.Resources.festivalSuccess > -tempData.level) return false;
+                    if (_gameManager.Resources.festivalSuccess > -tempData.level) return 2;
                 }
             }
             else if(tempData.tag == ETech.Interest)
             {
                 if (tempData.level > 0)
                 {
-                    if (_gameManager.Resources.festivalInterest < tempData.level) return false;
+                    if (_gameManager.Resources.festivalInterest < tempData.level) return 2;
                 }
                 else
                 {
-                    if (_gameManager.Resources.festivalInterest > -tempData.level) return false;
+                    if (_gameManager.Resources.festivalInterest > -tempData.level) return 2;
                 }
             }
             else if (tempData.tag == ETech.Road)
             {
                 if (tempData.level > 0)
                 {
-                    if (_gameManager.Resources.festivalRoad < tempData.level) return false;
+                    if (_gameManager.Resources.festivalRoad < tempData.level) return 2;
                 }
                 else
                 {
-                    if (_gameManager.Resources.festivalRoad > -tempData.level) return false;
+                    if (_gameManager.Resources.festivalRoad > -tempData.level) return 2;
                 }
             }
             else if (_gameManager.CurrentTech.ContainsKey(tempData.tag))
             {
-                if (_gameManager.CurrentTech[tempData.tag] < tempData.level) return false;
+                if (_gameManager.CurrentTech[tempData.tag] < tempData.level) return 3;
             }
-            else return false;
+            else return 4;
         }
-        return true;
+        return 0;
     }
 
     public int GetRadius()

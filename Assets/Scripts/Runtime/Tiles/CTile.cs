@@ -11,11 +11,10 @@ public enum ETileState
     None        = 0,        // 0 : 상태 없음
     Built       = 1 << 0,   // 1 : 건설됨
     Road        = 1 << 1,   // 2 : 도로가 지어져야하는 위치
-    Text        = 1 << 2,   // 4 : 텍스트 있음
-    Action      = 1 << 3,   // 8 : 사용효과가 있는 타일
-    Upgradable  = 1 << 4,   // 16 : 업그레이드 가능 타일
-    Point       = 1 << 5,   // 32 : 승점을 제공하는 타일
-    PointUp     = 1 << 6,   // 64 : 승점타일을 강화하는 타일
+    Action      = 1 << 2,   // 4 : 사용효과가 있는 타일
+    Upgradable  = 1 << 3,   // 8 : 업그레이드 가능 타일
+    Point       = 1 << 4,   // 16 : 승점을 제공하는 타일
+    PointUp     = 1 << 5,   // 32 : 승점타일을 강화하는 타일
 }
 
 public enum ETileBuilding
@@ -27,6 +26,7 @@ public enum ETileBuilding
 
 public class CTile : MonoBehaviour
 {
+    #region Inspector
     [Header("타일 정보")]
     [SerializeField] private Renderer _baseRenderer;
     [SerializeField] private AudioSource _selectSound;
@@ -35,7 +35,9 @@ public class CTile : MonoBehaviour
     [SerializeField] private TMP_Text _tileText;
     [SerializeField] private List<ParticleSystem> _particleSystem;
     [SerializeField] private bool _isParticleScaled = true;
+    #endregion
 
+    #region Member Variable
     protected string _name = "";
     protected string _description = "";
     protected string _additionalDescription = "";
@@ -46,21 +48,23 @@ public class CTile : MonoBehaviour
     protected ETileCatalog _tileInCatalog;
     protected ETileState _tileState = ETileState.None;
     protected ETileBuilding _building;
-    protected SCost _cost;
+    protected SCost _upgradeCost;
+    protected SCost _actionCost;
     protected Vector3Int _tilePosition;
 
     protected GameManager _gameManager;
     protected ETileCatalog _upgradeResult;
 
     protected string _actionName = null;
-    protected string _actionDescription = null;
     protected bool _actionUsed = false;
     protected bool _actionEnabled = false;
 
     protected int _internalPoints = 0;
     protected float _buildingSpeed = 5f;
     protected Coroutine _particleCoroutine;
+    #endregion
 
+    #region Property
     public string Name
     {
         get { return _name; }
@@ -85,6 +89,12 @@ public class CTile : MonoBehaviour
         set { _tileInfo = value; }
     }
 
+    public GameObject TextObject
+    {
+        get { return _textObject; }
+        set { _textObject = value; }
+    }
+
     public int Radius
     {
         get { return _radius; }
@@ -101,27 +111,27 @@ public class CTile : MonoBehaviour
         get { return _tileInCatalog; }
         protected set { _tileInCatalog = value; }
     }
-    public SCost Cost
+    public SCost UpgradeCost
     {
-        get { return _cost; }
-        protected set { _cost = value; }
+        get { return _upgradeCost; }
+        protected set { _upgradeCost = value; }
     }
-    
-    public ETileState TileState
+    public SCost ActionCost
     {
-        get { return _tileState; }
-        protected set { _tileState = value; }
+        get { return _actionCost; }
+        protected set { _actionCost = value; }
     }
+
     public string ActionName
     {
         get { return _actionName; }
         protected set { _actionName = value; }
     }
 
-    public string ActionDescription
+    public bool ActionEnabled
     {
-        get { return _actionDescription; }
-        protected set { _actionDescription = value; }
+        get { return _actionEnabled; }
+        protected set { _actionEnabled = value; }
     }
 
     public bool ActionUsed
@@ -130,10 +140,11 @@ public class CTile : MonoBehaviour
         set { _actionUsed = value; }
     }
 
-    public bool ActionEnabled
+
+    public ETileState TileState
     {
-        get { return _actionEnabled; }
-        set { _actionEnabled = value; }
+        get { return _tileState; }
+        protected set { _tileState = value; }
     }
 
     public int Points
@@ -151,7 +162,11 @@ public class CTile : MonoBehaviour
     {
         return _baseRenderer.material.color;
     }
+    #endregion
 
+    /// <summary>
+    /// 타일에 지정된 소리를 재생합니다.
+    /// </summary>
     public void PlaySound()
     {
         if (_selectSound != null)
@@ -160,46 +175,43 @@ public class CTile : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 타일인스펙터에서 사용할 수 있도록, 설명을 제작합니다.
+    /// </summary>
     public string GetDescription()
     {
         return _description + "\n\n" + _additionalDescription;
     }
 
-    public virtual int OnCalculatePoint()
-    {
-        return _internalPoints;
-    }
     /// <summary>
-    /// 시설을 업그레이드할 수 있다면 업그레이드합니다.
+    /// 타일을 업그레이드할 수 있다면 업그레이드합니다.
     /// </summary>
     /// <param name="tilemap"></param>
     /// <param name="position"></param>
     /// <returns></returns>
-    public virtual bool Upgrade(CResources resource, GameManager manager, List<TileBase> tileBases, Vector3Int? position)
+    public virtual bool Upgrade(GameManager gameManager)
     {
         // 비용에 문제가 있다면 Return하는 함수 필요
-        if (position.HasValue)
+        if (_tilePosition != null)
         {
-            CPrint.V3($"타일 업그레이드", position.Value);
-            resource.PayCost(_cost);
-            manager.BuildTile(_upgradeResult, position.Value);
+            CPrint.V3($"타일 업그레이드", _tilePosition);
+            gameManager.PayCost(_upgradeCost);
+            gameManager.BuildTile(_upgradeResult, _tilePosition);
             return true;
         }
         return false;
     }
-
-    public virtual bool IsUpgradable(GameManager gameManager)
-    {
-        return false;
-    }
-
+    /// <summary>
+    /// 타일의 액션을 발동할 수 있다면 발동합니다.
+    /// </summary>
+    /// <param name="tilemap"></param>
+    /// <param name="position"></param>
+    /// <returns></returns>
     public virtual bool OnAction(GameManager gameManager)
     {
-        return false;
-    }
-
-    public virtual bool IsActionable(GameManager gameManager)
-    {
+        //CPrint.V3($"{_name} : 액션 발동", _tilePosition);
+        //gameManager.PayCost(_actionCost);
+        //_actionUsed = true;
         return false;
     }
 
@@ -223,20 +235,18 @@ public class CTile : MonoBehaviour
         {
             _building = ETileBuilding.End;
         }
-        if ((_tileState & ETileState.Text) == ETileState.None)
+        if (_textObject)
         {
-            if (_textObject)
+            if (string.IsNullOrEmpty(_tileInfo))
             {
                 _textObject.SetActive(false);
             }
-        }
-        else
-        {
-            if (_textObject)
+            else
             {
                 _textObject.SetActive(true);
             }
         }
+
         _tilePosition = _gameManager.GameGrid.WorldToCell(transform.position);
         if (!_isFirst) _particleCoroutine = StartCoroutine(OnParticle());
         if (_radius > 0)
@@ -285,76 +295,45 @@ public class CTile : MonoBehaviour
                     break;
             }
         }
-        if ((_tileState & ETileState.Text) != ETileState.None)
-        {
-            _tileText.text = _tileInfo;
-        }
+        if(!string.IsNullOrEmpty(_tileInfo)) _tileText.text = _tileInfo;
     }
-
+    /// <summary>
+    /// 타일이 산출하는 점수를 반환합니다.
+    /// </summary>
     public virtual SScoreInfo OnScore()
     {
         return new SScoreInfo(0, "");
     }
+    /// <summary>
+    /// 타일을 가리키는 경우의 행동입니다.
+    /// </summary>
     public virtual void OnPoint(int radius = 0)
     {
         Highlights(Color.green);
         ShowAllParticle(radius, true);
     }
-
+    /// <summary>
+    /// 다른 타일을 가리켜진 것으로 반응한 경우 발동합니다.
+    /// </summary>
     public virtual void OnPointByOthers()
     {
         Highlights(Color.yellow);
     }
-
     public virtual void OnSelected()
     {
         Highlights(Color.cyan);
-        _tileText.gameObject.SetActive(true);
+        _textObject.gameObject.SetActive(true);
     }
-
     public virtual void OnSelectedByOthers()
     {
         Highlights(new Color(0.4f, 1f, 0f));
     }
-
     public virtual void OnResetShown()
     {
         Highlights(_baseColor);
         _tileText.gameObject.SetActive(false);
         StopAllParticle();
     }
-
-    public virtual IEnumerator OnParticle()
-    {
-        if (_particleSystem == null || _particleSystem.Count == 0)
-        {
-            yield break;
-        }
-        _particleSystem[0].transform.localScale = Vector3.one * 2;
-        for(int i = 0; i < _particleSystem.Count; i++)
-        {
-            if (_particleSystem[i] != null)
-            {
-                if (_isParticleScaled && (i != 0)) _particleSystem[i].transform.localScale = Vector3.one * (1 + _radius);
-                _particleSystem[i].Play(true);
-            }
-            else
-            {
-                CPrint.Error($"{this._name} : 파티클이 잘못됨");
-            }
-        }
-        yield return new WaitForSeconds(0.75f);
-        _particleSystem[0].Stop();
-        yield return new WaitForSeconds(0.75f);
-        if (_particleSystem.Count > 1)
-        {
-            for (int i = 1; i < _particleSystem.Count; i++)
-            {
-                _particleSystem[i].Stop();
-            }
-        }
-    }
-
     public virtual void ShowAllParticle(int radius = 0, bool isFirstSkip = true)
     {
         int firstIndex = 0;
@@ -391,13 +370,51 @@ public class CTile : MonoBehaviour
         }
         _particleCoroutine = StartCoroutine(OnParticleOnce(radius, index, duration));
     }
-    public virtual IEnumerator OnParticleOnce(int radius, int index, float duration)
+    public virtual void StopAllParticle()
+    {
+        for (int i = 0; i < _particleSystem.Count; i++)
+        {
+            _particleSystem[i].Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            _particleSystem[i].transform.localScale = Vector3.one;
+        }
+    }
+    protected virtual IEnumerator OnParticle()
+    {
+        if (_particleSystem == null || _particleSystem.Count == 0)
+        {
+            yield break;
+        }
+        _particleSystem[0].transform.localScale = Vector3.one * 2;
+        for (int i = 0; i < _particleSystem.Count; i++)
+        {
+            if (_particleSystem[i] != null)
+            {
+                if (_isParticleScaled && (i != 0)) _particleSystem[i].transform.localScale = Vector3.one * (1 + _radius);
+                _particleSystem[i].Play(true);
+            }
+            else
+            {
+                CPrint.Error($"{this._name} : 파티클이 잘못됨");
+            }
+        }
+        yield return new WaitForSeconds(0.75f);
+        _particleSystem[0].Stop();
+        yield return new WaitForSeconds(0.75f);
+        if (_particleSystem.Count > 1)
+        {
+            for (int i = 1; i < _particleSystem.Count; i++)
+            {
+                _particleSystem[i].Stop();
+            }
+        }
+    }
+    protected virtual IEnumerator OnParticleOnce(int radius, int index, float duration)
     {
         if (_particleSystem == null || index >= _particleSystem.Count)
         {
             yield break;
         }
-        
+
         if (_particleSystem[index] != null)
         {
             _particleSystem[index].transform.localScale = Vector3.one * (1 + _radius);
@@ -414,12 +431,4 @@ public class CTile : MonoBehaviour
         yield break;
     }
 
-    public virtual void StopAllParticle()
-    {
-        for (int i = 0; i < _particleSystem.Count; i++)
-        {
-            _particleSystem[i].Stop(true, ParticleSystemStopBehavior.StopEmitting);
-            _particleSystem[i].transform.localScale = Vector3.one;
-        }
-    }
 }

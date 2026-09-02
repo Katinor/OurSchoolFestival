@@ -47,7 +47,7 @@ public partial class GameManager
             _gameState = EGameState.Idle;
             HideMaterialChecker();
         }
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space))
         {
             _materialsYes.onClick.Invoke();
         }
@@ -119,6 +119,7 @@ public partial class GameManager
                         if (_questionMask == ETileState.None && _questionMaskReverse == ETileState.None)
                         {
                             ChangeBottomText("");
+                            _camera.StartFocusing(posInCell);
                             OpenQuestionAfterTile(posInCell);
                             return;
                         }
@@ -129,6 +130,7 @@ public partial class GameManager
                                 if ((tempClass.TileState & _questionMaskReverse) == ETileState.None)
                                 {
                                     ChangeBottomText("");
+                                    _camera.StartFocusing(posInCell);
                                     OpenQuestionAfterTile(posInCell);
                                     return;
                                 }
@@ -138,6 +140,7 @@ public partial class GameManager
                                 if ((tempClass.TileState & _questionMask) == _questionMask)
                                 {
                                     ChangeBottomText("");
+                                    _camera.StartFocusing(posInCell);
                                     OpenQuestionAfterTile(posInCell);
                                     return;
                                 }
@@ -149,11 +152,11 @@ public partial class GameManager
                                     if ((tempClass.TileState & _questionMask) == _questionMask)
                                     {
                                         ChangeBottomText("");
+                                        _camera.StartFocusing(posInCell);
                                         OpenQuestionAfterTile(posInCell);
                                         return;
                                     }
                                 }
-
                             }
                         }
                         CreateError("유효하지 않은 타일입니다.", true);
@@ -182,7 +185,7 @@ public partial class GameManager
             CreateError("취소함", true);
             HideQuestion();
         }
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space))
         {
             _questionYes.onClick.Invoke();
         }
@@ -199,6 +202,7 @@ public partial class GameManager
             if (_questionIsCard) _questionCard(_questionArgCard, _questionArgVector);
             else _questionAction(_questionArgGO, _questionArgVector);
         }
+        _camera.StopFocusing(true);
         HideQuestion();
     }
     private void OpenQuestionAfterTile(Vector3Int posInCell)

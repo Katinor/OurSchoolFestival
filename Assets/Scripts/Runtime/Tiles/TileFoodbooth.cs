@@ -6,7 +6,7 @@ public class TileFoodbooth : CTile
     {
         this._name = "간이 음식점";
         this._description = "축제에는 먹거리가 빠질 수 없다고들 하죠!\n인접한 가로수 만큼 축제 점수를 얻습니다.";
-        this._tileState = ETileState.Built | ETileState.Text | ETileState.Point;
+        this._tileState = ETileState.Built | ETileState.Point;
         this._tileInfo = "";
         this._baseColor = new UnityEngine.Color(1f, 0.5f, 0f);
         this._radius = 1;

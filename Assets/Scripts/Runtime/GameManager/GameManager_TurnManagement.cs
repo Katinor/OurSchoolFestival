@@ -15,6 +15,11 @@ public partial class GameManager
     private IEnumerator CallNextDayCoroutine()
     {
         yield return _DayManager.StartDayResult(this, _soundManager);
+        List<CTile> tileList = GetAllTiles();
+        for(int i = 0; i < tileList.Count; i++)
+        {
+            tileList[i].ActionUsed = false;
+        }
         _currentDay++;
         SetDayButton(_currentDay);
         _resources.moneyCurrent += _resources.moneyIncrease + GetFestivalScore();
