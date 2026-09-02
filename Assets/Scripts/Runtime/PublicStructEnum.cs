@@ -159,5 +159,34 @@ public enum EAction
     Exercise,
     Cult,
     Tile,
-    CustomScript
+    CustomScript,
+    ScoreFunction
+}
+public struct SScoreInfo
+{
+    private int score;
+    private string description;
+
+    public SScoreInfo(int score, string description)
+    {
+        this.score = score;
+        this.description = description;
+    }
+
+    public int Score
+    {
+        get { return score; }
+    }
+
+    public string Description
+    {
+        get { return description; }
+    }
+}
+
+public struct SScoreSet
+{
+    public SScoreInfo tileScore;
+    public SScoreInfo cardScore;
+    public SScoreInfo achievementScore;
 }

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 998_PlaceHolder
+  m_EditorClassIdentifier: 
+  _cardId: 998
+  _cardName: "\uBC84\uC2A4\uD0B9 \uBD80\uC2A4"
+  _description: "<sprite=11>+1\n<b>\uAC74\uC124</b> : \uBD80\uC2A4"
+  _flavorText: "\uCD95\uC81C\uC5D0 \uC74C\uC545\uC774 \uC6B8\uB824\uD37C\uC9C4\uB2E4\uBA74
+    \uB354\uD560 \uB098\uC704 \uC5C6\uC774 \uC88B\uC744\uAC81\uB2C8\uB2E4!"
+  _tooltip: "<size=150%>\uAC74\uC124</size>\n\uD2B9\uC815 \uD0C0\uC77C\uC744 \uAC74\uC124\uD569\uB2C8\uB2E4.\n<size=150%>\uBD80\uC2A4</size>\n\uD3C9\uBC94\uD558\uAC8C
+    \uC0DD\uAE34 \uBD80\uC2A4\uC785\uB2C8\uB2E4.\n\uBCC4\uB2E4\uB978 \uD6A8\uACFC\uB294
+    \uC5C6\uC774, \uACF5\uAC04\uC744 \uCC28\uC9C0\uD569\uB2C8\uB2E4."
+  _illust: {fileID: 2800000, guid: 2a90cb63f8ac5b64898d1c5230cf6855, type: 3}
+  _costInfo:
+    moneyCurrent: 8
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _weight: 100
+  _tagList:
+  - tag: 0
+    level: 1
+  _actionList:
+  - action: 10
+    level: 1
+  - action: 14
+    level: 4
+  _tileAdditionalDesc: 
+  _comments: 

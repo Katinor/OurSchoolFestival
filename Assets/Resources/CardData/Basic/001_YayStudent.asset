@@ -10,27 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
-  m_Name: 998_PlaceHolder
+  m_Name: 001_YayStudent
   m_EditorClassIdentifier: 
-  _cardId: 998
-  _cardName: "\uBC84\uC2A4\uD0B9 \uBD80\uC2A4"
-  _description: 
-  _tooltip: "\uBE44\uBC14\uCCB4 \uBD88\uB7EC\uC57C\uD568!"
-  _illust: {fileID: 2800000, guid: 2a90cb63f8ac5b64898d1c5230cf6855, type: 3}
+  _cardId: 1
+  _cardName: "\uC5F4\uC131\uC801\uC778 \uD559\uC0DD"
+  _description: <sprite=5>+1 <sprite=7>+1
+  _flavorText: "\uC57D\uAC04\uC758 \uB3C4\uAD6C\uC640 \uAC04\uC2DD\uC73C\uB85C\uB3C4\n\uCD95\uC81C\uB97C
+    \uD64D\uBCF4\uD574\uC8FC\uB294 \uD559\uC0DD\uC785\uB2C8\uB2E4."
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: fb7131ffcf703bd45a06c280c80565e3, type: 3}
   _costInfo:
-    moneyCurrent: 8
+    moneyCurrent: 13
     moneyIncrease: 0
     materialsCurrent: 0
     materialsIncrease: 0
     menpowerCurrent: 0
     menpowerIncrease: 0
   _isDeletable: 1
+  _isSingle: 0
+  _weight: 100
   _tagList:
   - tag: 0
-    level: 0
-  _actionList:
-  - action: 10
     level: 1
-  - action: 14
-    level: 4
+  _actionList:
+  - action: 5
+    level: 1
+  - action: 7
+    level: 1
   _tileAdditionalDesc: 
+  _comments: 003

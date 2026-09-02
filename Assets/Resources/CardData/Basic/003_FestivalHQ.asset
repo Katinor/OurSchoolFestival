@@ -29,6 +29,8 @@ MonoBehaviour:
     menpowerCurrent: 0
     menpowerIncrease: 2
   _isDeletable: 1
+  _isSingle: 1
+  _weight: 100
   _tagList:
   - tag: 0
     level: 1

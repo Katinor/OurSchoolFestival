@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 007_FoodTruck
+  m_EditorClassIdentifier: 
+  _cardId: 7
+  _cardName: "\uD478\uB4DC\uD2B8\uB7ED \uACC4\uC57D"
+  _description: "<sprite=1>+4 <sprite=3>-1\n<b>\uAC74\uC124</b> : \uAC04\uC774 \uC74C\uC2DD\uC810"
+  _flavorText: 
+  _tooltip: "<size=150%>\uAC74\uC124</size>\n\uD2B9\uC815 \uD0C0\uC77C\uC744 \uAC74\uC124\uD569\uB2C8\uB2E4.\n<size=150%>\uAC04\uC774
+    \uC74C\uC2DD\uC810</size>\n\uCD95\uC81C \uBA39\uAC70\uB9AC\uB97C \uD310\uB9E4\uD558\uB294
+    \uACF5\uAC04\uC785\uB2C8\uB2E4.\n\uC778\uC811\uD55C \uAC00\uB85C\uC218 \uB9CC\uD07C
+    \uCD95\uC81C\uC810\uC218\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  _illust: {fileID: 2800000, guid: 474cf05205de7034fa240ef7eff865a1, type: 3}
+  _costInfo:
+    moneyCurrent: 18
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 2
+  _isDeletable: 1
+  _isSingle: 1
+  _weight: 100
+  _tagList:
+  - tag: 0
+    level: 1
+  _actionList:
+  - action: 3
+    level: 2
+  - action: 14
+    level: 5
+  _tileAdditionalDesc: 
+  _comments: 032

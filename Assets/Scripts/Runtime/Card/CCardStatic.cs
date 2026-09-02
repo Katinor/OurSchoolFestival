@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class CCardStatic
+public static partial class CCardStatic
 {
     public static bool CardEmpty(GameManager manager, int level)
     {

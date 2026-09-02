@@ -54,8 +54,32 @@ public partial class GameManager
                 if (_rightPanelTransform.anchoredPosition3D.x >= _rightPanelXOff)
                 {
                     _rightPanelTransform.anchoredPosition3D = new Vector3(_rightPanelXOff, 0, 0);
-                    _tileName.text = "";
-                    _tileDescription.text = "";
+                }
+            }
+        }
+    }
+
+    private void SoundPanelMove()
+    {
+        if (_soundUIOn)
+        {
+            if (_soundPanelTransform.anchoredPosition3D.x < _soundPanelXOn)
+            {
+                _soundPanelTransform.anchoredPosition3D += Vector3.right * _panelMove * 2 * Time.deltaTime;
+                if (_soundPanelTransform.anchoredPosition3D.x >= _soundPanelXOn)
+                {
+                    _soundPanelTransform.anchoredPosition3D = new Vector3(_soundPanelXOn, 486, 0);
+                }
+            }
+        }
+        else
+        {
+            if (_soundPanelTransform.anchoredPosition3D.x > _soundPanelXOff)
+            {
+                _soundPanelTransform.anchoredPosition3D -= Vector3.right * _panelMove * 2 * Time.deltaTime;
+                if (_soundPanelTransform.anchoredPosition3D.x <= _soundPanelXOff)
+                {
+                    _soundPanelTransform.anchoredPosition3D = new Vector3(_soundPanelXOff, 486, 0);
                 }
             }
         }
@@ -65,6 +89,7 @@ public partial class GameManager
     {
         _moneyCurrentText.text = _resources.moneyCurrent.ToString();
         _moneyIncreaseText.text = "+" + _resources.moneyIncrease.ToString();
+        _moneyIncreaseText2.text = "+" + GetFestivalScore().ToString();
         _materialsCurrentText.text = _resources.materialsCurrent.ToString();
         _materialsIncreaseText.text = "+" + _resources.materialsIncrease.ToString();
         _menpowerCurrentText.text = _resources.menpowerCurrent.ToString();
@@ -176,10 +201,7 @@ public partial class GameManager
         {
             HideMaterialChecker();
         }
-        if (_onQuestionSe != null)
-        {
-            _onQuestionSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.QuestionAppear);
         _usingMatCount = 0;
         _questionValue = 0;
         _questionArgCard = card;
@@ -198,10 +220,7 @@ public partial class GameManager
         {
             HideQuestion();
         }
-        if (_onQuestionSe != null)
-        {
-            _onQuestionSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.QuestionAppear);
         _questionPanel.gameObject.SetActive(true);
         _questionText.text = text;
         _questionValue = 0;
@@ -218,10 +237,7 @@ public partial class GameManager
         {
             HideQuestion();
         }
-        if (_onQuestionSe != null)
-        {
-            _onQuestionSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.QuestionAppear);
         _questionPanel.gameObject.SetActive(true);
         _questionText.text = text;
         _questionValue = 0;
@@ -238,10 +254,7 @@ public partial class GameManager
         {
             HideQuestion();
         }
-        if (_onQuestionSe != null)
-        {
-            _onQuestionSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.QuestionAppear);
         _questionPanel.gameObject.SetActive(true);
         _questionText.text = text;
         _questionValue = 0;
@@ -258,10 +271,7 @@ public partial class GameManager
         {
             HideQuestion();
         }
-        if (_onQuestionSe != null)
-        {
-            _onQuestionSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.QuestionAppear);
         _questionPanel.gameObject.SetActive(true);
         _questionText.text = text;
         _questionValue = 0;
@@ -283,31 +293,32 @@ public partial class GameManager
 
     private void ShowTilechecker(string text, Action<CCard, Vector3Int> action, ETileState mask, ETileState maskReversed, CCard card)
     {
-        if (_onQuestionSe != null)
-        {
-            _onQuestionSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.QuestionAppear);
         _questionString = text;
         _questionIsCard = true;
         _questionCard = action;
         _questionArgCard = card;
+        _questionTileRadius = card.GetRadius();
         _questionMask = mask;
         _questionMaskReverse = maskReversed;
         _gameState = EGameState.TileSelect;
     }
 
-    private void ShowTilechecker(string text, Action<GameObject, Vector3Int> action, ETileState mask, ETileState maskReversed, GameObject actionArgGO = null)
+    private void ShowTilechecker(string text, Action<GameObject, Vector3Int> action, ETileState mask, ETileState maskReversed, int radius = 0, GameObject actionArgGO = null)
     {
-        if (_onQuestionSe != null)
-        {
-            _onQuestionSe.Play();
-        }
+        _soundManager.PlaySE(EEffectSound.QuestionAppear);
         _questionString = text;
         _questionIsCard = false;
         _questionAction = action;
         _questionArgGO = actionArgGO;
+        _questionTileRadius = radius;
         _questionMask = mask;
         _questionMaskReverse = maskReversed;
         _gameState = EGameState.TileSelect;
+    }
+
+    private void SetDayButton(int day)
+    {
+        _nextDayText.text = "다음날" + "\n" + $"<size=75%>{day} / 15일차</size>";
     }
 }

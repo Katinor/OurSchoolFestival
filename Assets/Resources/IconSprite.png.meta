@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 62f1548fafef2b542950c3ba7cd2990a
+guid: 935a90da45d0691438ec7bfd0b36d169
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -111,8 +111,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6b1492c347459646a4e0f299b87e690
-      internalID: 49038902
+      spriteID: 2dafca6a5c2ad61418c033627f05cfd8
+      internalID: 1189767373
       vertices: []
       indices: 
       edges: []
@@ -132,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f5eaf44ef768cd45ab95be8e4a84438
-      internalID: -174936253
+      spriteID: 79f521565effeb5418d0d9255581567b
+      internalID: -1257071778
       vertices: []
       indices: 
       edges: []
@@ -153,8 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8a6a15af81b74b94286c5a7f9dbca528
-      internalID: 1997530227
+      spriteID: aea8b0d981ae0e34a8f77c2d9e2dbc45
+      internalID: 217349681
       vertices: []
       indices: 
       edges: []
@@ -174,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 44d2680b282a4a947878cb009c6793d9
-      internalID: -389467412
+      spriteID: 417220a500398c54e844577dbe23bfcb
+      internalID: 1974231449
       vertices: []
       indices: 
       edges: []
@@ -195,8 +195,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc102594e28aa24468ed0d7e7b4c01ef
-      internalID: 1733236843
+      spriteID: 6756562e9460ff94a8a48ed9d5bb1a01
+      internalID: -1558243952
       vertices: []
       indices: 
       edges: []
@@ -216,8 +216,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7be0fe61035c11f4ba5c27407166928e
-      internalID: 1637984147
+      spriteID: cde549b60140e4c499912084ffa1899a
+      internalID: 427206382
       vertices: []
       indices: 
       edges: []
@@ -237,8 +237,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c199391518984e14ebc76402a99c38dd
-      internalID: -1033186095
+      spriteID: 07c5faa949815e04fb72491d50fe85b1
+      internalID: -676199446
       vertices: []
       indices: 
       edges: []
@@ -258,8 +258,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2965b196d9aaa5543ae147030b903883
-      internalID: -13107656
+      spriteID: e8495348c18e6374794866da5dac80f8
+      internalID: -1422677148
       vertices: []
       indices: 
       edges: []
@@ -279,8 +279,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70967de7b90f01245b720a7f9423bc2d
-      internalID: -639968584
+      spriteID: 273212aaaee13004d8219a1dbe731584
+      internalID: 303365666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Score
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 384
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92d77e33eae3f914a90d7e6a481d5a8a
+      internalID: -935495259
       vertices: []
       indices: 
       edges: []
@@ -300,8 +321,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 787c96a59c9bf5f439e6359982286f2e
-      internalID: -253609715
+      spriteID: 20f8d232f54b1d94fa0704c757e688dd
+      internalID: 3170467
       vertices: []
       indices: 
       edges: []
@@ -321,8 +342,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1b693fe5bbf9cd4cb57a7059c95cca3
-      internalID: -1775829917
+      spriteID: 7a49968dbca506c4b9b93aec609b990b
+      internalID: 1975667817
       vertices: []
       indices: 
       edges: []
@@ -342,8 +363,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7484b0f2c91852d43a2bc47be0bacec0
-      internalID: 1409736086
+      spriteID: ed3859b200157b54ab3b62e19b1d680b
+      internalID: -269198307
       vertices: []
       indices: 
       edges: []
@@ -363,8 +384,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4dc16a56a4a289a468e1638a5e24ad4c
-      internalID: -1456038379
+      spriteID: c2de96b36eb2b2042a00fb57fd8ca254
+      internalID: 1704319023
       vertices: []
       indices: 
       edges: []
@@ -384,8 +405,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b0a0cb88e62d80941813366872a3a109
-      internalID: 707374555
+      spriteID: f06a413b557a17c44bb40f9fe3443661
+      internalID: -53447012
       vertices: []
       indices: 
       edges: []
@@ -393,7 +414,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 606a4e4785350094bacab4a222508023
+    spriteID: 90c93a482a8b4c5489dc57e8be98ef03
     internalID: 0
     vertices: []
     indices: 
@@ -401,20 +422,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Art: 1409736086
-      Cult: 707374555
-      Exercise: -1456038379
-      Interest: -13107656
-      Material: 1997530227
-      MaterialAdd: -389467412
-      Menpower: 1733236843
-      MenpowerAdd: 1637984147
-      Money: 49038902
-      MoneyAdd: -174936253
-      Music: -1775829917
-      Road: -639968584
-      Science: -253609715
-      Success: -1033186095
+      Art: -269198307
+      Cult: -53447012
+      Exercise: 1704319023
+      Interest: -1422677148
+      Material: 217349681
+      MaterialAdd: 1974231449
+      Menpower: -1558243952
+      MenpowerAdd: 427206382
+      Money: 1189767373
+      MoneyAdd: -1257071778
+      Music: 1975667817
+      Road: 303365666
+      Science: 3170467
+      Score: -935495259
+      Success: -676199446
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -10,25 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
-  m_Name: 007_BusterCall
+  m_Name: 999_PlaceHolder
   m_EditorClassIdentifier: 
-  _cardId: 7
-  _cardName: "\uB300\uADDC\uBAA8 \uC99D\uC6D0"
-  _description: <sprite=1>-2 <sprite=5>+4
-  _flavorText: 
+  _cardId: 999
+  _cardName: "\uBE44\uBC14\uCCB4 \uD638\uCD9C"
+  _description: <sprite=5>+3 <sprite=7>+1
+  _flavorText: "\uB2C8\uB77C\uD1A0\uB974\uD504\uC5D0\uC11C \uC628 \uC74C\uC545\uAC00\uC785\uB2C8\uB2E4."
   _tooltip: 
-  _illust: {fileID: 2800000, guid: 865a7f0bd47f22e44bd3f2f1e5fe2e21, type: 3}
+  _illust: {fileID: 2800000, guid: 53c7af0192d5b304692cae087c7fd7bf, type: 3}
   _costInfo:
-    moneyCurrent: 13
-    moneyIncrease: 2
+    moneyCurrent: 15
+    moneyIncrease: 0
     materialsCurrent: 0
     materialsIncrease: 0
     menpowerCurrent: 0
     menpowerIncrease: 0
   _isDeletable: 1
-  _tagList: []
+  _isSingle: 1
+  _weight: 100
+  _tagList:
+  - tag: 5
+    level: 1
   _actionList:
   - action: 5
-    level: 4
+    level: 3
+  - action: 7
+    level: 1
   _tileAdditionalDesc: 
-  _comments: 030
+  _comments: 

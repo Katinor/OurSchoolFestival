@@ -41,6 +41,12 @@ public partial class GameManager : MonoBehaviour
     [Header("카드핸드")]
     [SerializeField] CHand _cardHand;
 
+    [Header("사운드 매니저")]
+    [SerializeField] SoundManager _soundManager;
+
+    [Header("카메라")]
+    [SerializeField] CameraManager _camera;
+
     [Header("핸드추가 (디버그용)")]
     [SerializeField] Button _cardAddButton;
 
@@ -49,15 +55,6 @@ public partial class GameManager : MonoBehaviour
 
     [Header("카메라")]
     [SerializeField] Camera _mainCamera;
-
-    [Header("선택지 등장")]
-    [SerializeField] AudioSource _onQuestionSe;
-
-    [Header("일반 사운드")]
-    [SerializeField] AudioSource _onChooseSe;
-
-    [Header("업그레이드")]
-    [SerializeField] AudioSource _upgradeSe;
 
     [Header("기본 타일")]
     [SerializeField] private List<TileBase> _tileBases;    
@@ -94,13 +91,15 @@ public partial class GameManager : MonoBehaviour
     [Header("상단메뉴")]
     [SerializeField] private TMP_Text _moneyCurrentText;
     [SerializeField] private TMP_Text _moneyIncreaseText;
+    [SerializeField] private TMP_Text _moneyIncreaseText2;
     [SerializeField] private TMP_Text _materialsCurrentText;
     [SerializeField] private TMP_Text _materialsIncreaseText;
     [SerializeField] private TMP_Text _menpowerCurrentText;
     [SerializeField] private TMP_Text _menpowerIncreaseText;
     [SerializeField] private Slider _menpowerRamainsSlider;
     [SerializeField] private TMP_Text _techText;
-    [SerializeField] private Button _debugNextDay;
+    [SerializeField] private Button _nextDayButton;
+    [SerializeField] private TMP_Text _nextDayText;
 
     [Header("지표메뉴")]
     [SerializeField] private TMP_Text _successText;
@@ -121,19 +120,30 @@ public partial class GameManager : MonoBehaviour
     [SerializeField] private Button _materialsNo;
     [SerializeField] private Button _materialsUp;
     [SerializeField] private Button _materialsDown;
+
+    [Header("사운드 패널")]
+    [SerializeField] private RectTransform _soundPanelTransform;
+    [SerializeField] private Button _soundButtonToggle;
+    [SerializeField] private float _soundPanelXOn = -790;
+    [SerializeField] private float _soundPanelXOff = -1110;
+
+    [Header("턴 화면")]
+    [SerializeField] private DayResultManager _DayManager;
     #endregion
 
     #region Member Variable
     private Tilemap _tilemap;
+    private int _currentDay = 0;
     private Color _lastColor;
-    private GameObject _lastObject;
-    private GameObject _lastSelectedObject;
-    private Vector3Int _lastSelectedPosition;
+    private List<Vector3Int> _lastNearObject;
+    private Vector3Int? _lastSelectedPosition;
     private LayerMask _hitMask = 0;
     private EGameState _gameState = EGameState.Idle;
 
     private CResources _resources;
     private Dictionary<ETech, int> _currentTech;
+    private List<Func<GameManager, SScoreInfo>> _cardScores;
+    private SScoreSet _scoreSet;
 
     private int _questionValue = 0;
     private Action<GameObject, Vector3Int> _questionAction = null;
@@ -147,10 +157,12 @@ public partial class GameManager : MonoBehaviour
     private CCard _questionArgCard = null;
     private bool _questionIsCard = false;
     private bool _questionIsTileSkiped = false;
+    private int _questionTileRadius = 0;
     private int _usingMatCount = 0;
 
     private bool _rightUIOn = false;
     private bool _leftUIOn = false;
+    private bool _soundUIOn = false;
     #endregion
 
     public Grid GameGrid
@@ -175,18 +187,33 @@ public partial class GameManager : MonoBehaviour
         get { return _gameState; }
         protected set { _gameState = value; }
     }
+    public int CurrentDay
+    {
+        get { return _currentDay; }
+        protected set { _currentDay = value; }
+    }
 
     void Start()
     {
-        _resources = new CResources(50, 20, 0, 1, 0, 1);
+        _currentDay = 1;
+        SetDayButton(_currentDay);
+        _resources = new CResources(1000, 20, 50, 1, 50, 1);
         _hitMask |= LayerMask.GetMask("Tilemap");
         _tilemap = this.GetComponentInChildren<Tilemap>();
         CPrint.Log($"{_hitMask.value} = (Tilemap)");
         _rightPanelTransform.anchoredPosition3D = new Vector3(_rightPanelXOff, 0, 0);
         _upgradeButton.gameObject.SetActive(false);
         _currentTech = new Dictionary<ETech, int>();
+        _cardScores = new List<Func<GameManager, SScoreInfo>>();
+        _scoreSet = new SScoreSet();
         SetListener();
         DrawMapTiles();
+        if (_soundManager == null)
+        {
+            CPrint.Error("사운드 매니저가 없습니다.");
+        }
+        _soundManager.PlayBGM(EBackgroundSound.Pastel);
+        _cardHand.AddCards(6);
     }
 
     void Update()
@@ -210,6 +237,7 @@ public partial class GameManager : MonoBehaviour
 
         LeftPanelMove();
         RightPanelMove();
+        SoundPanelMove();
         ResourceSync();
     }
     public bool CheckResource(int moneyCurrent, int moneyIncrease,
@@ -292,17 +320,22 @@ public partial class GameManager : MonoBehaviour
         switch (tech)
         {
             case ETech.Science:
-                return "<sprite=9>";
-            case ETech.Music:
                 return "<sprite=10>";
-            case ETech.Art:
+            case ETech.Music:
                 return "<sprite=11>";
-            case ETech.Exercise:
+            case ETech.Art:
                 return "<sprite=12>";
-            case ETech.Cult:
+            case ETech.Exercise:
                 return "<sprite=13>";
+            case ETech.Cult:
+                return "<sprite=14>";
             default:
                 return "";
         }
+    }
+
+    public void AddScoreAction(Func<GameManager, SScoreInfo> scoreFunction)
+    {
+        _cardScores.Add(scoreFunction);
     }
 }

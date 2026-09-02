@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a01e864b8fba372438a932503612687d
+guid: 62f1548fafef2b542950c3ba7cd2990a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,15 +104,15 @@ TextureImporter:
         y: 448
         width: 64
         height: 64
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 379bc69066a611146b99f7724ebe47ee
-      internalID: -1104877909
+      spriteID: a6b1492c347459646a4e0f299b87e690
+      internalID: 49038902
       vertices: []
       indices: 
       edges: []
@@ -125,15 +125,15 @@ TextureImporter:
         y: 448
         width: 64
         height: 64
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc8cc152e1e8b1a45ae6b24931d71e82
-      internalID: 530910795
+      spriteID: 2f5eaf44ef768cd45ab95be8e4a84438
+      internalID: -174936253
       vertices: []
       indices: 
       edges: []
@@ -146,15 +146,15 @@ TextureImporter:
         y: 448
         width: 64
         height: 64
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 35b200537a6217d47a9d576264870ab2
-      internalID: -2005793587
+      spriteID: 8a6a15af81b74b94286c5a7f9dbca528
+      internalID: 1997530227
       vertices: []
       indices: 
       edges: []
@@ -167,15 +167,15 @@ TextureImporter:
         y: 448
         width: 64
         height: 64
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cdcd889a28c3dec4ead048c26189f55c
-      internalID: -728239858
+      spriteID: 44d2680b282a4a947878cb009c6793d9
+      internalID: -389467412
       vertices: []
       indices: 
       edges: []
@@ -188,15 +188,15 @@ TextureImporter:
         y: 448
         width: 64
         height: 64
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 43e2947bd3482e147a56a5edf39710d0
-      internalID: 1788494149
+      spriteID: cc102594e28aa24468ed0d7e7b4c01ef
+      internalID: 1733236843
       vertices: []
       indices: 
       edges: []
@@ -209,15 +209,15 @@ TextureImporter:
         y: 448
         width: 64
         height: 64
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32b2747f884f9db45b440a2b868fbb23
-      internalID: 1942869078
+      spriteID: 7be0fe61035c11f4ba5c27407166928e
+      internalID: 1637984147
       vertices: []
       indices: 
       edges: []
@@ -230,15 +230,15 @@ TextureImporter:
         y: 384
         width: 64
         height: 64
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51d381574cff4734a858c91178e63a8d
-      internalID: -1123647592
+      spriteID: c199391518984e14ebc76402a99c38dd
+      internalID: -1033186095
       vertices: []
       indices: 
       edges: []
@@ -251,15 +251,15 @@ TextureImporter:
         y: 384
         width: 64
         height: 64
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48992d3293a58464bb94bda52bb56ebd
-      internalID: -616783784
+      spriteID: 2965b196d9aaa5543ae147030b903883
+      internalID: -13107656
       vertices: []
       indices: 
       edges: []
@@ -272,15 +272,120 @@ TextureImporter:
         y: 384
         width: 64
         height: 64
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63e53cb6e4ee55a4ba895a00319e6654
-      internalID: -1127562676
+      spriteID: 70967de7b90f01245b720a7f9423bc2d
+      internalID: -639968584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Science
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 320
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 787c96a59c9bf5f439e6359982286f2e
+      internalID: -253609715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Music
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 320
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1b693fe5bbf9cd4cb57a7059c95cca3
+      internalID: -1775829917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Art
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 320
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7484b0f2c91852d43a2bc47be0bacec0
+      internalID: 1409736086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Exercise
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 320
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4dc16a56a4a289a468e1638a5e24ad4c
+      internalID: -1456038379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cult
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 320
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0a0cb88e62d80941813366872a3a109
+      internalID: 707374555
       vertices: []
       indices: 
       edges: []
@@ -288,7 +393,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: b84dcd1326860a44e96ce6166e47f2f1
+    spriteID: 606a4e4785350094bacab4a222508023
     internalID: 0
     vertices: []
     indices: 
@@ -296,16 +401,20 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      IconSprite_0: -237135029
-      Interest: -616783784
-      Material: -2005793587
-      MaterialAdd: -728239858
-      Menpower: 1788494149
-      MenpowerAdd: 1942869078
-      Money: -1104877909
-      MoneyAdd: 530910795
-      Road: -1127562676
-      Success: -1123647592
+      Art: 1409736086
+      Cult: 707374555
+      Exercise: -1456038379
+      Interest: -13107656
+      Material: 1997530227
+      MaterialAdd: -389467412
+      Menpower: 1733236843
+      MenpowerAdd: 1637984147
+      Money: 49038902
+      MoneyAdd: -174936253
+      Music: -1775829917
+      Road: -639968584
+      Science: -253609715
+      Success: -1033186095
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

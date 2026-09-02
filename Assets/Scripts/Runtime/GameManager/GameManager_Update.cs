@@ -92,6 +92,7 @@ public partial class GameManager
         {
             CreateError("취소함", true);
             ChangeBottomText("");
+            OnClickElse();
             _gameState = EGameState.Idle;
             return;
         }
@@ -99,21 +100,18 @@ public partial class GameManager
         {
             CreateError("취소함", true);
             ChangeBottomText("");
+            OnClickElse();
             _gameState = EGameState.Idle;
             return;
         }
-        if (Input.GetMouseButtonDown(0))
+        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _hitMask) && !EventSystem.current.IsPointerOverGameObject())
         {
-            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (EventSystem.current.IsPointerOverGameObject())
+            Vector3 hitPoint = hit.point;
+            if (findObjectByTile(hitPoint, out Vector3Int posInCell, out GameObject go))
             {
-                CPrint.Log("UI 클릭함");
-                return;
-            }
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _hitMask))
-            {
-                Vector3 hitPoint = hit.point;
-                if (findObjectByTile(hitPoint, out Vector3Int posInCell, out GameObject go))
+                if (_lastSelectedPosition != posInCell) OnPointTile(go, posInCell);
+                if (Input.GetMouseButtonDown(0))
                 {
                     CPrint.V3($"클릭대상 - {go.name}", posInCell);
                     if (go.TryGetComponent<CTile>(out CTile tempClass))
@@ -159,22 +157,26 @@ public partial class GameManager
                             }
                         }
                         CreateError("유효하지 않은 타일입니다.", true);
+                        OnClickElse();
                         ChangeBottomText("");
                         _gameState = EGameState.Idle;
                     }
                 }
                 else
                 {
-                    CreateError("취소함", true);
-                    ChangeBottomText("");
-                    _gameState = EGameState.Idle;
+                    ChangeBottomText("타일을 선택하세요.");
                 }
+            }
+            else
+            {
+                OnClickElse();
             }
         }
     }
 
     private void UpdateQuestionSelect()
     {
+        OnClickElse();
         if (Input.GetMouseButtonDown(1))
         {
             CreateError("취소함", true);
@@ -199,50 +201,6 @@ public partial class GameManager
         }
         HideQuestion();
     }
-    private void OpenTileAfterMat()
-    {
-        if (_questionIsCard)
-        {
-            ShowQuestion(
-                _questionString,
-                _questionCard,
-                _questionArgCard,
-                Vector3Int.zero
-            );
-        }
-        else
-        {
-            ShowQuestion(
-               _questionString,
-               _questionAction,
-               _questionArgGO,
-               Vector3Int.zero
-            );
-        }
-    }
-
-    private void OpenQuestionAfterMat()
-    {
-        if (_questionIsCard)
-        {
-            ShowQuestion(
-                _questionString,
-                _questionCard,
-                _questionArgCard,
-                Vector3Int.zero
-            );
-        }
-        else
-        {
-            ShowQuestion(
-               _questionString,
-               _questionAction,
-               _questionArgGO,
-               Vector3Int.zero
-            );
-        }
-    }
-
     private void OpenQuestionAfterTile(Vector3Int posInCell)
     {
         if (_questionIsCard)

@@ -13,6 +13,8 @@ public class GameCard : ScriptableObject
     [SerializeField] private Texture _illust;
     [SerializeField] private SCostInfo _costInfo;
     [SerializeField] private bool _isDeletable = true;
+    [SerializeField] private bool _isSingle = false;
+    [SerializeField] private int _weight = 100;
     [SerializeField] private List<TechData> _tagList = new List<TechData>();
     [SerializeField] private List<ActionData> _actionList = new List<ActionData>();
     [SerializeField][TextArea(2, 10)] private string _tileAdditionalDesc;
@@ -56,6 +58,18 @@ public class GameCard : ScriptableObject
     {
         get { return _isDeletable; }
         protected set { _isDeletable = value;}
+    }
+
+    public bool IsSingle
+    {
+        get { return _isSingle; }
+        protected set { _isSingle = value; }
+    }
+
+    public int Weight
+    {
+        get { return _weight; }
+        protected set { _weight = value; }
     }
     public List<TechData> TagList
     {
