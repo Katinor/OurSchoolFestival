@@ -145,13 +145,46 @@ public partial class GameManager
             if ((targetTile.TileState & ETileState.Upgradable) != ETileState.None)
             {
                 _upgradeButton.gameObject.SetActive(true);
-                _tileUpgradeCost.text = UpgradeCostParser(targetTile.Cost);
+                _tileUpgradeCost.text = UpgradeCostParser(targetTile.UpgradeCost);
+                CPrint.Log($"{CheckResource(targetTile.UpgradeCost)}");
+                if (CheckResource(targetTile.UpgradeCost))
+                {
+                    _upgradeButton.interactable = true;
+                }
+                else
+                {
+                    _upgradeButton.interactable = false;
+                }
             }
             else
             {
                 _upgradeButton.gameObject.SetActive(false);
             }
-            targetTile.PlaySound();
+            if ((targetTile.TileState & ETileState.Action) != ETileState.None)
+            {
+                _tileActionButton.gameObject.SetActive(true);
+                _tileActionMessage.gameObject.SetActive(true);
+                _tileActionCost.text = ActionCostParser(targetTile.ActionName, targetTile.ActionCost);
+                if (targetTile.ActionUsed) _tileActionMessage.text = "(이미 사용함)";
+                else if (!targetTile.ActionEnabled) _tileActionMessage.text = "(사용조건 불만족)";
+                else if (!CheckResource(targetTile.ActionCost)) _tileActionMessage.text = "(액션 비용 부족)";
+                else _tileActionMessage.text = "";
+
+                if (!targetTile.ActionUsed && targetTile.ActionEnabled && CheckResource(targetTile.ActionCost))
+                {
+                    _tileActionButton.interactable = true;
+                }
+                else
+                {
+                    _tileActionButton.interactable = false;
+                }
+            }
+            else
+            {
+                _tileActionButton.gameObject.SetActive(false);
+                _tileActionMessage.gameObject.SetActive(false);
+            }
+                targetTile.PlaySound();
         }
         else
         {
@@ -209,13 +242,14 @@ public partial class GameManager
         _rightUIOn = false;
         _leftUIOn = false;
         _soundUIOn = false;
-        _camera.StopFocusing();
+        if (_questionAction == null) _camera.StopFocusing();
         CTile tempTile = null;
         if (_lastSelectedPosition != null)
         {
             if (findTileByPosition(_lastSelectedPosition, out tempTile))
             {
                 tempTile.OnResetShown();
+                tempTile.TextObject.SetActive(false);
             }
 
             if (_lastNearObject != null)
@@ -238,7 +272,12 @@ public partial class GameManager
     {
         return $"업그레이드 ({cost.toCostString()})";
     }
-    
+
+    private string ActionCostParser(string actionName, SCost cost)
+    {
+        return $"{actionName} ({cost.toCostString()})";
+    }
+
     public static int GetIndex(ETileCatalog tileCatalog)
     {
         return (int)tileCatalog;

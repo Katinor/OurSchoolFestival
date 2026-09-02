@@ -23,7 +23,7 @@ MonoBehaviour:
     \uD0C0\uC77C\uC744 \uAC74\uC124\uD569\uB2C8\uB2E4.\n<size=150%>\uAC00\uB85C\uC218</size>\n\uB098\uBB34
     \uB4F1\uC758 \uC2DD\uC0DD\uC73C\uB85C \uAFB8\uBBFC \uD0C0\uC77C\uC785\uB2C8\uB2E4.\n\uCD95\uC81C\uC810\uC218\uAC00
     1 \uC99D\uAC00\uD569\uB2C8\uB2E4."
-  _illust: {fileID: 2800000, guid: b46fdc0be48c264458fe71d635d66907, type: 3}
+  _illust: {fileID: 2800000, guid: 4853158a2aeeabb488900f88d01466aa, type: 3}
   _costInfo:
     moneyCurrent: 30
     moneyIncrease: 0

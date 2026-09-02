@@ -13,7 +13,8 @@ public enum ETileCatalog
     Trees,
     Booth,
     Foodbooth,
-    FestivalHQ
+    FestivalHQ,
+    CoffeeBooth
 }
 
 public enum EGameState
@@ -73,6 +74,9 @@ public partial class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text _tileDescription;
     [SerializeField] private Button _upgradeButton;
     [SerializeField] private TMP_Text _tileUpgradeCost;
+    [SerializeField] private Button _tileActionButton;
+    [SerializeField] private TMP_Text _tileActionCost;
+    [SerializeField] private TMP_Text _tileActionMessage;
     [SerializeField] private float _rightPanelXOn = 640;
     [SerializeField] private float _rightPanelXOff = 1180;
     [SerializeField] private float _panelMove = 1500;
@@ -337,5 +341,10 @@ public partial class GameManager : MonoBehaviour
     public void AddScoreAction(Func<GameManager, SScoreInfo> scoreFunction)
     {
         _cardScores.Add(scoreFunction);
+    }
+
+    public void PayCost(SCost cost)
+    {
+        _resources.PayCost(cost);
     }
 }

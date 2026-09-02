@@ -10,6 +10,11 @@ public partial class GameManager
             _upgradeButton.onClick.AddListener(
                 () => CallUpgrade());
         }
+        if (_tileActionButton != null)
+        {
+            _tileActionButton.onClick.AddListener(
+                () => CallTileAction());
+        }
         if (_leftButtonToggle != null)
         {
             _leftButtonToggle.onClick.AddListener(
@@ -85,6 +90,7 @@ public partial class GameManager
             _materialsDown.onClick.AddListener(
                 () => CallMatDecrease());
         }
+
     }
 
     private void CatchCommonKeyaction()
@@ -121,10 +127,10 @@ public partial class GameManager
         {
             if ((LastObject.TileState & ETileState.Upgradable) != ETileState.None)
             {
-                if (CheckResource(LastObject.Cost))
+                if (CheckResource(LastObject.UpgradeCost))
                 {
                     _soundManager.PlaySE(EEffectSound.Success);
-                    if (!LastObject.Upgrade(_resources, this, _tileBases, _lastSelectedPosition))
+                    if (!LastObject.Upgrade(this))
                     {
                         CPrint.Error("문제 발생함");
                     }
@@ -145,10 +151,52 @@ public partial class GameManager
             }
         }
     }
+    private void CallTileAction()
+    {
+        if (findTileByPosition(_lastSelectedPosition, out CTile LastObject))
+        {
+            if ((LastObject.TileState & ETileState.Action) != ETileState.None)
+            {
+                if (CheckResource(LastObject.ActionCost))
+                {
+                    _soundManager.PlaySE(EEffectSound.Success);
+                    if (!LastObject.OnAction(this))
+                    {
+                        CPrint.Error("문제 발생함");
+                    }
+                    if (LastObject.ActionUsed) _tileActionMessage.text = "(이미 사용함)";
+                    else if (!LastObject.ActionEnabled) _tileActionMessage.text = "(사용조건 불만족)";
+                    else if (!CheckResource(LastObject.ActionCost)) _tileActionMessage.text = "(액션 비용 부족)";
+                    else _tileActionMessage.text = "";
+
+                    if (!LastObject.ActionUsed && LastObject.ActionEnabled && CheckResource(LastObject.ActionCost))
+                    {
+                        _tileActionButton.interactable = true;
+                    }
+                    else
+                    {
+                        _tileActionButton.interactable = false;
+                    }
+                    return;
+                }
+                else
+                {
+                    CreateError("자원 부족함", true);
+                    return;
+                }
+
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
 
     public void CallCard(CCard card, bool alreadyPaiedMaterials)
     {
-        if (card.AvailableToUse())
+        int cardAvailable = card.AvailableToUse();
+        if (cardAvailable == 0)
         {
             if (card.CanPayMaterials && !alreadyPaiedMaterials)
             {
@@ -207,7 +255,21 @@ public partial class GameManager
         }
         else
         {
-            CreateError("자원 부족함", true);
+            switch (cardAvailable)
+            {
+                case 1:
+                    CreateError("자원 부족함", true);
+                    break;
+                case 2:
+                    CreateError("축제지표 불만족", true);
+                    break;
+                case 3:
+                    CreateError("기술 불만족", true);
+                    break;
+                default:
+                    CreateError("알 수 없는 이유", true);
+                    break;
+            }
         }
     }
     public void DeleteCard(CCard card)

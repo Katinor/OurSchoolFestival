@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 014_DrinkShop
+  m_EditorClassIdentifier: 
+  _cardId: 14
+  _cardName: "\uCD9C\uC7A5 \uC74C\uB8CC\uBD80\uC2A4"
+  _description: "<b>\uAC74\uC124</b> : \uCD9C\uC7A5 \uC74C\uB8CC\uBD80\uC2A4"
+  _flavorText: "\uBA39\uAE30\uB9CC \uD558\uBA74 \uBAA9\uC774 \uC544\uD504\uB2C8,
+    \uC74C\uB8CC\uC218\uB3C4 \uC794\uB729 \uB9C8\uC154\uBD05\uC2DC\uB2E4!"
+  _tooltip: "<size=150%>\uAC74\uC124</size>\n\uD2B9\uC815 \uD0C0\uC77C\uC744 \uAC74\uC124\uD569\uB2C8\uB2E4.\n<size=150%>\uCD9C\uC7A5
+    \uC74C\uB8CC\uBD80\uC2A4</size>\n\uC561\uC158 \uC0AC\uC6A9\uC2DC, \uAC04\uC774
+    \uC74C\uC2DD\uC810\uC758 \uAC2F\uC218\uB9CC\uD07C\n\uC790\uBCF8\uC744 \uC5BB\uB294
+    \uD0C0\uC77C\uC785\uB2C8\uB2E4."
+  _illust: {fileID: 2800000, guid: 0f6ac189505c7d94cb16f19c6a074c73, type: 3}
+  _costInfo:
+    moneyCurrent: 13
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _weight: 100
+  _tagList:
+  - tag: 0
+    level: 1
+  _actionList:
+  - action: 14
+    level: 7
+  _tileAdditionalDesc: 
+  _comments: 007
