@@ -137,7 +137,7 @@ public partial class GameManager
         }
         else
         {
-            CPrint.Error("에러 프리팹 잘못됨");
+            Logger.Error("에러 프리팹 잘못됨");
         }
     }
 

@@ -44,17 +44,17 @@ public class CameraManager : MonoBehaviour
         _cam = GetComponent<Camera>();
         if (_cam == null)
         {
-            CPrint.Error("카메라 없음!");
+            Logger.Error("카메라 없음!");
             enabled = false;
         }
         if (_gameManager == null)
         {
-            CPrint.Error("게임매니저 없음!");
+            Logger.Error("게임매니저 없음!");
             enabled = false;
         }
         if (_tilemap == null)
         {
-            CPrint.Error("타일맵 없음!");
+            Logger.Error("타일맵 없음!");
             enabled = false;
         }
     }
@@ -143,7 +143,7 @@ public class CameraManager : MonoBehaviour
             _focusCoroutine = null;
         }
         Vector3 worldCenterPos = _tilemap.GetCellCenterWorld(targetPosition);
-        CPrint.Log("포커스!");
+        Logger.Log("포커스!");
         _focusCoroutine = StartCoroutine(FocusingToCoroutine(worldCenterPos));
     }
 

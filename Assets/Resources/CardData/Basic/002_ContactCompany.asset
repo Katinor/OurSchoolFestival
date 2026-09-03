@@ -30,7 +30,7 @@ MonoBehaviour:
   _isSingle: 0
   _weight: 100
   _tagList:
-  - tag: 3
+  - tag: 4
     level: 3
   _actionList:
   - action: 3

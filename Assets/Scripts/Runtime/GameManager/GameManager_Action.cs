@@ -30,6 +30,11 @@ public partial class GameManager
             _nextDayButton.onClick.AddListener(
                 () => CallNextDay());
         }
+        if (_titleButton != null)
+        {
+            _titleButton.onClick.AddListener(
+                () => CallGotoTitle());
+        }
         if (_questionYes != null)
         {
             _questionYes.onClick.AddListener(
@@ -132,7 +137,7 @@ public partial class GameManager
                     _soundManager.PlaySE(EEffectSound.Success);
                     if (!LastObject.Upgrade(this))
                     {
-                        CPrint.Error("문제 발생함");
+                        Logger.Error("문제 발생함");
                     }
                     OnClickElse();
                     _gameState = EGameState.Idle;
@@ -162,7 +167,7 @@ public partial class GameManager
                     _soundManager.PlaySE(EEffectSound.Success);
                     if (!LastObject.OnAction(this))
                     {
-                        CPrint.Error("문제 발생함");
+                        Logger.Error("문제 발생함");
                     }
                     if (LastObject.ActionUsed) _tileActionMessage.text = "(이미 사용함)";
                     else if (!LastObject.ActionEnabled) _tileActionMessage.text = "(사용조건 불만족)";
@@ -274,7 +279,7 @@ public partial class GameManager
     }
     public void DeleteCard(CCard card)
     {
-        CPrint.Log($"삭제부르기 -> {card.IsDeletable}");
+        Logger.Log($"삭제부르기 -> {card.IsDeletable}");
         if (card.IsDeletable)
         {
             ShowQuestion
@@ -365,7 +370,7 @@ public partial class GameManager
     {
         if (_cardHand.AddCard())
         {
-            CPrint.Success("카드 추가됨");
+            Logger.Success("카드 추가됨");
         }
         else
         {
@@ -456,7 +461,7 @@ public partial class GameManager
     private void ActionCommon03(GameObject go, Vector3Int position)
     {
         _resources.PayCost(23, 0, 0, 0, 0, 0);
-        CPrint.V3("타일 지을 곳", position);
+        Logger.V3("타일 지을 곳", position);
         _tilemap.SetTile(position, _tileBases[GetIndex(ETileCatalog.Trees)]);
         _soundManager.PlaySE(EEffectSound.Success);
     }
@@ -487,7 +492,7 @@ public partial class GameManager
     private void ActionCommon04(GameObject go, Vector3Int position)
     {
         _resources.PayCost(18, 0, 0, 0, 0, 0);
-        CPrint.V3("타일 지을 곳", position);
+        Logger.V3("타일 지을 곳", position);
         _tilemap.SetTile(position, _tileBases[GetIndex(ETileCatalog.RoadBuilt)]);
         _soundManager.PlaySE(EEffectSound.Success);
     }
@@ -520,10 +525,24 @@ public partial class GameManager
     {
         _resources.PayCost(25, 0, 0, 0, 0, 0);
         _resources.moneyIncrease += 1;
-        CPrint.V3("타일 지을 곳", position);
+        Logger.V3("타일 지을 곳", position);
         _tilemap.SetTile(position, _tileBases[GetIndex(ETileCatalog.Foodbooth)]);
         findTileByPosition(position, out CTile tile);
         tile.TileInfo = "<sprite=1> 1";
         _soundManager.PlaySE(EEffectSound.Success);
+    }
+
+    private void CallGotoTitle()
+    {
+        ShowQuestion
+            (
+                "오늘 한 내용은 저장되지 않습니다.\n타이틀로 돌아갑니까?",
+                ActionGotoTitle
+            );
+    }
+
+    private void ActionGotoTitle(GameObject go, Vector3Int position)
+    {
+        _sceneManager.LoadScene(ESceneId.Title);
     }
 }

@@ -16,8 +16,10 @@ public static partial class CCardStatic
                 return CardPoint03;
             case 4:
                 return CardPoint04;
+            case 5:
+                return CardPoint05;
             default:
-                CPrint.Error($"해당하는 함수 찾을 수 없음 : {level}");
+                Logger.Error($"해당하는 함수 찾을 수 없음 : {level}");
                 return null;
         }
     }
@@ -38,5 +40,9 @@ public static partial class CCardStatic
     public static SScoreInfo CardPoint04(GameManager manager)
     {
         return new SScoreInfo(1, "가로수 대량수입");
+    }
+    public static SScoreInfo CardPoint05(GameManager manager)
+    {
+        return new SScoreInfo(1, "과학부 출동!");
     }
 }

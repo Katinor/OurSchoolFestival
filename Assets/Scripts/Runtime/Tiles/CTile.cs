@@ -194,7 +194,7 @@ public class CTile : MonoBehaviour
         // 비용에 문제가 있다면 Return하는 함수 필요
         if (_tilePosition != null)
         {
-            CPrint.V3($"타일 업그레이드", _tilePosition);
+            Logger.V3($"타일 업그레이드", _tilePosition);
             gameManager.PayCost(_upgradeCost);
             gameManager.BuildTile(_upgradeResult, _tilePosition);
             return true;
@@ -224,7 +224,7 @@ public class CTile : MonoBehaviour
         }
         if (_gameManager == null)
         {
-            CPrint.Error("게임매니저 못찾음");
+            Logger.Error("게임매니저 못찾음");
         }
         if (_builtTransform != null)
         {
@@ -235,28 +235,22 @@ public class CTile : MonoBehaviour
         {
             _building = ETileBuilding.End;
         }
-        if (_textObject)
-        {
-            if (string.IsNullOrEmpty(_tileInfo))
-            {
-                _textObject.SetActive(false);
-            }
-            else
-            {
-                _textObject.SetActive(true);
-            }
-        }
-
+        _tileText.text = _tileInfo;
+        _tileText.gameObject.SetActive(true);
+        _textObject.SetActive(false);
         _tilePosition = _gameManager.GameGrid.WorldToCell(transform.position);
-        if (!_isFirst) _particleCoroutine = StartCoroutine(OnParticle());
-        if (_radius > 0)
+        if (!_isFirst)
         {
-            List<CTile> tempList = _gameManager.FindNeighborTiles(_tilePosition, _radius);
-            for(int i = 0; i < tempList.Count; i++)
+            _particleCoroutine = StartCoroutine(OnParticle());
+            if (_radius > 0)
             {
-                tempList[i].ShowParticle(0, 0, 0.5f);
+                List<CTile> tempList = _gameManager.FindNeighborTiles(_tilePosition, _radius);
+                for (int i = 0; i < tempList.Count; i++)
+                {
+                    tempList[i].ShowParticle(0, 0, 0.5f);
+                }
             }
-        }
+        }  
     }
 
     protected virtual void Update()
@@ -322,7 +316,7 @@ public class CTile : MonoBehaviour
     public virtual void OnSelected()
     {
         Highlights(Color.cyan);
-        _textObject.gameObject.SetActive(true);
+        _textObject.SetActive(true);
     }
     public virtual void OnSelectedByOthers()
     {
@@ -331,7 +325,7 @@ public class CTile : MonoBehaviour
     public virtual void OnResetShown()
     {
         Highlights(_baseColor);
-        _tileText.gameObject.SetActive(false);
+        _textObject.SetActive(false);
         StopAllParticle();
     }
     public virtual void ShowAllParticle(int radius = 0, bool isFirstSkip = true)
@@ -353,7 +347,7 @@ public class CTile : MonoBehaviour
             }
             else
             {
-                CPrint.Error($"{this._name} : 파티클이 잘못됨");
+                Logger.Error($"{this._name} : 파티클이 잘못됨");
             }
         }
     }
@@ -394,7 +388,7 @@ public class CTile : MonoBehaviour
             }
             else
             {
-                CPrint.Error($"{this._name} : 파티클이 잘못됨");
+                Logger.Error($"{this._name} : 파티클이 잘못됨");
             }
         }
         yield return new WaitForSeconds(0.75f);
@@ -422,7 +416,7 @@ public class CTile : MonoBehaviour
         }
         else
         {
-            CPrint.Error($"{this._name} : 파티클이 잘못됨");
+            Logger.Error($"{this._name} : 파티클이 잘못됨");
             yield break;
         }
 

@@ -131,15 +131,16 @@ public class CResources
 
 public enum ETech
 {
-    Structure,  // 자재로 지불 가능
-    Success,    // 축제 완성도 필요카드 (양수는 이상, 음수는 이하)
-    Interest,   // 축제 관심도 필요카드 (양수는 이상, 음수는 이하)
-    Road,       // 축제 안정도 필요카드 (양수는 이상, 음수는 이하)
-    Science,    // 과학 필요카드
-    Music,      // 음악 필요카드
-    Art,        // 미술 필요카드
-    Exercise,   // 친목 필요카드
-    Cult,       // 사교 필요카드
+    None        = 0,  // 쓸 일은 없을 듯
+    Structure   = 1,  // 자재로 지불 가능
+    Success     = 2,  // 축제 완성도 필요카드 (양수는 이상, 음수는 이하)
+    Interest    = 3,  // 축제 관심도 필요카드 (양수는 이상, 음수는 이하)
+    Road        = 4,  // 축제 안정도 필요카드 (양수는 이상, 음수는 이하)
+    Science     = 5,  // 과학 필요카드
+    Music       = 6,  // 음악 필요카드
+    Art         = 7,  // 미술 필요카드
+    Exercise    = 8,  // 친목 필요카드
+    Cult        = 9,  // 사교 필요카드
 }
 
 public enum EAction

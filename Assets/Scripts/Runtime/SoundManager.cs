@@ -5,7 +5,12 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 public enum EBackgroundSound
 {
-    Pastel
+    Title,
+    Part1,
+    Part2,
+    Part3,
+    DailyEvent,
+    Result
 }
 
 public enum EEffectSound
@@ -45,17 +50,26 @@ public class SoundManager : MonoBehaviour
     Dictionary<EBackgroundSound, AudioSource> _bgmDict;
     Dictionary<EEffectSound, AudioSource> _seDict;
 
+    //private static SoundManager _instance;
+
+    //public static SoundManager Instance
+    //{
+    //    get { return _instance; }
+    //    protected set { _instance = value; }
+    //}
+
     private void Awake()
     {
+        //if (_instance != null && _instance != this)
+        //{
+        //    Destroy(this.gameObject);
+        //    return;
+        //}
+        //_instance = this;
         _bgmDict = new Dictionary<EBackgroundSound, AudioSource>();
         _seDict = new Dictionary<EEffectSound, AudioSource>();
         ResetDictionary();
     }
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         SetVolume();
@@ -73,7 +87,7 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-                CPrint.Error($"중복된 사운드 있음 - {bgm.soundType}");
+                Logger.Error($"중복된 사운드 있음 - {bgm.soundType}");
             }
         }
         foreach (var se in _effectSounds)
@@ -86,7 +100,7 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-                CPrint.Error($"중복된 사운드 있음 - {se.soundType}");
+                Logger.Error($"중복된 사운드 있음 - {se.soundType}");
             }
         }
     }
@@ -115,6 +129,17 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void SetVolumeForce(float bgm, float se)
+    {
+        _bgmSlider.value = bgm;
+        _seSlider.value = se;
+    }
+
+    public (float bgmLevel, float seLevel) GetVolume()
+    {
+        return (_bgmSlider.value, _seSlider.value);
+    }
+
     public void PlaySE(EEffectSound soundType)
     {
         if (_seDict.ContainsKey(soundType))
@@ -123,7 +148,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            CPrint.Error($"사운드 없음 - {soundType}");
+            Logger.Error($"사운드 없음 - {soundType}");
         }
     }
 
@@ -139,7 +164,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            CPrint.Error($"사운드 없음 - {soundType}");
+            Logger.Error($"사운드 없음 - {soundType}");
         }
     }
 }

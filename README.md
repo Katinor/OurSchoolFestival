@@ -21,6 +21,8 @@ Cardio workout - designed by spacepixel from Flaticon
 
 Evil - designed by AndrejsKirma from Flaticon
 
+쓰레기통 - designed by Magnific from Flaticon
+
 
 
 이 프로젝트는 국립공원공단의 폰트를 사용합니다.

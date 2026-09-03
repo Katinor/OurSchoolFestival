@@ -1,9 +1,10 @@
-﻿using TMPro;
-using UnityEngine;
-using UnityEngine.Tilemaps;
+﻿using System;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
-using System;
 
 public enum ETileCatalog
 {
@@ -104,6 +105,7 @@ public partial class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text _techText;
     [SerializeField] private Button _nextDayButton;
     [SerializeField] private TMP_Text _nextDayText;
+    [SerializeField] private Button _titleButton;
 
     [Header("지표메뉴")]
     [SerializeField] private TMP_Text _successText;
@@ -136,6 +138,10 @@ public partial class GameManager : MonoBehaviour
     #endregion
 
     #region Member Variable
+    private SceneFlowManager _sceneManager;
+    private int _version = 1;
+    private int _saveSlot = 0;
+    private int _randomSeed;
     private Tilemap _tilemap;
     private int _currentDay = 0;
     private Color _lastColor;
@@ -147,7 +153,9 @@ public partial class GameManager : MonoBehaviour
     private CResources _resources;
     private Dictionary<ETech, int> _currentTech;
     private List<Func<GameManager, SScoreInfo>> _cardScores;
+    private List<int> _cardScoresList;
     private SScoreSet _scoreSet;
+    private int _scoreTotal;
 
     private int _questionValue = 0;
     private Action<GameObject, Vector3Int> _questionAction = null;
@@ -199,25 +207,40 @@ public partial class GameManager : MonoBehaviour
 
     void Start()
     {
-        _currentDay = 1;
-        SetDayButton(_currentDay);
-        _resources = new CResources(1000, 20, 50, 1, 50, 1);
-        _hitMask |= LayerMask.GetMask("Tilemap");
         _tilemap = this.GetComponentInChildren<Tilemap>();
-        CPrint.Log($"{_hitMask.value} = (Tilemap)");
+        _sceneManager = SceneFlowManager.Instance;
+        _saveSlot = _sceneManager.TargetSaveData;
+        //_soundManager = SoundManager.Instance;
+        (float bgmLevel, float seLevel) = _sceneManager.KeepVolume;
+        _soundManager.SetVolumeForce(bgmLevel, seLevel);
+        _hitMask |= LayerMask.GetMask("Tilemap");
         _rightPanelTransform.anchoredPosition3D = new Vector3(_rightPanelXOff, 0, 0);
-        _upgradeButton.gameObject.SetActive(false);
         _currentTech = new Dictionary<ETech, int>();
         _cardScores = new List<Func<GameManager, SScoreInfo>>();
+        _cardScoresList = new List<int>();
         _scoreSet = new SScoreSet();
+        _resources = new CResources(1000, 20, 50, 1, 50, 1);
         SetListener();
         DrawMapTiles();
-        if (_soundManager == null)
+        if (_sceneManager.LoadSavedData)
         {
-            CPrint.Error("사운드 매니저가 없습니다.");
+            _saveSlot = _sceneManager.TargetSaveData;
+            LoadData();
         }
-        _soundManager.PlayBGM(EBackgroundSound.Pastel);
-        _cardHand.AddCards(6);
+        else
+        {
+            UnityEngine.Random.InitState(System.Guid.NewGuid().GetHashCode());
+            _randomSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+            UnityEngine.Random.InitState(_randomSeed);
+            _currentDay = 1;
+            SetDayButton(_currentDay);
+            _cardHand.AddCards(6);
+            SaveData();
+        }
+        if (_currentDay < 6) _soundManager.PlayBGM(EBackgroundSound.Part1);
+        else if (_currentDay < 11) _soundManager.PlayBGM(EBackgroundSound.Part2);
+        else _soundManager.PlayBGM(EBackgroundSound.Part3);
+        StartCoroutine(_sceneManager.LoadingScreenOff(2f, 1f));
     }
 
     void Update()
@@ -254,13 +277,13 @@ public partial class GameManager : MonoBehaviour
             //구현 후 사용
             if (!canUseMaterials)
             {
-                CPrint.Log("마테리얼을 못쓰는데 쌈");
+                Logger.Log("마테리얼을 못쓰는데 쌈");
                 canUse = false;
                 log += "자본, ";
             }
             else if ((_resources.moneyCurrent + 2 * (_resources.materialsCurrent) < moneyCurrent))
             {
-                CPrint.Log($"{_resources.moneyCurrent + 2 * (_resources.materialsCurrent)} < {moneyCurrent} : 자재써도 불가 ");
+                Logger.Log($"{_resources.moneyCurrent + 2 * (_resources.materialsCurrent)} < {moneyCurrent} : 자재써도 불가 ");
                 canUse = false;
                 log += "자본, ";
             }   
@@ -296,7 +319,7 @@ public partial class GameManager : MonoBehaviour
         }
         else
         {
-            CPrint.Warn($"자원 부족 : {log}");
+            Logger.Warn($"자원 부족 : {log}");
             return false;
         }
     }
@@ -338,9 +361,10 @@ public partial class GameManager : MonoBehaviour
         }
     }
 
-    public void AddScoreAction(Func<GameManager, SScoreInfo> scoreFunction)
+    public void AddScoreAction(int level)
     {
-        _cardScores.Add(scoreFunction);
+        _cardScores.Add(CCardStatic.FindPointFunction(level));
+        _cardScoresList.Add(level);
     }
 
     public void PayCost(SCost cost)

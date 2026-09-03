@@ -19,7 +19,7 @@ public class TileCoffeeShop : CTile
 
     public override bool OnAction(GameManager gameManager)
     {
-        CPrint.V3($"{_name} : 액션 발동", _tilePosition);
+        Logger.V3($"{_name} : 액션 발동", _tilePosition);
         gameManager.PayCost(_actionCost);
         List<CTile> tileList = gameManager.GetAllTiles();
         int count = 0;
