@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 public struct CardWeightData
@@ -34,7 +35,7 @@ public class CHand : MonoBehaviour
         AllCardsDict = new Dictionary<int, GameCard>();
         LoadAllCards();
         LoadStartDeck();
-        CPrint.Log($"카드 불러옴 : {AllCards.Count}, {AllCardsDict.Count}");
+        Logger.Log($"카드 불러옴 : {AllCards.Count}, {AllCardsDict.Count}");
     }
 
     void Start()
@@ -79,11 +80,49 @@ public class CHand : MonoBehaviour
         return handCards;
     }
 
+    public List<int> GetAllHandByInt()
+    {
+        List<GameObject> handObjects = new List<GameObject>();
+        List<int> handCards = new List<int>();
+        foreach (Transform child in transform)
+        {
+            handObjects.Add(child.gameObject);
+        }
+        foreach (GameObject handObject in handObjects)
+        {
+            CCard cardComponent = handObject.GetComponent<CCard>();
+            if (cardComponent != null)
+            {
+                handCards.Add(cardComponent.CardId);
+            }
+        }
+        return handCards;
+    }
+
+    public List<CCard> GetAllHandByObject()
+    {
+        List<GameObject> handObjects = new List<GameObject>();
+        List<CCard> handCards = new List<CCard>();
+        foreach (Transform child in transform)
+        {
+            handObjects.Add(child.gameObject);
+        }
+        foreach (GameObject handObject in handObjects)
+        {
+            CCard cardComponent = handObject.GetComponent<CCard>();
+            if (cardComponent != null)
+            {
+                handCards.Add(cardComponent);
+            }
+        }
+        return handCards;
+    }
+
     private void LoadAllCards()
     {
-        GameCard[] _gameCards = Resources.LoadAll<GameCard>("CardData");
-        AllCards = new List<GameCard>(_gameCards);
-        foreach (GameCard card in _gameCards)
+        GameCard[] gameCards = Resources.LoadAll<GameCard>("CardData");
+        AllCards = new List<GameCard>(gameCards);
+        foreach (GameCard card in gameCards)
         {
             if (!AllCardsDict.ContainsKey(card.CardId))
             {
@@ -91,9 +130,19 @@ public class CHand : MonoBehaviour
             }
             else
             {
-                CPrint.Error("이미 존재하는 카드");
+                Logger.Error("이미 존재하는 카드");
             }
         }
+    }
+
+    public List<int> GetCardDeckByInt()
+    {
+        List<int> deckCards = new List<int>();
+        foreach (CardWeightData card in _cardDeck)
+        {
+            deckCards.Add(card.card.CardId);
+        }
+        return deckCards;
     }
 
     private void LoadStartDeck()
@@ -107,7 +156,7 @@ public class CHand : MonoBehaviour
         CalculateTotalWeight();
     }
 
-    private void CalculateTotalWeight()
+    public void CalculateTotalWeight()
     {
         _totalWeight = 0;
         foreach (CardWeightData data in _cardDeck)
@@ -115,17 +164,47 @@ public class CHand : MonoBehaviour
             _totalWeight += data.weight;
         }
     }
+    
+    public void LoadSavedDeck(List<int> cardId)
+    {
+        _cardDeck = new List<CardWeightData>();
+        for(int i = 0; i < cardId.Count; i++)
+        {
+            GameCard card = AllCardsDict[cardId[i]];
+            _cardDeck.Add(new CardWeightData { card = card, weight = card.Weight });
+        }
+        CalculateTotalWeight();
+    }
+
+    public void ClearHand()
+    {
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            child.transform.SetParent(null);
+            Destroy(child);
+        }
+    }
+
+    public void LoadSavedHand(List<int> cardId)
+    {
+        ClearHand();
+        for (int i = 0; i < cardId.Count; i++)
+        {
+            AddCard(cardId[i], true);
+        }
+    }
 
     public bool AddCard()
     {
         if (GetHandSize() >= 10)
         {
-            CPrint.Error("패 가득참");
+            Logger.Error("패 가득참");
             return false;
         }
         if (_cardDeck.Count == 0 || _cardDeck == null)
         {
-            CPrint.Error("덱 없음");
+            Logger.Error("덱 없음");
             return false;
         }
         int weightedIndex = UnityEngine.Random.Range(0, _totalWeight);
@@ -142,7 +221,7 @@ public class CHand : MonoBehaviour
         }
         if (selectedCard == null)
         {
-            CPrint.Error("카드 선택 실패");
+            Logger.Error("카드 선택 실패");
             return false;
         }
 
@@ -150,7 +229,7 @@ public class CHand : MonoBehaviour
         {
             _cardDeck.RemoveAll(c => c.card.CardId == selectedCard.CardId);
             CalculateTotalWeight();
-            CPrint.Log($"덱 삭제 - {selectedCard.CardId}:{selectedCard.CardName} (남은 카드 : {_cardDeck.Count}");
+            Logger.Log($"덱 삭제 - {selectedCard.CardId}:{selectedCard.CardName} (남은 카드 : {_cardDeck.Count}");
         }
         GameObject go = Instantiate(_cardPrefab, _layout.transform);
         CCard card = go.GetComponent<CCard>();
@@ -162,12 +241,12 @@ public class CHand : MonoBehaviour
     {
         if (GetHandSize() >= 10)
         {
-            CPrint.Error("패 가득참");
+            Logger.Error("패 가득참");
             return false;
         }
         if (!debug && (_cardDeck.Count == 0 || _cardDeck == null))
         {
-            CPrint.Error("덱 없음");
+            Logger.Error("덱 없음");
             return false;
         }
         if (!debug)
@@ -175,7 +254,7 @@ public class CHand : MonoBehaviour
             int temp = _cardDeck.FindIndex(c => c.card.CardId == cardId);
             if (temp == -1)
             {
-                CPrint.Error("덱에 없는 카드");
+                Logger.Error("덱에 없는 카드");
                 return false;
             }
             if (_cardDeck[temp].card.IsSingle)

@@ -15,7 +15,7 @@ public class OnMouseTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (_tooltip == null)
         {
-            CPrint.Error("툴팁 할당이 안되어있습니다.");
+            Logger.Error("툴팁 할당이 안되어있습니다.");
             enabled = false;
             return;
         }

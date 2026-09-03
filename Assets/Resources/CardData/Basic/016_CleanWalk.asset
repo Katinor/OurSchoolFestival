@@ -35,6 +35,8 @@ MonoBehaviour:
   _actionList:
   - action: 2
     level: 2
+  - action: 7
+    level: 1
   - action: 14
     level: -2
   _tileAdditionalDesc: 

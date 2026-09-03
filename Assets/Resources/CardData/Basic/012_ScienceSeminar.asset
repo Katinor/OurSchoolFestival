@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardId: 12
   _cardName: "\uACFC\uD559 \uC138\uBBF8\uB098"
-  _description: "<sprite=9>+3\n<b>\uAC74\uC124</b> : \uBD80\uC2A4"
+  _description: "<sprite=9>+3 <sprite=10>+1\n<b>\uAC74\uC124</b> : \uBD80\uC2A4"
   _flavorText: "\uC2DC\uC791\uC744 \uC138\uBBF8\uB098\uB85C \uD55C\uB2E4\uBA74, \uD559\uAD50
     \uCE21\uC5D0\uC11C \uC88B\uC544\uD574\uC904\uAC81\uB2C8\uB2E4."
   _tooltip: "<size=150%><sprite=9>\uCD95\uC81C \uC810\uC218</size>\n\uCD95\uC81C
@@ -35,14 +35,16 @@ MonoBehaviour:
   _isSingle: 1
   _weight: 100
   _tagList:
-  - tag: 1
+  - tag: 2
     level: -6
-  - tag: 4
+  - tag: 5
     level: 1
   _actionList:
   - action: 16
     level: 3
   - action: 9
     level: 1
+  - action: 14
+    level: 4
   _tileAdditionalDesc: 
   _comments: 005

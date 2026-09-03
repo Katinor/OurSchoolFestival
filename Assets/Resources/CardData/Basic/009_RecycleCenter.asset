@@ -31,7 +31,7 @@ MonoBehaviour:
   _isSingle: 1
   _weight: 100
   _tagList:
-  - tag: 0
+  - tag: 1
     level: 1
   _actionList:
   - action: 1

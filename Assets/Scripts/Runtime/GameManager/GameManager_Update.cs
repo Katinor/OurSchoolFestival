@@ -10,6 +10,8 @@ public partial class GameManager
         CatchCommonKeyaction();
         if (Input.GetMouseButtonDown(1))
         {
+            _questionAction = null;
+            _questionCard = null;
             OnClickElse();
             _gameState = EGameState.Idle;
         }
@@ -18,7 +20,7 @@ public partial class GameManager
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             if (EventSystem.current.IsPointerOverGameObject())
             {
-                CPrint.Log("UI 클릭함");
+                Logger.Log("UI 클릭함");
                 return;
             }
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _hitMask))
@@ -26,7 +28,7 @@ public partial class GameManager
                 Vector3 hitPoint = hit.point;
                 if (findObjectByTile(hitPoint, out Vector3Int posInCell, out GameObject go))
                 {
-                    CPrint.V3($"클릭대상 - {go.name}", posInCell);
+                    Logger.V3($"클릭대상 - {go.name}", posInCell);
                     OnClickTile(go, posInCell);
                     _gameState = EGameState.TileInspect;
                 }
@@ -44,8 +46,7 @@ public partial class GameManager
         if (Input.GetMouseButtonDown(1))
         {
             CreateError("취소함", true);
-            _gameState = EGameState.Idle;
-            HideMaterialChecker();
+            _materialsNo.onClick.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space))
         {
@@ -92,6 +93,8 @@ public partial class GameManager
         {
             CreateError("취소함", true);
             ChangeBottomText("");
+            _questionAction = null;
+            _questionCard = null;
             OnClickElse();
             _gameState = EGameState.Idle;
             return;
@@ -100,6 +103,8 @@ public partial class GameManager
         {
             CreateError("취소함", true);
             ChangeBottomText("");
+            _questionAction = null;
+            _questionCard = null;
             OnClickElse();
             _gameState = EGameState.Idle;
             return;
@@ -113,13 +118,12 @@ public partial class GameManager
                 if (_lastSelectedPosition != posInCell) OnPointTile(go, posInCell);
                 if (Input.GetMouseButtonDown(0))
                 {
-                    CPrint.V3($"클릭대상 - {go.name}", posInCell);
+                    Logger.V3($"클릭대상 - {go.name}", posInCell);
                     if (go.TryGetComponent<CTile>(out CTile tempClass))
                     {
                         if (_questionMask == ETileState.None && _questionMaskReverse == ETileState.None)
                         {
                             ChangeBottomText("");
-                            _camera.StartFocusing(posInCell);
                             OpenQuestionAfterTile(posInCell);
                             return;
                         }
@@ -130,7 +134,6 @@ public partial class GameManager
                                 if ((tempClass.TileState & _questionMaskReverse) == ETileState.None)
                                 {
                                     ChangeBottomText("");
-                                    _camera.StartFocusing(posInCell);
                                     OpenQuestionAfterTile(posInCell);
                                     return;
                                 }
@@ -140,7 +143,6 @@ public partial class GameManager
                                 if ((tempClass.TileState & _questionMask) == _questionMask)
                                 {
                                     ChangeBottomText("");
-                                    _camera.StartFocusing(posInCell);
                                     OpenQuestionAfterTile(posInCell);
                                     return;
                                 }
@@ -152,7 +154,6 @@ public partial class GameManager
                                     if ((tempClass.TileState & _questionMask) == _questionMask)
                                     {
                                         ChangeBottomText("");
-                                        _camera.StartFocusing(posInCell);
                                         OpenQuestionAfterTile(posInCell);
                                         return;
                                     }
@@ -160,6 +161,8 @@ public partial class GameManager
                             }
                         }
                         CreateError("유효하지 않은 타일입니다.", true);
+                        _questionAction = null;
+                        _questionCard = null;
                         OnClickElse();
                         ChangeBottomText("");
                         _gameState = EGameState.Idle;
@@ -182,8 +185,10 @@ public partial class GameManager
         OnClickElse();
         if (Input.GetMouseButtonDown(1))
         {
+            _camera.StopFocusing(true);
             CreateError("취소함", true);
             HideQuestion();
+            OnClickElse();
         }
         if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space))
         {
@@ -204,9 +209,11 @@ public partial class GameManager
         }
         _camera.StopFocusing(true);
         HideQuestion();
+        OnClickElse();
     }
     private void OpenQuestionAfterTile(Vector3Int posInCell)
     {
+        _camera.StartFocusing(posInCell);
         if (_questionIsCard)
         {
             ShowQuestion(

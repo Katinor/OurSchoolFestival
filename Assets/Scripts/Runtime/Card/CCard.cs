@@ -33,7 +33,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private OnMouseTooltipCard _onMouseTooltipCard;
     private List<Func<GameManager, int, bool>> _actionFuncList;
     private Func<GameManager, ETileCatalog, Vector3Int, bool> _actionTileFunc;
-    private Func<GameManager, SScoreInfo> _actionScoreFunction;
+    private int _actionScoreFunction;
     private ETileCatalog _actionBuilding;
     private List<int> _actionLevelList;
     private bool _hasTileAction = false;
@@ -69,6 +69,11 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         get { return _gameCard; }
         protected set { _gameCard = value; }
+    }
+
+    public int CardId
+    {
+        get { return _gameCard.CardId; }
     }
 
     public int Cost
@@ -282,7 +287,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     break;
                 case EAction.ScoreFunction:
                     _actionFuncList.Add(CCardStatic.CardEmpty);
-                    _actionScoreFunction = CCardStatic.FindPointFunction(targetCard.ActionList[i].level);
+                    _actionScoreFunction = targetCard.ActionList[i].level;
                     _hasPointFunction = true;
                     break;
             }
@@ -361,11 +366,11 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         if (isDone)
         {
-            CPrint.Success($"{_cardName} 발동 성공!");
+            Logger.Success($"{_cardName} 발동 성공!");
         }
         else
         {
-            CPrint.Error($"{_cardName} 발동 실패");
+            Logger.Error($"{_cardName} 발동 실패");
         }
         transform.SetParent(null);
         Destroy(gameObject);
@@ -383,6 +388,10 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         for(int i = 0; i < _techData.Count; i++)
         {
             TechData tempData = _techData[i];
+            if (tempData.tag == ETech.None)
+            {
+                continue;
+            }
             if (tempData.tag == ETech.Structure)
             {
                 continue;
@@ -422,9 +431,10 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             }
             else if (_gameManager.CurrentTech.ContainsKey(tempData.tag))
             {
+
                 if (_gameManager.CurrentTech[tempData.tag] < tempData.level) return 3;
             }
-            else return 4;
+            else return 3;
         }
         return 0;
     }

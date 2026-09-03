@@ -1,8 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 public partial class GameManager
 {
@@ -10,18 +8,16 @@ public partial class GameManager
     {
         _gameState = EGameState.NextDay;
         StartCoroutine(CallNextDayCoroutine());
-
     }
     private IEnumerator CallNextDayCoroutine()
     {
+        yield return _DayManager.StartCoroutine(_DayManager.LoadingScreenOn());
         yield return _DayManager.StartDayResult(this, _soundManager);
         List<CTile> tileList = GetAllTiles();
         for(int i = 0; i < tileList.Count; i++)
         {
             tileList[i].ActionUsed = false;
         }
-        _currentDay++;
-        SetDayButton(_currentDay);
         _resources.moneyCurrent += _resources.moneyIncrease + GetFestivalScore();
         _resources.materialsCurrent += _resources.materialsIncrease;
         _resources.menpowerRemain += _resources.menpowerCurrent;
@@ -32,7 +28,16 @@ public partial class GameManager
         }
         _menpowerRamainsSlider.value = _resources.menpowerRemain / 8f;
         _resources.menpowerCurrent = _resources.menpowerIncrease;
+
+        _randomSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        UnityEngine.Random.InitState(_randomSeed);
         _cardHand.AddCards(4);
+        _currentDay++;
+        SetDayButton(_currentDay);
+        if(_currentDay == 6) _soundManager.PlayBGM(EBackgroundSound.Part2);
+        if(_currentDay == 11) _soundManager.PlayBGM(EBackgroundSound.Part3);
+        SaveData();
+        yield return _DayManager.StartCoroutine(_DayManager.LoadingScreenOff());
         _gameState = EGameState.Idle;
     }
 
@@ -51,6 +56,7 @@ public partial class GameManager
         _scoreSet.tileScore = CalcTileScore();
         _scoreSet.cardScore = CalcCardScore();
         _scoreSet.achievementScore = CalcAchievementScore();
+        _scoreTotal = GetFestivalScore() + _scoreSet.tileScore.Score + _scoreSet.cardScore.Score + _scoreSet.achievementScore.Score;
     }
 
     private SScoreInfo CalcTileScore()
@@ -145,6 +151,63 @@ public partial class GameManager
 
     public int GetTotalScore()
     {
-        return GetFestivalScore() + _scoreSet.tileScore.Score + _scoreSet.cardScore.Score + _scoreSet.achievementScore.Score;
+        return _scoreTotal;
+    }
+
+    private void SaveData()
+    {
+        (List<int> tileIdList, List<int> tilePointList) = GetAllTilesByInt();
+        SaveManager.SaveData(_saveSlot, new CSaveData
+        (
+            _version,
+            _randomSeed,
+            _currentDay,
+            _resources,
+            _currentTech,
+            _cardScoresList,
+            _cardHand.GetAllHandByInt(),
+            _cardHand.GetCardDeckByInt(),
+            tileIdList,
+            tilePointList,
+            _scoreTotal
+            ));
+    }
+
+    private void LoadData()
+    {
+        StartCoroutine(LoadDataCoroutine());
+    }
+
+    private IEnumerator LoadDataCoroutine()
+    {
+        yield return _DayManager.StartCoroutine(_DayManager.LoadingScreenOn(0.5f));
+        LoadDataCore();
+        yield return _DayManager.StartCoroutine(_DayManager.LoadingScreenOff(0.5f));
+    }
+
+    private void LoadDataCore()
+    {
+        CSaveData savedData = SaveManager.LoadData(_saveSlot);
+        if (_version != savedData.Version) Logger.Error("버전이 틀립니다.");
+        _randomSeed = savedData.RandomSeed;
+        _currentDay = savedData.CurrentDay;
+        SetDayButton(_currentDay);
+        _resources = savedData.Resources;
+        _currentTech = savedData.CurrentTech;
+        ReloadTech();
+        _cardScoresList = new List<int>(savedData.CardScoresList);
+        _cardScores = new List<Func<GameManager, SScoreInfo>>();
+        if (_cardScoresList != null)
+        {
+            for (int i = 0; i < _cardScoresList.Count; i++)
+            {
+                _cardScores.Add(CCardStatic.FindPointFunction(_cardScoresList[i]));
+            }
+        }
+        Logger.Log($"카드점수 - {savedData.CardScoresList.Count} => {_cardScoresList.Count} => {_cardScores.Count}");
+        _cardHand.LoadSavedHand(savedData.CardsOnHand);
+        _cardHand.LoadSavedDeck(savedData.CardsOnDeck);
+        LoadTilesByInt(savedData.TileInt, savedData.TilePoint);
+        UnityEngine.Random.InitState(_randomSeed);
     }
 }

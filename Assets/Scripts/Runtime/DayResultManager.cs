@@ -35,12 +35,12 @@ public class DayResultManager : MonoBehaviour
     {
         if (_fadeGroup == null)
         {
-            CPrint.Error("페이드 그룹이 비어있음");
+            Logger.Error("페이드 그룹이 비어있음");
             enabled = false;
         }
         if (_nextDay == null)
         {
-            CPrint.Error("다음 날 버튼이 비어있음");
+            Logger.Error("다음 날 버튼이 비어있음");
             enabled = false;
         }
         else
@@ -51,22 +51,31 @@ public class DayResultManager : MonoBehaviour
             });
         }
         _fadeGroup.alpha = 0f;
+        TurnOffAll();
+    }
+    public IEnumerator LoadingScreenOn(float ratio = 1f)
+    {
+        _loadingText.gameObject.SetActive(true);
+        yield return StartCoroutine(Co_FadeTo(1f, _defaultFadeDuration * ratio, true));
     }
 
+    public IEnumerator LoadingScreenOff(float ratio = 1f)
+    {
+        _loadingText.gameObject.SetActive(false);
+        yield return StartCoroutine(Co_FadeTo(0f, _defaultFadeDuration * ratio, true));
+    }
     public IEnumerator StartDayResult(GameManager gameManager, SoundManager soundManager)
     {
-        SScoreInfo tempInfo; ;
+        SScoreInfo tempInfo;
         _isPressed = false;
         TurnOffAll();
-        _loadingText.gameObject.SetActive(true);
-        yield return StartCoroutine(Co_FadeTo(1f, _defaultFadeDuration, true));
         gameManager.CalculateScore();
         _loadingText.gameObject.SetActive(false);
         yield return new WaitForSeconds(_waitTime);
         soundManager.PlaySE(EEffectSound.QuestionAppear);
         _resultTitle.text = $"{gameManager.CurrentDay}일차 결과";
         _resultTitle.gameObject.SetActive(true);
-        yield return new WaitForSeconds(_waitTime);
+        yield return new WaitForSeconds(_waitTime * 2);
         soundManager.PlaySE(EEffectSound.QuestionAppear);
         _titleFestival.gameObject.SetActive(true);
         yield return new WaitForSeconds(_waitTime);
@@ -105,23 +114,21 @@ public class DayResultManager : MonoBehaviour
         _descAchievement.text = tempInfo.Description;
         _scoreAchievement.gameObject.SetActive(true);
         _descAchievement.gameObject.SetActive(true);
-        yield return new WaitForSeconds(_waitTime);
+        yield return new WaitForSeconds(_waitTime * 2);
         soundManager.PlaySE(EEffectSound.Success);
         _totalScore.text = "총점 : " + gameManager.GetTotalScore().ToString();
         _totalScore.gameObject.SetActive(true);
-        yield return new WaitForSeconds(_waitTime);
+        yield return new WaitForSeconds(_waitTime * 2);
         soundManager.PlaySE(EEffectSound.Success);
         _nextDayText.text = $"다음날\n<size=75%>{gameManager.CurrentDay + 1}일차로</size>";
         _nextDay.gameObject.SetActive(true);
         _fadeGroup.interactable = true;
         yield return new WaitUntil(() => _isPressed);
-        yield return StartCoroutine(Co_FadeTo(0f, _defaultFadeDuration, true));
         TurnOffAll();
     }
 
     private void TurnOffAll()
     {
-        _loadingText.gameObject.SetActive(false);
         _resultTitle.gameObject.SetActive(false);
         _titleFestival.gameObject.SetActive(false);
         _scoreFestival.gameObject.SetActive(false);
@@ -176,7 +183,7 @@ public class DayResultManager : MonoBehaviour
 
         while (t < duration)
         {
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
             float lerp = Mathf.Clamp01(t / duration);
             _fadeGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, lerp);
             yield return null;
