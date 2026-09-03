@@ -1,12 +1,13 @@
 # OurSchoolFestival
 ![게임로고](./gameLogo.png)
+
 우리들의 학교축제 대작전!
 
 # Copyright Notice
 ### 이 프로젝트의 모든 일러스트는 ChatGPT의 결과물입니다.
 이 프로젝트는 단기간에 완성하는 프로젝트로, 여러 이유 때문에 ChatGPT로 일러스트를 생성해 개발하였습니다.
 ### 이 프로젝트는 Flaticon의 아이콘들을 사용합니다.
-Usd-circle, Box, User, Road, Fire flame curved, Tachometer-alt-fastest = designed by UIcons from Flaticon
+Usd-circle, Box, User, Road, Fire flame curved, Tachometer-alt-fastest - designed by UIcons from Flaticon
 
 실험 - designed by Pixel perfect from Flaticon
 
