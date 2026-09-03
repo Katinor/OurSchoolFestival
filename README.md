@@ -1,11 +1,12 @@
 # OurSchoolFestival
+![게임로고](./gameLogo.png)
+우리들의 학교축제 대작전!
 
 # Copyright Notice
-이 프로젝트는 Flaticon의 아이콘들을 사용합니다.
-
-Usd-circle, Box, User, Road, Fire flame curved, Tachometer-alt-fastest
-
- ㄴ designed by UIcons from Flaticon
+### 이 프로젝트의 모든 일러스트는 ChatGPT의 결과물입니다.
+이 프로젝트는 단기간에 완성하는 프로젝트로, 여러 이유 때문에 ChatGPT로 일러스트를 생성해 개발하였습니다.
+### 이 프로젝트는 Flaticon의 아이콘들을 사용합니다.
+Usd-circle, Box, User, Road, Fire flame curved, Tachometer-alt-fastest = designed by UIcons from Flaticon
 
 실험 - designed by Pixel perfect from Flaticon
 
@@ -23,14 +24,8 @@ Evil - designed by AndrejsKirma from Flaticon
 
 쓰레기통 - designed by Magnific from Flaticon
 
-
-
-이 프로젝트는 국립공원공단의 폰트를 사용합니다.
-
+### 이 프로젝트는 국립공원공단의 폰트를 사용합니다.
 국립공원 꼬미
 
-
-
-이 프로젝트는 유토이미지의 폰트를 사용합니다.
-
+### 이 프로젝트는 유토이미지의 폰트를 사용합니다.
 유토이미지 꼬마나비
