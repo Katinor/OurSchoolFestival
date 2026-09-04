@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering;
 
 public partial class GameManager
 {
@@ -35,15 +34,20 @@ public partial class GameManager
             _titleButton.onClick.AddListener(
                 () => CallGotoTitle());
         }
+        if (_undoButton != null)
+        {
+            _undoButton.onClick.AddListener(
+                () => PopUndo());
+        }
         if (_questionYes != null)
         {
             _questionYes.onClick.AddListener(
-                () => CallAccept());
+                () => _questionValue = 1);
         }
         if (_questionNo != null)
         {
             _questionNo.onClick.AddListener(
-                () => CallDecline());
+                () => _questionValue = -1);
         }
         if (_leftButton1 != null)
         {
@@ -95,7 +99,6 @@ public partial class GameManager
             _materialsDown.onClick.AddListener(
                 () => CallMatDecrease());
         }
-
     }
 
     private void CatchCommonKeyaction()
@@ -124,10 +127,22 @@ public partial class GameManager
         {
             _leftButtonToggle.onClick.Invoke();
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            CallUndoByKey();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            _titleButton.onClick.Invoke();
+        }
     }
 
     private void CallUpgrade()
     {
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay)
+        {
+            return;
+        }
         if (findTileByPosition(_lastSelectedPosition, out CTile LastObject))
         {
             if ((LastObject.TileState & ETileState.Upgradable) != ETileState.None)
@@ -135,6 +150,7 @@ public partial class GameManager
                 if (CheckResource(LastObject.UpgradeCost))
                 {
                     _soundManager.PlaySE(EEffectSound.Success);
+                    PushUndo($"업그레이드 : {LastObject.Name}");
                     if (!LastObject.Upgrade(this))
                     {
                         Logger.Error("문제 발생함");
@@ -158,6 +174,10 @@ public partial class GameManager
     }
     private void CallTileAction()
     {
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay)
+        {
+            return;
+        }
         if (findTileByPosition(_lastSelectedPosition, out CTile LastObject))
         {
             if ((LastObject.TileState & ETileState.Action) != ETileState.None)
@@ -165,6 +185,7 @@ public partial class GameManager
                 if (CheckResource(LastObject.ActionCost))
                 {
                     _soundManager.PlaySE(EEffectSound.Success);
+                    PushUndo($"액션사용 : {LastObject.Name}");
                     if (!LastObject.OnAction(this))
                     {
                         Logger.Error("문제 발생함");
@@ -200,6 +221,10 @@ public partial class GameManager
 
     public void CallCard(CCard card, bool alreadyPaiedMaterials)
     {
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay)
+        {
+            return;
+        }
         int cardAvailable = card.AvailableToUse();
         if (cardAvailable == 0)
         {
@@ -279,6 +304,10 @@ public partial class GameManager
     }
     public void DeleteCard(CCard card)
     {
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay)
+        {
+            return;
+        }
         Logger.Log($"삭제부르기 -> {card.IsDeletable}");
         if (card.IsDeletable)
         {
@@ -297,12 +326,14 @@ public partial class GameManager
 
     private void ActionCardUse(CCard card, Vector3Int position)
     {
+        PushUndo($"카드사용 : {card.CardName}");
         card.UseCard(position, _usingMatCount, _questionIsTileSkiped);
         _soundManager.PlaySE(EEffectSound.Success);
     }
 
     private void ActionCardDelete(CCard card, Vector3Int position)
     {
+        PushUndo($"카드삭제 : {card.CardName}");
         card.DeleteCard();
         _soundManager.PlaySE(EEffectSound.Success);
     }
@@ -326,15 +357,6 @@ public partial class GameManager
         _soundUIOn = !_soundUIOn;
     }
 
-    private void CallAccept()
-    {
-        _questionValue = 1;
-    }
-
-    private void CallDecline()
-    {
-        _questionValue = -1;
-    }
     private void CallMatAccept()
     {
         _questionValue = 1;
@@ -368,12 +390,19 @@ public partial class GameManager
 
     private void CallCardAdd()
     {
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay)
+        {
+            return;
+        }
+        PushUndo($"카드 추가 (디버그)");
         if (_cardHand.AddCard())
         {
+            _cardHand.CardPositionReset();
             Logger.Success("카드 추가됨");
         }
         else
         {
+            _undoDataList.Pop();
             CreateError("손패 꽉 참");
         }
     }
@@ -402,6 +431,7 @@ public partial class GameManager
     }
     private void ActionCommon01(GameObject go, Vector3Int position)
     {
+        PushUndo($"일반프로젝트 : 학생회 추가모집");
         _resources.PayCost(11, 0, 0, 0, 0, 0);
         _resources.menpowerIncrease += 1;
         _soundManager.PlaySE(EEffectSound.Success);
@@ -430,6 +460,7 @@ public partial class GameManager
     }
     private void ActionCommon02(GameObject go, Vector3Int position)
     {
+        PushUndo($"일반프로젝트 : 대규모 광고");
         _resources.PayCost(14, 0, 0, 0, 0, 0);
         _resources.festivalInterest += 1;
         _soundManager.PlaySE(EEffectSound.Success);
@@ -460,6 +491,7 @@ public partial class GameManager
     }
     private void ActionCommon03(GameObject go, Vector3Int position)
     {
+        PushUndo($"일반프로젝트 : 조경 사업");
         _resources.PayCost(23, 0, 0, 0, 0, 0);
         Logger.V3("타일 지을 곳", position);
         _tilemap.SetTile(position, _tileBases[GetIndex(ETileCatalog.Trees)]);
@@ -491,6 +523,7 @@ public partial class GameManager
     }
     private void ActionCommon04(GameObject go, Vector3Int position)
     {
+        PushUndo($"일반프로젝트 : 도로 건설");
         _resources.PayCost(18, 0, 0, 0, 0, 0);
         Logger.V3("타일 지을 곳", position);
         _tilemap.SetTile(position, _tileBases[GetIndex(ETileCatalog.RoadBuilt)]);
@@ -523,6 +556,7 @@ public partial class GameManager
     }
     private void ActionCommon05(GameObject go, Vector3Int position)
     {
+        PushUndo($"일반프로젝트 : 음식점 건설");
         _resources.PayCost(25, 0, 0, 0, 0, 0);
         _resources.moneyIncrease += 1;
         Logger.V3("타일 지을 곳", position);
@@ -534,14 +568,40 @@ public partial class GameManager
 
     private void CallGotoTitle()
     {
+        if (_gameState == EGameState.NoInput)
+        {
+            return;
+        }
         ShowQuestion
             (
                 "오늘 한 내용은 저장되지 않습니다.\n타이틀로 돌아갑니까?",
-                ActionGotoTitle
+                (GameObject go, Vector3Int position) =>
+                {
+                    ActionGotoTitle();
+                }
             );
     }
+    private void CallUndoByKey()
+    {
+        if (_gameState == EGameState.Idle || _gameState == EGameState.TileInspect)
+        {
+            if (_undoDataList.Count == 0)
+            {
+                CreateError("되돌리기 정보 없음", true);
+            }
+            ShowQuestion
+                (
+                    $"[{_undoDataList.Peek().Name}]을 되돌립니다.\n진행합니까?",
+                    (GameObject go, Vector3Int position) =>
+                    {
+                        PopUndo();
+                    }
+                );
+        }
+            
+    }
 
-    private void ActionGotoTitle(GameObject go, Vector3Int position)
+    private void ActionGotoTitle()
     {
         _sceneManager.LoadScene(ESceneId.Title);
     }
@@ -553,6 +613,6 @@ public partial class GameManager
             _currentDay = 16;
             SaveData();
         }
-        ActionGotoTitle(null, Vector3Int.zero);
+        ActionGotoTitle();
     }
 }

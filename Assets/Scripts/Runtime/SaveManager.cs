@@ -166,7 +166,6 @@ public class CSaveData
         this.Resources = resources;
         this.CurrentTech = currentTech;
         _cardScoresList = new List<int>(cardScoresList);
-        Logger.Log($"카드점수 저장 - {_cardScoresList.Count}");
         _cardsOnHand = new List<int>(cardsOnHand);
         _cardsOnDeck = new List<int>(cardsOnDeck);
         _tileInt = new List<int>(tileInt);

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 022_orderMaterials
+  m_EditorClassIdentifier: 
+  _cardId: 22
+  _cardName: "\uC790\uC7AC \uC8FC\uBB38"
+  _description: <sprite=3>+1
+  _flavorText: "\uC790\uC7AC\uB4E4\uC744 \uC8FC\uBB38\uD574 \uBC1B\uC544\uBD05\uC2DC\uB2E4."
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: 4381f89e22af08c4b99aada7d358816e, type: 3}
+  _costInfo:
+    moneyCurrent: 9
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _weight: 100
+  _tagList: []
+  _actionList:
+  - action: 3
+    level: 1
+  _tileAdditionalDesc: 
+  _comments: 042

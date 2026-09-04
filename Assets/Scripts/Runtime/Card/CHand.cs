@@ -1,30 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-public struct CardWeightData
-{
-    public GameCard card;
-    public int weight;
-}
+
 public class CHand : MonoBehaviour
 {
     #region Inspector
-    [SerializeField] private HorizontalLayoutGroup _layout;
     [SerializeField] private OnMouseTooltipCard _tooltipClass;
     [SerializeField] private GameObject _cardPrefab;
-    [SerializeField] private float _canvasWidth;
+    [SerializeField] private SoundManager _soundManager;
+    [SerializeField] private int _cardMax = 20;
     #endregion
 
     private List<GameCard> AllCards;
-    private List<CardWeightData> _cardDeck;
+    private List<GameCard> _cardDeck;
     private Dictionary<int, GameCard> AllCardsDict;
-    private int _totalWeight;
-
-    public List<CardWeightData> CardDeck
-    {
-        get { return _cardDeck; }
-        protected set { _cardDeck = value; }
-    }
+    private int _lastHandCount;
 
     private void Awake()
     {
@@ -35,21 +25,12 @@ public class CHand : MonoBehaviour
         Logger.Log($"카드 불러옴 : {AllCards.Count}, {AllCardsDict.Count}");
     }
 
-    void Start()
+    private void Update()
     {
-        
-    }
-
-    void Update()
-    {
-        int handSize = GetHandSize();
-        if (handSize < 5)
+        if (_lastHandCount != GetHandSize())
         {
-            _layout.spacing = -320;
-        }
-        else
-        {
-            _layout.spacing = -320 + (_canvasWidth - (handSize * 320)) / (handSize - 1);
+            _lastHandCount = GetHandSize();
+            CardPositionReset();
         }
     }
 
@@ -135,9 +116,9 @@ public class CHand : MonoBehaviour
     public List<int> GetCardDeckByInt()
     {
         List<int> deckCards = new List<int>();
-        foreach (CardWeightData card in _cardDeck)
+        foreach (GameCard card in _cardDeck)
         {
-            deckCards.Add(card.card.CardId);
+            deckCards.Add(card.CardId);
         }
         return deckCards;
     }
@@ -145,32 +126,34 @@ public class CHand : MonoBehaviour
     private void LoadStartDeck()
     {
         GameCard[] _gameCards = Resources.LoadAll<GameCard>("CardData");
-        _cardDeck = new List<CardWeightData>();
+        _cardDeck = new List<GameCard>();
         foreach (GameCard card in _gameCards)
         {
-            _cardDeck.Add(new CardWeightData { card = card, weight = card.Weight });
+            _cardDeck.Add(card);
         }
-        CalculateTotalWeight();
     }
-
-    public void CalculateTotalWeight()
+    public void CardPositionReset()
     {
-        _totalWeight = 0;
-        foreach (CardWeightData data in _cardDeck)
+        int handSize = GetHandSize();
+        for (int i = 0; i < transform.childCount; i++)
         {
-            _totalWeight += data.weight;
+            Transform child = transform.GetChild(i);
+            RectTransform rect = child.GetComponent<RectTransform>();
+            Vector3 pos = rect.anchoredPosition3D;
+            if (handSize < 5) pos.x = -540 + 320 * i;
+            else pos.x = -540 + i * (1080f / (handSize - 1));
+            rect.anchoredPosition = pos;
         }
     }
     
     public void LoadSavedDeck(List<int> cardId)
     {
-        _cardDeck = new List<CardWeightData>();
+        _cardDeck = new List<GameCard>();
         for(int i = 0; i < cardId.Count; i++)
         {
             GameCard card = AllCardsDict[cardId[i]];
-            _cardDeck.Add(new CardWeightData { card = card, weight = card.Weight });
+            _cardDeck.Add(card);
         }
-        CalculateTotalWeight();
     }
 
     public void ClearHand()
@@ -190,11 +173,12 @@ public class CHand : MonoBehaviour
         {
             AddCard(cardId[i], true);
         }
+        CardPositionReset();
     }
 
     public bool AddCard()
     {
-        if (GetHandSize() >= 10)
+        if (GetHandSize() >= _cardMax)
         {
             Logger.Error("패 가득참");
             return false;
@@ -204,18 +188,8 @@ public class CHand : MonoBehaviour
             Logger.Error("덱 없음");
             return false;
         }
-        int weightedIndex = UnityEngine.Random.Range(0, _totalWeight);
-        GameCard selectedCard = null;
-
-        for (int i = 0; i < _cardDeck.Count; i++)
-        {
-            weightedIndex -= _cardDeck[i].weight;
-            if (weightedIndex < 0)
-            {
-                selectedCard = _cardDeck[i].card;
-                break;
-            }
-        }
+        int index = UnityEngine.Random.Range(0, _cardDeck.Count);
+        GameCard selectedCard = _cardDeck[index];
         if (selectedCard == null)
         {
             Logger.Error("카드 선택 실패");
@@ -224,11 +198,10 @@ public class CHand : MonoBehaviour
 
         if (selectedCard.IsSingle)
         {
-            _cardDeck.RemoveAll(c => c.card.CardId == selectedCard.CardId);
-            CalculateTotalWeight();
+            _cardDeck.RemoveAll(c => c.CardId == selectedCard.CardId);
             Logger.Log($"덱 삭제 - {selectedCard.CardId}:{selectedCard.CardName} (남은 카드 : {_cardDeck.Count}");
         }
-        GameObject go = Instantiate(_cardPrefab, _layout.transform);
+        GameObject go = Instantiate(_cardPrefab, this.transform);
         CCard card = go.GetComponent<CCard>();
         card.Setup(selectedCard, _tooltipClass);
         return true;
@@ -236,7 +209,7 @@ public class CHand : MonoBehaviour
 
     public bool AddCard(int cardId, bool debug = false)
     {
-        if (GetHandSize() >= 10)
+        if (GetHandSize() >= _cardMax)
         {
             Logger.Error("패 가득참");
             return false;
@@ -248,33 +221,43 @@ public class CHand : MonoBehaviour
         }
         if (!debug)
         {
-            int temp = _cardDeck.FindIndex(c => c.card.CardId == cardId);
+            int temp = _cardDeck.FindIndex(c => c.CardId == cardId);
             if (temp == -1)
             {
                 Logger.Error("덱에 없는 카드");
                 return false;
             }
-            if (_cardDeck[temp].card.IsSingle)
+            if (_cardDeck[temp].IsSingle)
             {
-                _cardDeck.RemoveAll(c => c.card.CardId == cardId);
-                CalculateTotalWeight();
+                _cardDeck.RemoveAll(c => c.CardId == cardId);
             }
         }
 
-        GameObject go = Instantiate(_cardPrefab, _layout.transform);
+        GameObject go = Instantiate(_cardPrefab, this.transform);
         CCard card = go.GetComponent<CCard>();
         card.Setup(AllCardsDict[cardId], _tooltipClass);
+        if (debug)
+        {
+            card.IsLoaded = true;
+        }
         return true;
     }
 
-    public int AddCards(int count)
+    public void AddCards(int count)
     {
-        int created = 0;
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             if (!AddCard()) break;
-            created++;
         }
-        return created;
+    }
+    
+    public IEnumerator AddCardCoroutine(int count, float ratio = 1f)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (!AddCard()) yield break;
+            _soundManager.PlaySE(EEffectSound.CardDraw);
+            yield return new WaitForSecondsRealtime(0.25f * ratio);
+        }
     }
 }

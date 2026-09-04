@@ -11,6 +11,11 @@ public class OnMouseTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private bool _isOn = false;
     private Vector2 _Offset = new Vector2(10f, 10f);
 
+    public void SetText(string text)
+    {
+        _description = text;
+    }
+
     void Start()
     {
         if (_tooltip == null)

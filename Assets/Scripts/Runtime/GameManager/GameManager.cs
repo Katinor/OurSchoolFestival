@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -24,7 +25,8 @@ public enum EGameState
     MaterialCount,
     TileSelect,
     Question,
-    NextDay
+    NextDay,
+    NoInput
 }
 
 public partial class GameManager : MonoBehaviour
@@ -105,6 +107,9 @@ public partial class GameManager : MonoBehaviour
     [SerializeField] private Button _nextDayButton;
     [SerializeField] private TMP_Text _nextDayText;
     [SerializeField] private Button _titleButton;
+    [SerializeField] private Button _undoButton;
+    [SerializeField] private TMP_Text _undoText;
+    [SerializeField] private OnMouseTooltip _undoTooltip;
 
     [Header("지표메뉴")]
     [SerializeField] private TMP_Text _successText;
@@ -147,7 +152,7 @@ public partial class GameManager : MonoBehaviour
     private List<Vector3Int> _lastNearObject;
     private Vector3Int? _lastSelectedPosition;
     private LayerMask _hitMask = 0;
-    private EGameState _gameState = EGameState.Idle;
+    private EGameState _gameState = EGameState.NoInput;
 
     private CResources _resources;
     private Dictionary<ETech, int> _currentTech;
@@ -155,6 +160,7 @@ public partial class GameManager : MonoBehaviour
     private List<int> _cardScoresList;
     private SScoreSet _scoreSet;
     private int _scoreTotal;
+    private Stack<CUndoData> _undoDataList;
 
     private int _questionValue = 0;
     private Action<GameObject, Vector3Int> _questionAction = null;
@@ -207,30 +213,37 @@ public partial class GameManager : MonoBehaviour
     void Start()
     {
         _tilemap = this.GetComponentInChildren<Tilemap>();
-        _sceneManager = SceneFlowManager.Instance;
-        _saveSlot = _sceneManager.TargetSaveData;
-        //_soundManager = SoundManager.Instance;
-        (float bgmLevel, float seLevel) = _sceneManager.KeepVolume;
-        _soundManager.SetVolumeForce(bgmLevel, seLevel);
+        if (SceneFlowManager.Instance != null)
+        {
+            _sceneManager = SceneFlowManager.Instance;
+            _saveSlot = _sceneManager.TargetSaveData;
+            (float bgmLevel, float seLevel) = _sceneManager.KeepVolume;
+            _soundManager.SetVolumeForce(bgmLevel, seLevel);
+        }
         _hitMask |= LayerMask.GetMask("Tilemap");
         _rightPanelTransform.anchoredPosition3D = new Vector3(_rightPanelXOff, 0, 0);
         _currentTech = new Dictionary<ETech, int>();
         _cardScores = new List<Func<GameManager, SScoreInfo>>();
         _cardScoresList = new List<int>();
         _scoreSet = new SScoreSet();
-        _resources = new CResources(1000, 20, 50, 1, 50, 1);
+        _resources = new CResources(1000, 20, 50, 5, 10, 5);
+        _undoDataList = new Stack<CUndoData>();
+        _undoButton.interactable = false;
+        _undoText.gameObject.SetActive(false);
+        _undoText.text = "";
+        _undoTooltip.SetText("");
         SetListener();
         DrawMapTiles();
-        if (_sceneManager.LoadSavedData)
+        if (_sceneManager != null && _sceneManager.LoadSavedData)
         {
             _saveSlot = _sceneManager.TargetSaveData;
             LoadData();
-            Logger.Log(_currentDay.ToString());
             if (_currentDay >= 16)
             {
                 _gameState = EGameState.NextDay;
                 StartCoroutine(_sceneManager.LoadingScreenOff(0.5f));
                 StartCoroutine(CallNextDayCoroutine());
+                StartCoroutine(_sceneManager.LoadingScreenOff(1f, 1f));
             }
         }
         else
@@ -240,13 +253,12 @@ public partial class GameManager : MonoBehaviour
             UnityEngine.Random.InitState(_randomSeed);
             _currentDay = 1;
             SetDayButton(_currentDay);
-            _cardHand.AddCards(6);
-            SaveData();
+            _cardHand.CardPositionReset();
         }
         if (_currentDay < 6) _soundManager.PlayBGM(EBackgroundSound.Part1);
         else if (_currentDay < 11) _soundManager.PlayBGM(EBackgroundSound.Part2);
         else _soundManager.PlayBGM(EBackgroundSound.Part3);
-        StartCoroutine(_sceneManager.LoadingScreenOff(1f, 1f));
+        StartCoroutine(StartManager());
     }
 
     void Update()
@@ -272,6 +284,15 @@ public partial class GameManager : MonoBehaviour
         RightPanelMove();
         SoundPanelMove();
         ResourceSync();
+    }
+
+    private IEnumerator StartManager()
+    {
+        if (_sceneManager != null) yield return StartCoroutine(_sceneManager.LoadingScreenOff(2f, 1f));
+        if (_sceneManager == null || !_sceneManager.LoadSavedData) yield return StartCoroutine(_cardHand.AddCardCoroutine(6, 0.5f));
+        SaveData();
+        _gameState = EGameState.Idle;
+        yield break;
     }
     public bool CheckResource(int moneyCurrent, int moneyIncrease,
         int materialsCurrent, int materialsIncrease, int menpowerCurrent, int menpowerIncrease, bool canUseMaterials = false)

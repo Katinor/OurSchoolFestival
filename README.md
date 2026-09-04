@@ -15,7 +15,7 @@ Usd-circle, Box, User, Road, Fire flame curved, Tachometer-alt-fastest - designe
 
 명예 훈장 - designed by Qadeer Hussain from Flaticon
 
-Musical note - designed by Magnific from Flaticon
+Musical note, 집 - designed by Magnific from Flaticon
 
 Paint palette - designed by apien from Flaticon
 
@@ -25,8 +25,12 @@ Evil - designed by AndrejsKirma from Flaticon
 
 쓰레기통 - designed by Magnific from Flaticon
 
+새로고침 - designed by lakonicon from Flaticon
+
 ### 이 프로젝트는 국립공원공단의 폰트를 사용합니다.
 국립공원 꼬미
 
 ### 이 프로젝트는 유토이미지의 폰트를 사용합니다.
 유토이미지 꼬마나비
+
+### 이 프로젝트는 OpenTracks (구 DOVA-SYNDROME) 의 배경음악을 사용합니다.
