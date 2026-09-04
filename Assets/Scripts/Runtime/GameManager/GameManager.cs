@@ -226,6 +226,13 @@ public partial class GameManager : MonoBehaviour
         {
             _saveSlot = _sceneManager.TargetSaveData;
             LoadData();
+            Logger.Log(_currentDay.ToString());
+            if (_currentDay >= 16)
+            {
+                _gameState = EGameState.NextDay;
+                StartCoroutine(_sceneManager.LoadingScreenOff(0.5f));
+                StartCoroutine(CallNextDayCoroutine());
+            }
         }
         else
         {
@@ -240,7 +247,7 @@ public partial class GameManager : MonoBehaviour
         if (_currentDay < 6) _soundManager.PlayBGM(EBackgroundSound.Part1);
         else if (_currentDay < 11) _soundManager.PlayBGM(EBackgroundSound.Part2);
         else _soundManager.PlayBGM(EBackgroundSound.Part3);
-        StartCoroutine(_sceneManager.LoadingScreenOff(2f, 1f));
+        StartCoroutine(_sceneManager.LoadingScreenOff(1f, 1f));
     }
 
     void Update()

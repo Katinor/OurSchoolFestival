@@ -42,7 +42,7 @@ public class CTile : MonoBehaviour
     protected string _description = "";
     protected string _additionalDescription = "";
     protected int _radius = 0;
-    protected bool _isFirst = false;
+    protected bool _isLoaded = false;
     protected Color _baseColor;
     protected string _tileInfo = "";
     protected ETileCatalog _tileInCatalog;
@@ -101,10 +101,10 @@ public class CTile : MonoBehaviour
         protected set { _radius = value; }
     }
 
-    public bool IsFirst
+    public bool IsLoaded
     {
-        get { return _isFirst; }
-        set { _isFirst = value; }
+        get { return _isLoaded; }
+        set { _isLoaded = value; }
     }
     public ETileCatalog TileInCatalog
     {
@@ -226,21 +226,21 @@ public class CTile : MonoBehaviour
         {
             Logger.Error("게임매니저 못찾음");
         }
-        if (_builtTransform != null)
-        {
-            _building = ETileBuilding.Start;
-            _builtTransform.localScale = Vector3.one * 0.05f;
-        }
-        else
-        {
-            _building = ETileBuilding.End;
-        }
         _tileText.text = _tileInfo;
         _tileText.gameObject.SetActive(true);
         _textObject.SetActive(false);
         _tilePosition = _gameManager.GameGrid.WorldToCell(transform.position);
-        if (!_isFirst)
+        if (!_isLoaded)
         {
+            if (_builtTransform != null)
+            {
+                _building = ETileBuilding.Start;
+                _builtTransform.localScale = Vector3.one * 0.05f;
+            }
+            else
+            {
+                _building = ETileBuilding.End;
+            }
             _particleCoroutine = StartCoroutine(OnParticle());
             if (_radius > 0)
             {
@@ -250,7 +250,12 @@ public class CTile : MonoBehaviour
                     tempList[i].ShowParticle(0, 0, 0.5f);
                 }
             }
-        }  
+        }
+        else
+        {
+            if (_builtTransform != null) _builtTransform.localScale = Vector3.one;
+            _building = ETileBuilding.End;
+        }
     }
 
     protected virtual void Update()
