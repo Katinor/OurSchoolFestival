@@ -42,13 +42,14 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private bool _canPayMaterials = false;
     private bool _isSingle = false;
     private int _weight = 100;
+    private bool _isLoaded = false;
     #endregion
 
     #region Member Variable - UI
     private RectTransform _rectTransform;
     private bool _isLooking = false;
-    private readonly float YOnPosition = 180f;      // 176f;
-    private readonly float YOffPosition = -240f;    //-184f;
+    private readonly float YOnPosition = 180f;
+    private readonly float YOffPosition = -240f;
     private readonly float MovementSpeed = 1800f;
     #endregion
 
@@ -76,6 +77,10 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         get { return _gameCard.CardId; }
     }
 
+    public bool IsLooking
+    {
+        get { return _isLooking; }
+    }
     public int Cost
     {
         get { return _costMoney; }
@@ -123,6 +128,12 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         get { return _isSingle; }
         set { _isSingle = value; }
     }
+
+    public bool IsLoaded
+    {
+        get { return _isLoaded; }
+        set { _isLoaded = value; }
+    }
     #endregion
 
     #region Unity Event
@@ -156,6 +167,19 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             _deleteButton.onClick.AddListener(
                 () => _gameManager.DeleteCard(this));
         }
+        if (_isLoaded)
+        {
+            Vector3 pos = _rectTransform.anchoredPosition3D;
+            pos.y = -240;
+            _rectTransform.anchoredPosition3D = pos;
+        }
+        else
+        {
+            Vector3 pos = _rectTransform.anchoredPosition3D;
+            pos.y = -240 + 315;
+            _rectTransform.anchoredPosition3D = pos;
+        }
+        
     }
 
     void Update()
@@ -176,7 +200,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             if (_rectTransform.anchoredPosition3D.y <= YOnPosition)
             {
                 _rectTransform.anchoredPosition3D += Vector3.up * MovementSpeed * Time.deltaTime;
-                if(_rectTransform.anchoredPosition3D.y >= YOnPosition)
+                if (_rectTransform.anchoredPosition3D.y >= YOnPosition)
                 {
                     Vector3 tempPos = _rectTransform.anchoredPosition3D;
                     tempPos.y = YOnPosition;
@@ -283,7 +307,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     _hasTileAction = true;
                     break;
                 case EAction.CustomScript:
-                    _actionFuncList.Add(CCardStatic.CardCustom);
+                    _actionFuncList.Add(CCardStatic.CardCustom(targetCard.ActionList[i].level));
                     break;
                 case EAction.ScoreFunction:
                     _actionFuncList.Add(CCardStatic.CardEmpty);

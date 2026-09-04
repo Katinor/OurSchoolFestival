@@ -43,6 +43,7 @@ public partial class GameManager
     {
         if (Input.GetMouseButtonDown(1))
         {
+            _soundManager.PlaySE(EEffectSound.Beep);
             CreateError("취소함", true);
             _materialsNo.onClick.Invoke();
         }
@@ -78,6 +79,7 @@ public partial class GameManager
         }
         else
         {
+            _soundManager.PlaySE(EEffectSound.Beep);
             CreateError("취소함", true);
             _gameState = EGameState.Idle;
         }
@@ -93,6 +95,7 @@ public partial class GameManager
             ChangeBottomText("");
             _questionAction = null;
             _questionCard = null;
+            _soundManager.PlaySE(EEffectSound.Beep);
             OnClickElse();
             _gameState = EGameState.Idle;
             return;
@@ -103,6 +106,7 @@ public partial class GameManager
             ChangeBottomText("");
             _questionAction = null;
             _questionCard = null;
+            _soundManager.PlaySE(EEffectSound.Beep);
             OnClickElse();
             _gameState = EGameState.Idle;
             return;
@@ -161,6 +165,7 @@ public partial class GameManager
                         CreateError("유효하지 않은 타일입니다.", true);
                         _questionAction = null;
                         _questionCard = null;
+                        _soundManager.PlaySE(EEffectSound.Beep);
                         OnClickElse();
                         ChangeBottomText("");
                         _gameState = EGameState.Idle;
@@ -184,6 +189,7 @@ public partial class GameManager
         if (Input.GetMouseButtonDown(1))
         {
             _camera.StopFocusing(true);
+            _soundManager.PlaySE(EEffectSound.Beep);
             CreateError("취소함", true);
             HideQuestion();
             OnClickElse();
@@ -204,6 +210,10 @@ public partial class GameManager
         {
             if (_questionIsCard) _questionCard(_questionArgCard, _questionArgVector);
             else _questionAction(_questionArgGO, _questionArgVector);
+        }
+        else
+        {
+            _soundManager.PlaySE(EEffectSound.Beep);
         }
         _camera.StopFocusing(true);
         HideQuestion();

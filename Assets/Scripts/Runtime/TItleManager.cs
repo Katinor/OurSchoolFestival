@@ -93,12 +93,12 @@ public class TItleManager : MonoBehaviour
         if (_questionYes != null)
         {
             _questionYes.onClick.AddListener(
-                () => { _questionValue = 1; });
+                () => _questionValue = 1);
         }
         if (_questionNo != null)
         {
             _questionNo.onClick.AddListener(
-                () => { _questionValue = -1; });
+                () => _questionValue = -1);
         }
         #endregion
 
@@ -148,7 +148,7 @@ public class TItleManager : MonoBehaviour
             case ETitleState.Exit:
                 if (Input.GetMouseButtonDown(1))
                 {
-                    HideQuestion();
+                    _questionNo.onClick.Invoke();
                 }
                 if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space))
                 {
@@ -165,6 +165,10 @@ public class TItleManager : MonoBehaviour
                 else if (_questionValue == 1)
                 {
                     _questionAction();
+                }
+                else
+                {
+                    _soundManager.PlaySE(EEffectSound.Beep);
                 }
                 HideQuestion();
                 return;
@@ -248,16 +252,6 @@ public class TItleManager : MonoBehaviour
         {
             _titleState = ETitleState.Save;
         }
-    }
-
-    private void CallYes()
-    {
-        _questionValue = 1;
-    }
-
-    private void CallNo()
-    {
-        _questionValue = -1;
     }
 
     private void SoundPanelMove()

@@ -350,7 +350,7 @@ public partial class GameManager
         return tempTileList;
     }
 
-    public (List<int> tileId, List<int> tilePoint) GetAllTilesByInt()
+    public (List<int> tileId, List<int> tilePoint) GetAllTilesForSave()
     {
         List<CTile> tempTileList = GetAllTiles();
         List<int> tileIdList = new List<int>();
@@ -363,7 +363,22 @@ public partial class GameManager
         return (tileIdList, tilePointList);
     }
 
-    private void LoadTilesByInt(List<int> tileIdList, List<int> tilePointList)
+    public (List<int> tileId, List<int> tilePoint, List<bool> tileUsed) GetAllTilesForUndo()
+    {
+        List<CTile> tempTileList = GetAllTiles();
+        List<int> tileIdList = new List<int>();
+        List<int> tilePointList = new List<int>();
+        List<bool> tileUsedList = new List<bool>();
+        for (int i = 0; i < tempTileList.Count; i++)
+        {
+            tileIdList.Add((int)tempTileList[i].TileInCatalog);
+            tilePointList.Add(tempTileList[i].Points);
+            tileUsedList.Add(tempTileList[i].ActionUsed);
+        }
+        return (tileIdList, tilePointList, tileUsedList);
+    }
+
+    private void LoadTilesFromSave(List<int> tileIdList, List<int> tilePointList)
     {
         int index = 0;
         for (int i = (-1) * _gridSizeYUpper; i <= _gridSizeYUpper; i++)
@@ -376,6 +391,30 @@ public partial class GameManager
                 {
                     tempClass.IsLoaded = true;
                     tempClass.Points = tilePointList[index];
+                }
+                else
+                {
+                    Logger.Error("CTile 건설 후 찾기 실패");
+                }
+                index++;
+            }
+        }
+    }
+
+    private void LoadTilesFromUndo(List<int> tileIdList, List<int> tilePointList, List<bool> tileUsedList)
+    {
+        int index = 0;
+        for (int i = (-1) * _gridSizeYUpper; i <= _gridSizeYUpper; i++)
+        {
+            for (int j = (-1) * _gridSizeXRight; j <= _gridSizeXRight; j++)
+            {
+                Vector3Int pos = new Vector3Int(j, i, 0);
+                BuildTile((ETileCatalog)tileIdList[index], pos);
+                if (findTileByPosition(pos, out CTile tempClass))
+                {
+                    tempClass.IsLoaded = true;
+                    tempClass.Points = tilePointList[index];
+                    tempClass.ActionUsed = tileUsedList[index];
                 }
                 else
                 {

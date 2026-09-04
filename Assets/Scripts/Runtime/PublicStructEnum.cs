@@ -114,6 +114,20 @@ public class CResources
         this.festivalRoad = festivalRoad;
     }
 
+    public CResources(CResources source)
+    {
+        this.moneyCurrent = source.moneyCurrent;
+        this.moneyIncrease = source.moneyIncrease;
+        this.materialsCurrent = source.materialsCurrent;
+        this.materialsIncrease = source.materialsIncrease;
+        this.menpowerCurrent = source.menpowerCurrent;
+        this.menpowerIncrease = source.menpowerIncrease;
+        this.menpowerRemain = source.menpowerRemain;
+        this.festivalSuccess = source.festivalSuccess;
+        this.festivalInterest = source.festivalInterest;
+        this.festivalRoad = source.festivalRoad;
+    }
+
     public void PayCost(SCost cost)
     {
         this.moneyCurrent -= cost.moneyCurrent;

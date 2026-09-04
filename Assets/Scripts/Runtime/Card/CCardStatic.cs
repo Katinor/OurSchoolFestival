@@ -87,11 +87,6 @@ public static partial class CCardStatic
         return false;
     }
 
-    public static bool CardCustom(GameManager manager, int level)
-    {
-        return false;
-    }
-
     private static bool CardTech(GameManager manager, ETech tech, int level)
     {
         bool returnValue = CardTechValue(manager, tech, level);

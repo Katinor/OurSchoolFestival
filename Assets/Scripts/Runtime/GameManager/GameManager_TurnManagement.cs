@@ -11,8 +11,9 @@ public partial class GameManager
     }
     private IEnumerator CallNextDayCoroutine()
     {
-        yield return _DayManager.StartCoroutine(_DayManager.LoadingScreenOn());
-        yield return _DayManager.StartDayResult(this, _soundManager);
+        if (_currentDay >= 15) _soundManager.PlayBGM(EBackgroundSound.Result);
+        yield return StartCoroutine(_DayManager.LoadingScreenOn());
+        yield return StartCoroutine(_DayManager.StartDayResult(this, _soundManager));
         if (_currentDay >= 15) CallGotoTitleResult();
         List<CTile> tileList = GetAllTiles();
         for(int i = 0; i < tileList.Count; i++)
@@ -32,13 +33,15 @@ public partial class GameManager
 
         _randomSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
         UnityEngine.Random.InitState(_randomSeed);
-        _cardHand.AddCards(4);
+        
         _currentDay++;
         SetDayButton(_currentDay);
         if(_currentDay == 6) _soundManager.PlayBGM(EBackgroundSound.Part2);
         if(_currentDay == 11) _soundManager.PlayBGM(EBackgroundSound.Part3);
+        yield return StartCoroutine(_DayManager.LoadingScreenOff());
+        yield return StartCoroutine(_cardHand.AddCardCoroutine(4));
+        ClearUndo();
         SaveData();
-        yield return _DayManager.StartCoroutine(_DayManager.LoadingScreenOff());
         _gameState = EGameState.Idle;
     }
 
@@ -157,7 +160,7 @@ public partial class GameManager
 
     private void SaveData()
     {
-        (List<int> tileIdList, List<int> tilePointList) = GetAllTilesByInt();
+        (List<int> tileIdList, List<int> tilePointList) = GetAllTilesForSave();
         SaveManager.SaveData(_saveSlot, new CSaveData
         (
             _version,
@@ -198,10 +201,9 @@ public partial class GameManager
                 _cardScores.Add(CCardStatic.FindPointFunction(_cardScoresList[i]));
             }
         }
-        Logger.Log($"카드점수 - {savedData.CardScoresList.Count} => {_cardScoresList.Count} => {_cardScores.Count}");
         _cardHand.LoadSavedHand(savedData.CardsOnHand);
         _cardHand.LoadSavedDeck(savedData.CardsOnDeck);
-        LoadTilesByInt(savedData.TileInt, savedData.TilePoint);
+        LoadTilesFromSave(savedData.TileInt, savedData.TilePoint);
         UnityEngine.Random.InitState(_randomSeed);
     }
 }

@@ -18,7 +18,9 @@ public enum EEffectSound
     QuestionAppear,
     QuestionChoose,
     Success,
-    PayingMoney
+    PayingMoney,
+    Beep,
+    CardDraw
 }
 
 [Serializable]
