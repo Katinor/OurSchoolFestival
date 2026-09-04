@@ -1,5 +1,4 @@
-﻿
-public class TileBasement : CTile
+﻿public class TileBasement : CTile
 {
     public TileBasement()
     {
