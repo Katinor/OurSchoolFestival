@@ -73,7 +73,8 @@ public class DayResultManager : MonoBehaviour
         _loadingText.gameObject.SetActive(false);
         yield return new WaitForSeconds(_waitTime);
         soundManager.PlaySE(EEffectSound.QuestionAppear);
-        _resultTitle.text = $"{gameManager.CurrentDay}일차 결과";
+        if (gameManager.CurrentDay >= 16) _resultTitle.text = $"게임 결과";
+        else _resultTitle.text = $"{gameManager.CurrentDay}일차 결과";
         _resultTitle.gameObject.SetActive(true);
         yield return new WaitForSeconds(_waitTime * 2);
         soundManager.PlaySE(EEffectSound.QuestionAppear);
@@ -120,11 +121,13 @@ public class DayResultManager : MonoBehaviour
         _totalScore.gameObject.SetActive(true);
         yield return new WaitForSeconds(_waitTime * 2);
         soundManager.PlaySE(EEffectSound.Success);
-        _nextDayText.text = $"다음날\n<size=75%>{gameManager.CurrentDay + 1}일차로</size>";
+        if (gameManager.CurrentDay >= 15) _nextDayText.text = $"타이틀로";
+        else _nextDayText.text = $"다음날\n<size=75%>{gameManager.CurrentDay + 1}일차로</size>";
         _nextDay.gameObject.SetActive(true);
         _fadeGroup.interactable = true;
         yield return new WaitUntil(() => _isPressed);
-        TurnOffAll();
+        if (gameManager.CurrentDay >= 16) gameManager.CallGotoTitleResult();
+        else TurnOffAll();
     }
 
     private void TurnOffAll()

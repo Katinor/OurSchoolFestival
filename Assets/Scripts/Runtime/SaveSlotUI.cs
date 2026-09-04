@@ -36,7 +36,9 @@ public class SaveSlotUI : MonoBehaviour
 
     public void LoadSavedata(CSaveData data)
     {
-        _dayDesc.text = $"{data.CurrentDay}일차";
+        if (data.CurrentDay >= 16) _dayDesc.text = $"게임 종료";
+        else _dayDesc.text = $"{data.CurrentDay}일차";
+
         CResources tempResources = data.Resources;
 
         _slotDesc.text =

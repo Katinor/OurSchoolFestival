@@ -45,7 +45,7 @@ public partial class GameManager
         List<CTile> tiles = GetAllTiles();
         for (int i = 0; i < tiles.Count; i++)
         {
-            tiles[i].IsFirst = true;
+            tiles[i].IsLoaded = true;
         }
     }
 
@@ -377,7 +377,7 @@ public partial class GameManager
                 BuildTile((ETileCatalog)tileIdList[index], pos);
                 if (findTileByPosition(pos, out CTile tempClass))
                 {
-                    tempClass.IsFirst = true;
+                    tempClass.IsLoaded = true;
                     tempClass.Points = tilePointList[index];
                 }
                 else

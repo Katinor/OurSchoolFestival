@@ -545,4 +545,14 @@ public partial class GameManager
     {
         _sceneManager.LoadScene(ESceneId.Title);
     }
+
+    public void CallGotoTitleResult()
+    {
+        if(_currentDay != 16)
+        {
+            _currentDay = 16;
+            SaveData();
+        }
+        ActionGotoTitle(null, Vector3Int.zero);
+    }
 }

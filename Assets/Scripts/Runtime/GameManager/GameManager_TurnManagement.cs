@@ -13,6 +13,7 @@ public partial class GameManager
     {
         yield return _DayManager.StartCoroutine(_DayManager.LoadingScreenOn());
         yield return _DayManager.StartDayResult(this, _soundManager);
+        if (_currentDay >= 15) CallGotoTitleResult();
         List<CTile> tileList = GetAllTiles();
         for(int i = 0; i < tileList.Count; i++)
         {
@@ -175,14 +176,7 @@ public partial class GameManager
 
     private void LoadData()
     {
-        StartCoroutine(LoadDataCoroutine());
-    }
-
-    private IEnumerator LoadDataCoroutine()
-    {
-        yield return _DayManager.StartCoroutine(_DayManager.LoadingScreenOn(0.5f));
         LoadDataCore();
-        yield return _DayManager.StartCoroutine(_DayManager.LoadingScreenOff(0.5f));
     }
 
     private void LoadDataCore()

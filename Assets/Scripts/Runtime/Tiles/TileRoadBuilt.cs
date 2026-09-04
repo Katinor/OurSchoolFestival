@@ -13,6 +13,6 @@
     protected override void Start()
     {
         base.Start();
-        _gameManager.Resources.festivalRoad += 1;
+        if (!_isLoaded) _gameManager.Resources.festivalRoad += 1;
     }
 }

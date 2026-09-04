@@ -14,7 +14,7 @@
     protected override void Start()
     {
         base.Start();
-        _gameManager.Resources.festivalSuccess += 1;
+        if (!_isLoaded) _gameManager.Resources.festivalSuccess += 1;
     }
 
     public override SScoreInfo OnScore()
