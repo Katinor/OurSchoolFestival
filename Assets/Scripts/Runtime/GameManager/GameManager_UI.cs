@@ -133,7 +133,19 @@ public partial class GameManager
         GameObject go = Instantiate(_errorPrefab, _errorCanvas.transform);
         if (go.TryGetComponent<TMP_Text>(out TMP_Text goText))
         {
-            StartCoroutine(CreateErrorCoroutine(goText, text, trackMouse));
+            StartCoroutine(CreatePopupCoroutine(goText, text, trackMouse, Color.red));
+        }
+        else
+        {
+            Logger.Error("에러 프리팹 잘못됨");
+        }
+    }
+    public void CreatePopup(string text, bool trackMouse = false)
+    {
+        GameObject go = Instantiate(_errorPrefab, _errorCanvas.transform);
+        if (go.TryGetComponent<TMP_Text>(out TMP_Text goText))
+        {
+            StartCoroutine(CreatePopupCoroutine(goText, text, trackMouse, Color.black));
         }
         else
         {
@@ -141,9 +153,23 @@ public partial class GameManager
         }
     }
 
-    private IEnumerator CreateErrorCoroutine(TMP_Text go, string text, bool trackMouse)
+    public void CreateSuccess(string text, bool trackMouse = false)
+    {
+        GameObject go = Instantiate(_errorPrefab, _errorCanvas.transform);
+        if (go.TryGetComponent<TMP_Text>(out TMP_Text goText))
+        {
+            StartCoroutine(CreatePopupCoroutine(goText, text, trackMouse, Color.blue));
+        }
+        else
+        {
+            Logger.Error("에러 프리팹 잘못됨");
+        }
+    }
+
+    private IEnumerator CreatePopupCoroutine(TMP_Text go, string text, bool trackMouse, Color color)
     {
         go.text = text;
+        go.color = color;
         RectTransform rectTransform = go.GetComponent<RectTransform>();
         Vector2 basePoint;
         

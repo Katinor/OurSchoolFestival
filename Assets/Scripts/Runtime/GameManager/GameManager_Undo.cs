@@ -119,11 +119,11 @@ public partial class GameManager
         }
         _soundManager.PlaySE(EEffectSound.QuestionChoose);
         CUndoData undoData = _undoDataList.Pop();
+        CreateSuccess($"[{undoData.Name}] 되돌아감!", false);
         _resources = undoData.Resources;
         _currentTech = undoData.CurrentTech;
         ReloadTech();
         _cardScores = undoData.CardScoresList;
-        Logger.Log($"카드점수 - {undoData.CardScoresList.Count} => {_cardScoresList.Count} => {_cardScores.Count}");
         _cardHand.LoadSavedHand(undoData.CardsOnHand);
         _cardHand.LoadSavedDeck(undoData.CardsOnDeck);
         LoadTilesFromUndo(undoData.TileInt, undoData.TilePoint, undoData.TileUsed);
@@ -137,7 +137,7 @@ public partial class GameManager
         }
         else
         {
-            _undoTooltip.SetText($"{_undoDataList.Peek().Name}을\n되돌립니다.");
+            _undoTooltip.SetText($"[{_undoDataList.Peek().Name}]을\n되돌립니다.");
             _undoText.text = _undoDataList.Count.ToString();
         }
     }
