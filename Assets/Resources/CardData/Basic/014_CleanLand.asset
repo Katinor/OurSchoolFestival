@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
-  m_Name: 015_CleanLand
+  m_Name: 014_CleanLand
   m_EditorClassIdentifier: 
-  _cardId: 15
+  _cardId: 14
   _cardName: "\uBD80\uC9C0 \uC815\uB9AC"
   _description: <sprite=2>+5 <sprite=7>+1
   _flavorText: "\uBD80\uC9C0\uB97C \uC815\uB9AC\uD558\uB2C8 \uB9CE\uC740 \uC790\uC7AC\uAC00

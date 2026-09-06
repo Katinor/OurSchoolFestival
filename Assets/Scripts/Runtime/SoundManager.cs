@@ -10,7 +10,10 @@ public enum EBackgroundSound
     Part2,
     Part3,
     DailyEvent,
-    Result
+    Result,
+    Event1,
+    Event2,
+    Event3,
 }
 
 public enum EEffectSound
@@ -156,10 +159,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBGM(EBackgroundSound soundType)
     {
-        foreach(var audioSource in _bgmDict.Values)
-        {
-            audioSource.Stop();
-        }
+        StopBGM();
         if (_bgmDict.ContainsKey(soundType))
         {
             _bgmDict[soundType].Play();
@@ -167,6 +167,14 @@ public class SoundManager : MonoBehaviour
         else
         {
             Logger.Error($"사운드 없음 - {soundType}");
+        }
+    }
+
+    public void StopBGM()
+    {
+        foreach (var audioSource in _bgmDict.Values)
+        {
+            audioSource.Stop();
         }
     }
 }

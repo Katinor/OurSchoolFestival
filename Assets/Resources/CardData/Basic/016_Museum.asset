@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
-  m_Name: 017_Museum
+  m_Name: 016_Museum
   m_EditorClassIdentifier: 
-  _cardId: 17
+  _cardId: 16
   _cardName: "\uAE30\uB150\uAD00 \uAC74\uC124"
   _description: "<sprite=1>+3 <sprite=2>+3 <sprite=5>-1\n<b>\uAC74\uC124</b> : \uAC04\uC774
     \uC74C\uC2DD\uC810"

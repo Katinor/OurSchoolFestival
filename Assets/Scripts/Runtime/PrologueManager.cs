@@ -1,0 +1,260 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public enum EDialogBGM
+{
+    None,
+    Stop,
+    Change,
+}
+
+[Serializable]
+public class CDialogData
+{
+    [SerializeField] private string _speakerName;
+    [SerializeField][TextArea(2, 10)] private string _dialogueText;
+
+    [SerializeField] private bool _illustHide;
+    [SerializeField] private bool _illustChange;
+    [SerializeField] private int _illustIndex;
+    [SerializeField] private EDialogBGM _bgmSwitch;
+    [SerializeField] private EBackgroundSound _backgroundSound;
+    [SerializeField] private bool _seChange;
+    [SerializeField] private EEffectSound _effectSound;
+
+    public string SpeakerName
+    {
+        get { return _speakerName; }
+    }
+    public string Dialogue
+    {
+        get { return _dialogueText; }
+    }
+    public bool IllustHide
+    {
+        get { return _illustHide; }
+    }
+    public bool IllustChange
+    {
+        get { return _illustChange; }
+    }
+    public int IllustIndex
+    {
+        get { return _illustIndex;}
+    }
+    public EDialogBGM BackgroundEffect
+    {
+        get { return _bgmSwitch;}
+    }
+    public EBackgroundSound BackgroundSound
+    {
+        get { return _backgroundSound; }
+    }
+    public bool EffectSwitch
+    {
+        get { return _seChange; }
+    }
+    public EEffectSound EffectSound
+    {
+        get { return _effectSound; }
+    }
+}
+
+public class PrologueManager : MonoBehaviour
+{
+    [Header("사운드")]
+    [SerializeField] private SoundManager _soundManager;
+
+    [Header("사운드 패널")]
+    [SerializeField] private RectTransform _soundPanelTransform;
+    [SerializeField] private Button _soundButtonToggle;
+    [SerializeField] private float _soundPanelXOn = -790;
+    [SerializeField] private float _soundPanelXOff = -1110;
+    [SerializeField] private float _panelMove = 1500;
+
+    [Header("버튼들")]
+    [SerializeField] private Button _uiHideButton;
+    [SerializeField] private Button _nextButton;
+
+    [Header("UI 패널")]
+    [SerializeField] CanvasGroup _uiPanel;
+    [Header("일러스트")]
+    [SerializeField] Image _illustPanel;
+    [Header("대사창")]
+    [SerializeField] RectTransform _dialoguePanel;
+    [SerializeField] TMP_Text _dialogueText;
+    [Header("화자창")]
+    [SerializeField] RectTransform _speakerPanel;
+    [SerializeField] TMP_Text _speakerText;
+
+    [Header("일러스트 목록")]
+    [SerializeField] List<Sprite> _sprites;
+
+    [Header("대사 목록")]
+    [SerializeField] List<PrologueSet> _dialogueDatas;
+
+    private SceneFlowManager _sceneManager;
+    private bool _isDialogHide = false;
+    private bool _soundUIOn = false;
+    private bool _gotoNext = false;
+    private int _pageIndex = 0;
+    private int _dialogueIndex = 0;
+
+    void Start()
+    {
+        _sceneManager = SceneFlowManager.Instance;
+        if (_sceneManager != null) _sceneManager.LoadingScreenOn(1f, false);
+        #region Button Listener setting
+        if (_nextButton != null)
+        {
+            _nextButton.onClick.AddListener(
+                 () => _gotoNext = true);
+        }
+        if (_uiHideButton != null)
+        {
+            _uiHideButton.onClick.AddListener(
+                () =>
+                {
+                    _soundManager.PlaySE(EEffectSound.QuestionChoose);
+                    _uiPanel.alpha = 0;
+                    _isDialogHide = true;
+                });
+        }
+        if (_soundButtonToggle != null)
+        {
+            _soundButtonToggle.onClick.AddListener(
+                () => _soundUIOn = !_soundUIOn);
+        }
+        #endregion
+        RefreshDialogue();
+        _uiPanel.alpha = 1;
+    }
+
+    void Update()
+    {
+        SoundPanelMove();
+        if (_gotoNext == true)
+        {
+            _gotoNext = false;
+            CallNextDialogue();
+        }
+        if (_isDialogHide)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                _soundManager.PlaySE(EEffectSound.QuestionChoose);
+                _isDialogHide = false;
+                _uiPanel.alpha = 1;
+            }
+        }
+    }
+
+    private void CallNextDialogue()
+    {
+        if (_dialogueDatas[_pageIndex].IsLast(_dialogueIndex))
+        {
+            _pageIndex += 1;
+            if (_pageIndex >= _dialogueDatas.Count)
+            {
+                if (_sceneManager == null)
+                {
+                #if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+                #else
+                    Application.Quit();
+                #endif
+                    return;
+                }
+                else
+                {
+                    _sceneManager.LoadScene(ESceneId.Game);
+                }
+            }
+            _dialogueIndex = 0;
+        }
+        else
+        {
+            _dialogueIndex += 1;
+        }
+        RefreshDialogue();
+    }
+
+    private void RefreshDialogue()
+    {
+        Logger.Log($"대화 불러오기 : {_pageIndex} - {_dialogueIndex}");
+        CDialogData targetData = _dialogueDatas[_pageIndex].GetDialogueData(_dialogueIndex);
+        if (string.IsNullOrEmpty(targetData.SpeakerName))
+        {
+            _speakerPanel.gameObject.SetActive(false);
+        }
+        else
+        {
+            _speakerText.text = targetData.SpeakerName;
+            _speakerPanel.gameObject.SetActive(true);
+        }
+        if (!string.IsNullOrEmpty(targetData.Dialogue))
+        {
+            _dialogueText.text = targetData.Dialogue;
+        }
+        if (targetData.IllustHide)
+        {
+            _illustPanel.gameObject.SetActive(false);
+        }
+        else if (targetData.IllustChange)
+        {
+            _illustPanel.sprite = _sprites[targetData.IllustIndex];
+            _illustPanel.gameObject.SetActive(true);
+        }
+        switch (targetData.BackgroundEffect)
+        {
+            case EDialogBGM.None:
+                break;
+            case EDialogBGM.Stop:
+                _soundManager.StopBGM();
+                break;
+            case EDialogBGM.Change:
+                _soundManager.PlayBGM(targetData.BackgroundSound);
+                break;
+        }
+        if (targetData.EffectSwitch)
+        {
+            _soundManager.PlaySE(targetData.EffectSound);
+        }
+        else
+        {
+            _soundManager.PlaySE(EEffectSound.QuestionChoose);
+        }
+    }
+
+    private void SoundPanelMove()
+    {
+        if (_soundUIOn)
+        {
+            if (_soundPanelTransform.anchoredPosition3D.x < _soundPanelXOn)
+            {
+                _soundPanelTransform.anchoredPosition3D += Vector3.right * _panelMove * 2 * Time.deltaTime;
+                if (_soundPanelTransform.anchoredPosition3D.x >= _soundPanelXOn)
+                {
+                    _soundPanelTransform.anchoredPosition3D = new Vector3(_soundPanelXOn, 486, 0);
+                }
+            }
+        }
+        else
+        {
+            if (_soundPanelTransform.anchoredPosition3D.x > _soundPanelXOff)
+            {
+                _soundPanelTransform.anchoredPosition3D -= Vector3.right * _panelMove * 2 * Time.deltaTime;
+                if (_soundPanelTransform.anchoredPosition3D.x <= _soundPanelXOff)
+                {
+                    _soundPanelTransform.anchoredPosition3D = new Vector3(_soundPanelXOff, 486, 0);
+                }
+            }
+        }
+    }
+}

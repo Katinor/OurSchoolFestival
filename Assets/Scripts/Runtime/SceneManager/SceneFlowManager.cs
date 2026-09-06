@@ -7,8 +7,9 @@ using UnityEngine.SceneManagement;
 public enum ESceneId
 {
     Title = 0,
-    Game = 1,
-    Result = 2,
+    Prologue = 1,
+    Game = 2,
+    Result = 3,
 }
 
 [Serializable]

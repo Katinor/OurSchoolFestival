@@ -34,6 +34,7 @@ public class TItleManager : MonoBehaviour
     [SerializeField] private TMP_Text _questionText;
     [SerializeField] private Button _questionYes;
     [SerializeField] private Button _questionNo;
+    [SerializeField] private Toggle _PrologueToggle;
 
     [Header("사운드 패널")]
     [SerializeField] private RectTransform _soundPanelTransform;
@@ -88,7 +89,7 @@ public class TItleManager : MonoBehaviour
         if (_soundButtonToggle != null)
         {
             _soundButtonToggle.onClick.AddListener(
-                () => CallSoundToggle());
+                () => _soundUIOn = !_soundUIOn);
         }
         if (_questionYes != null)
         {
@@ -127,11 +128,15 @@ public class TItleManager : MonoBehaviour
                         if (SaveManager.Available(i))
                         {
                             _useSaveData = true;
+                            _PrologueToggle.gameObject.SetActive(false);
+                            _PrologueToggle.isOn = false;
                             ShowQuestion($"{i + 1}번 데이터를 불러옵니까?", CallGameScene);
                         }
                         else
                         {
                             _useSaveData = false;
+                            _PrologueToggle.gameObject.SetActive(true);
+                            _PrologueToggle.isOn = true;
                             ShowQuestion($"{i + 1}번 데이터에 새 게임을 시작합니까?", CallGameScene);
                         }
                     }
@@ -199,7 +204,6 @@ public class TItleManager : MonoBehaviour
         _titleCanvas.gameObject.SetActive(false);
         _titleState = ETitleState.Save;
     }
-
     private void CallGameScene()
     {
         _sceneManager.TargetSaveData = _targetSlot;
@@ -207,7 +211,8 @@ public class TItleManager : MonoBehaviour
         (float bgmLevel, float seLevel) = _soundManager.GetVolume();
         _sceneManager.KeepVolume = (bgmLevel, seLevel);
         _titleState = ETitleState.Title;
-        _sceneManager.LoadScene(ESceneId.Game);
+        if (!SaveManager.Available(_targetSlot) && _PrologueToggle.isOn) _sceneManager.LoadScene(ESceneId.Prologue);
+        else _sceneManager.LoadScene(ESceneId.Game);
     }
 
     private void CallGotoTitle()
@@ -278,10 +283,6 @@ public class TItleManager : MonoBehaviour
                 }
             }
         }
-    }
-    private void CallSoundToggle()
-    {
-        _soundUIOn = !_soundUIOn;
     }
     private void CallSlotDelete()
     {

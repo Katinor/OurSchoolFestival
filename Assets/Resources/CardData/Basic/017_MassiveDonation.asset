@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
-  m_Name: 019_MassiveDonation
+  m_Name: 017_MassiveDonation
   m_EditorClassIdentifier: 
-  _cardId: 19
+  _cardId: 17
   _cardName: "\uB300\uADDC\uBAA8 \uC790\uC7AC \uD6C4\uC6D0"
   _description: "<sprite=1>+2 <sprite=3>+1 <sprite=7>+1 <sprite=10>+2\n\uBD80\uC2A4\uAC00
     3\uAC1C \uC774\uC0C1\uC774\uB77C\uBA74, \uCD94\uAC00\uB85C <sprite=3>+3"
