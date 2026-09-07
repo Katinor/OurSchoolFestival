@@ -13,6 +13,8 @@ public class DailyEventManager : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [Header("사운드")]
     [SerializeField] private SoundManager _soundManager;
+    [Header("일일 이벤트 캔버스")]
+    [SerializeField] private Canvas _canvas;
 
     [Header("버튼들")]
     [SerializeField] private Button _uiHideButton;
@@ -20,8 +22,6 @@ public class DailyEventManager : MonoBehaviour
 
     [Header("UI 패널")]
     [SerializeField] CanvasGroup _uiPanel;
-    [Header("사운드 패널")]
-    [SerializeField] CanvasGroup _soundPanel;
     [Header("일러스트")]
     [SerializeField] Image _illustPanel;
     [Header("대사창")]
@@ -31,13 +31,13 @@ public class DailyEventManager : MonoBehaviour
     [SerializeField] RectTransform _speakerPanel;
     [SerializeField] TMP_Text _speakerText;
 
-    [Header("대답버튼")]
-    [SerializeField] Button _answer01;
-    [SerializeField] OnMouseTooltip _tooltip01;
-    [SerializeField] Button _answer02;
-    [SerializeField] OnMouseTooltip _tooltip02;
-    [SerializeField] Button _answer03;
-    [SerializeField] OnMouseTooltip _tooltip03;
+    //[Header("대답버튼")]
+    //[SerializeField] Button _answer01;
+    //[SerializeField] OnMouseTooltip _tooltip01;
+    //[SerializeField] Button _answer02;
+    //[SerializeField] OnMouseTooltip _tooltip02;
+    //[SerializeField] Button _answer03;
+    //[SerializeField] OnMouseTooltip _tooltip03;
 
     [Header("일러스트 목록")]
     [SerializeField] List<Sprite> _sprites;
@@ -46,7 +46,7 @@ public class DailyEventManager : MonoBehaviour
     [SerializeField] List<DailyEventSet> _dialogueDatas;
 
     private SceneFlowManager _sceneManager;
-    private bool _isEnable;
+    private bool _isEnable = false;
     private bool _isDialogHide = false;
     private bool _gotoNext = false;
     private int _pageIndex = 0;
@@ -70,14 +70,10 @@ public class DailyEventManager : MonoBehaviour
                 {
                     _soundManager.PlaySE(EEffectSound.QuestionChoose);
                     _uiPanel.alpha = 0;
-                    _soundPanel.alpha = 0;
                     _isDialogHide = true;
                 });
         }
         #endregion
-        RefreshDialogue();
-        _uiPanel.alpha = 1;
-        if (_sceneManager != null) StartCoroutine(_sceneManager.LoadingScreenOff(1f));
     }
 
     void Update()
@@ -101,7 +97,6 @@ public class DailyEventManager : MonoBehaviour
             {
                 _soundManager.PlaySE(EEffectSound.QuestionChoose);
                 _isDialogHide = false;
-                _soundPanel.alpha = 1;
                 _uiPanel.alpha = 1;
             }
         }
@@ -111,13 +106,8 @@ public class DailyEventManager : MonoBehaviour
     {
         if (_dialogueDatas[_pageIndex].IsLast(_dialogueIndex))
         {
-            _pageIndex += 1;
-            if (_pageIndex >= _dialogueDatas.Count)
-            {
-                GoToGame(_arg);
-                return;
-            }
-            _dialogueIndex = 0;
+            GoToGame(_arg);
+            return;
         }
         else
         {
@@ -152,16 +142,33 @@ public class DailyEventManager : MonoBehaviour
             _illustPanel.sprite = _sprites[targetData.IllustIndex];
             _illustPanel.gameObject.SetActive(true);
         }
+        _soundManager.PlaySE(EEffectSound.QuestionChoose);
+    }
+
+    private void GoToDialogue(int page, int dialogue)
+    {
+        _pageIndex = page;
+        _dialogueIndex = dialogue;
+        RefreshDialogue();
     }
 
     private void GoToGame(int arg)
     {
-
+        _gameManager.DailyEventArg = arg;
+        _isEnable = false;
+        _speakerPanel.gameObject.SetActive(false);
+        _illustPanel.gameObject.SetActive(false);
+        _canvas.gameObject.SetActive(false);
+        StartCoroutine(_gameManager.EndDailyEvent());
     }
 
     public void StartEvent(int pageIndex, int dialogueIndex)
     {
-
+        _isEnable = true;
+        _pageIndex = pageIndex;
+        _dialogueIndex = dialogueIndex;
+        _canvas.gameObject.SetActive(true);
+        RefreshDialogue();
     }
 
     private void CallQuestion()

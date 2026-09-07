@@ -2776,9 +2776,82 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogData:
-  - _speakerName: 
-    _dialogueText: 
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "......\uD558\uC544."
     _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
+    _dialogueText: "\uC5ED\uC2DC \uC2EB\uC5B4?"
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uADC0\uCC2E\uAE34 \uD55C\uB370."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uCE74\uD2F0\uB178\uB974\uB294 \uADC0\uCC2E\uC740 \uD45C\uC815\uC73C\uB85C
+      \uAE30\uC9C0\uAC1C\uB97C \uD3B4\uBA70 \uB9D0\uD588\uB2E4."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uC774\uBBF8 \uBD80\uD0C1\uAE4C\uC9C0 \uB4E4\uC5C8\uC73C\uB2C8\uAE4C,\n\uC774\uC81C\uC640\uC11C
+      \uBAA8\uB978 \uCC99 \uD558\uAE30\uB3C4 \uADF8\uB807\uC796\uC544."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uCE74\uD2F0\uB178\uB974\uB294 \uD734\uB300\uC804\uD654\uB97C
+      \uAEBC\uB0B4 \uC9E7\uAC8C \uC5F0\uB77D\uC744 \uB3CC\uB838\uB2E4."
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uC7A0\uC2DC \uB4A4\n\uACF5\uAD6C\uC0C1\uC790\uC640 \uC7A5\uBE44\uB97C
+      \uB4E0 \uACFC\uD559 \uB3D9\uC544\uB9AC\uC6D0\uB4E4\uC774\n\uD558\uB098 \uB458
+      \uBAA8\uC2B5\uC744 \uB4DC\uB7EC\uB0C8\uB2E4."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
+    _dialogueText: "... \uB2E4 \uBD88\uB800\uC5B4?"
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uC751.\n\uADF8\uB7EC\uB2C8\uAE4C \uC801\uB2F9\uD788 \uBD80\uB824\uBA39\uC5B4."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
+    _dialogueText: "\uACE0\uB9C8\uC6CC,\uCE74\uD2F0\uB178\uB974."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "... \uADF8\uB7F0 \uB9D0 \uD558\uBA74 \uB354 \uADC0\uCC2E\uC544\uC9C0\uB294\uB370."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "<b>[\uCE74\uD2F0\uB178\uB974 \uD638\uCD9C]</b> \uCE74\uB4DC\uB97C
+      \uD68D\uB4DD\uD588\uB2E4!\n\uACFC\uD559\uB3D9\uC544\uB9AC\uC758 \uAE30\uC220\uB825\uC73C\uB85C
+      \uCD95\uC81C\uB97C \uD0A4\uC6CC\uBCF4\uC790."
+    _illustHide: 1
     _illustChange: 0
     _illustIndex: 0
     _questions: []
@@ -7081,7 +7154,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &832770864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7637,81 +7710,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853054944}
-  m_CullTransparentMesh: 1
---- !u!1 &902966643
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 902966644}
-  - component: {fileID: 902966646}
-  - component: {fileID: 902966645}
-  m_Layer: 5
-  m_Name: Illust_Space
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &902966644
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 902966643}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2007498758}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0}
-  m_SizeDelta: {x: 683, y: 1024}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &902966645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 902966643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b2a4e3c88b25d7b4c84899ec09f07d12, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &902966646
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 902966643}
   m_CullTransparentMesh: 1
 --- !u!1 &917201093
 GameObject:
@@ -10071,6 +10069,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1165335572}
+  - component: {fileID: 1165335573}
   m_Layer: 0
   m_Name: DailyEvent
   m_TagString: Untagged
@@ -10094,6 +10093,33 @@ Transform:
   - {fileID: 358208803}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1165335573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165335571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bf6d858bc6f05e4ba5d4f1061172336, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameManager: {fileID: 1618622328}
+  _soundManager: {fileID: 798194634}
+  _canvas: {fileID: 832770866}
+  _uiHideButton: {fileID: 1636455532}
+  _nextButton: {fileID: 456809565}
+  _uiPanel: {fileID: 28047550}
+  _illustPanel: {fileID: 1684571976}
+  _dialoguePanel: {fileID: 1087565073}
+  _dialogueText: {fileID: 1934149134}
+  _speakerPanel: {fileID: 978949522}
+  _speakerText: {fileID: 1079000341}
+  _sprites:
+  - {fileID: 21300000, guid: 0064d4ed41d0b2241937484d0f3c1580, type: 3}
+  _dialogueDatas:
+  - {fileID: 358208804}
 --- !u!1 &1187806337
 GameObject:
   m_ObjectHideFlags: 0
@@ -14554,7 +14580,7 @@ MonoBehaviour:
   _cardHand: {fileID: 457561710}
   _soundManager: {fileID: 798194634}
   _camera: {fileID: 963194229}
-  _dailyManager: {fileID: 0}
+  _dailyManager: {fileID: 1165335573}
   _cardAddButton: {fileID: 319575792}
   _errorPrefab: {fileID: 5366599432672396336, guid: 94dfc038a0cbb7e4e97072a2c6cc89bd, type: 3}
   _mainCamera: {fileID: 963194227}
@@ -15997,7 +16023,7 @@ GameObject:
   - component: {fileID: 1684571977}
   - component: {fileID: 1684571976}
   m_Layer: 5
-  m_Name: Illust_Katinor
+  m_Name: IllustPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18814,7 +18840,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1684571975}
-  - {fileID: 902966644}
   m_Father: {fileID: 832770867}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

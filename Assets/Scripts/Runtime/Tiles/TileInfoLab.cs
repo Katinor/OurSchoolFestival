@@ -10,7 +10,7 @@ public class TileInfoLab : CTile
         this._tileState = ETileState.Built | ETileState.Action;
         this._tileInfo = "";
         this._baseColor = new UnityEngine.Color(1f, 0.5f, 0f);
-        this._tileInCatalog = ETileCatalog.CoffeeBooth;
+        this._tileInCatalog = ETileCatalog.InfoLab;
         this._actionName = "LLM 기동";
         this._actionCost = new SCost(2, 0, 0, 0, 0, 0);
         this._actionEnabled = true;

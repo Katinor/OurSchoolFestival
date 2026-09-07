@@ -278,7 +278,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3335544210822551086}
-  - component: {fileID: 2473926819089372996}
   - component: {fileID: 198511479027983527}
   m_Layer: 0
   m_Name: Tile_InfoLab
@@ -308,28 +307,6 @@ Transform:
   - {fileID: 4736143202609530943}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2473926819089372996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6490976190395028659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16fb492edd8dd454a9ffe00bca734e70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _baseRenderer: {fileID: 876567424479754455}
-  _selectSound: {fileID: 623684283913752275}
-  _builtTransform: {fileID: 8683703969004450664}
-  _textObject: {fileID: 3061584577552143629}
-  _tileText: {fileID: 8257556727966522279}
-  _particleSystem:
-  - {fileID: 4857783285966188473}
-  - {fileID: 4857462797401694931}
-  - {fileID: 4857888656507895673}
-  _isParticleScaled: 1
 --- !u!114 &198511479027983527
 MonoBehaviour:
   m_ObjectHideFlags: 0

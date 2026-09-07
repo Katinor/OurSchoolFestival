@@ -156,7 +156,7 @@ public class CHand : MonoBehaviour
             rect.anchoredPosition = pos;
         }
     }
-    
+
     public void LoadSavedDeck(List<int> cardId)
     {
         _cardDeck = new List<GameCard>();
@@ -219,9 +219,9 @@ public class CHand : MonoBehaviour
         return true;
     }
 
-    public bool AddCard(int cardId, bool create = false, bool noAnimation = false)
+    public bool AddCard(int cardId, bool create = false, bool noAnimation = false, bool isTop = false)
     {
-        if (GetHandSize() >= _cardMax)
+        if (!isTop && GetHandSize() >= _cardMax)
         {
             Logger.Error("패 가득참");
             return false;
@@ -246,12 +246,14 @@ public class CHand : MonoBehaviour
         }
 
         GameObject go = Instantiate(_cardPrefab, this.transform);
+        if (isTop) go.transform.SetAsFirstSibling();
         CCard card = go.GetComponent<CCard>();
         card.Setup(AllCardsDict[cardId], _tooltipClass);
         if (noAnimation)
         {
             card.IsLoaded = true;
         }
+        CardPositionReset();
         return true;
     }
 
@@ -294,5 +296,6 @@ public class CHand : MonoBehaviour
                 }
             }
         }
+        Logger.Success($"{target} 추가 => 현재 덱 {_cardDeck.Count} 장");
     }
 }

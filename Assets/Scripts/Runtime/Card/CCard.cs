@@ -29,6 +29,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private bool _canUseMaterials = false;
     private List<TechData> _techData;
     private GameManager _gameManager;
+    private CHand _handManager;
     private OnMouseTooltipCard _onMouseTooltipCard;
     private List<Func<GameManager, int, bool>> _actionFuncList;
     private Func<GameManager, ETileCatalog, Vector3Int, bool> _actionTileFunc;
@@ -148,6 +149,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        _handManager = FindObjectOfType<CHand>();
         if (!_onMouseTooltipCard)
         {
             _onMouseTooltipCard = FindObjectOfType<OnMouseTooltipCard>();
@@ -418,13 +420,14 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             Logger.Error($"{_cardName} 발동 실패");
         }
         transform.SetParent(null);
-        Destroy(gameObject);
+        DeleteCard();
     }
 
     public void DeleteCard()
     {
         transform.SetParent(null);
         Destroy(gameObject);
+        _handManager.CardPositionReset();
     }
 
     public int AvailableToUse()

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -188,6 +189,8 @@ public partial class GameManager : MonoBehaviour
     private bool _rightUIOn = false;
     private bool _leftUIOn = false;
     private bool _soundUIOn = false;
+
+    private int _dailyEventArg = -1;
     #endregion
 
     public Grid GameGrid
@@ -218,11 +221,17 @@ public partial class GameManager : MonoBehaviour
         protected set { _currentDay = value; }
     }
 
+    public int DailyEventArg
+    {
+        get { return _dailyEventArg; }
+        set { _dailyEventArg = value; }
+    }
+
     void Start()
     {
         _tilemap = this.GetComponentInChildren<Tilemap>();
         _gameState = EGameState.NoInput;
-        StartCoroutine(StateShow());
+        // StartCoroutine(StateShow());
         if (SceneFlowManager.Instance != null)
         {
             _sceneManager = SceneFlowManager.Instance;
@@ -258,10 +267,7 @@ public partial class GameManager : MonoBehaviour
             SetDayButton(_currentDay);
             _cardHand.CardPositionReset();
         }
-        if (_currentDay < 6) _soundManager.PlayBGM(EBackgroundSound.Part1);
-        else if (_currentDay < 11) _soundManager.PlayBGM(EBackgroundSound.Part2);
-        else if (_currentDay == 16) _soundManager.PlayBGM(EBackgroundSound.Result);
-        else _soundManager.PlayBGM(EBackgroundSound.Part3);
+        if (_currentDay == 16) _soundManager.PlayBGM(EBackgroundSound.Result);
         StartCoroutine(StartManager());
     }
 
@@ -286,6 +292,9 @@ public partial class GameManager : MonoBehaviour
             case EGameState.Question:
                 UpdateQuestionSelect();
                 break;
+            case EGameState.DailyEvent:
+                if (DailyEventArg != -1) EndDailyEvent();
+                break;
         }
 
         LeftPanelMove();
@@ -297,17 +306,15 @@ public partial class GameManager : MonoBehaviour
     private IEnumerator StartManager()
     {
         if (_sceneManager != null) yield return StartCoroutine(_sceneManager.LoadingScreenOff(2f, 1f));
-        if (_sceneManager == null || !_sceneManager.LoadSavedData) yield return StartCoroutine(_cardHand.AddCardCoroutine(6, 0.5f));
         if (_currentDay >= 16)
         {
             _gameState = EGameState.LastDayIdle;
         }
         else
         {
-            _gameState = EGameState.Idle;
-            SaveData();
+            _gameState = EGameState.DailyEvent;
+            StartCoroutine(StartDailyEvent());
         }
-        yield break;
     }
     public bool CheckResource(int moneyCurrent, int moneyIncrease,
         int materialsCurrent, int materialsIncrease, int menpowerCurrent, int menpowerIncrease, bool canUseMaterials = false)
@@ -414,9 +421,10 @@ public partial class GameManager : MonoBehaviour
         _resources.PayCost(cost);
     }
 
-    public void GetCard(int cardId, bool create = true)
+    public void GetCard(int cardId, bool create = true, bool isTop = true)
     {
-        _cardHand.AddCard(cardId, create);
+        _cardHand.AddCard(cardId, create, false, isTop);
+        _soundManager.PlaySE(EEffectSound.CardDraw);
     }
 
     public void AddDeck(List<int> deckIds)
