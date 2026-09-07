@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 408_ScienceSeminar
+  m_EditorClassIdentifier: 
+  _cardId: 408
+  _cardName: "\uACFC\uD559 \uC138\uBBF8\uB098"
+  _description: "<b>\uB4DC\uB85C\uC6B0 1</b>"
+  _flavorText: "\uC2DC\uC791\uC744 \uC138\uBBF8\uB098\uB85C \uD55C\uB2E4\uBA74, \uD559\uAD50
+    \uCE21\uC5D0\uC11C \uC88B\uC544\uD574\uC904\uAC81\uB2C8\uB2E4."
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: 46fc4399a6f836b43881046acb94f8c3, type: 3}
+  _costInfo:
+    moneyCurrent: 5
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 0
+  _inStartDeck: 0
+  _tagList:
+  - tag: 5
+    level: 1
+  _actionList:
+  - action: 17
+    level: 1
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 005

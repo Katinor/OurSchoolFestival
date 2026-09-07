@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CHand : MonoBehaviour
@@ -39,17 +40,22 @@ public class CHand : MonoBehaviour
         return this.transform.childCount;
     }
 
+    public bool CanDraw(int cardCount)
+    {
+        if ((GetHandSize() + cardCount) > _cardMax) return false;
+        else return true;
+    }
     public List<GameCard> GetAllHand()
     {
         List<GameObject> handObjects = new List<GameObject>();
         List<GameCard> handCards = new List<GameCard>();
-        foreach (Transform child in transform)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            handObjects.Add(child.gameObject);
+            handObjects.Add(transform.GetChild(i).gameObject);
         }
-        foreach (GameObject handObject in handObjects)
+        for (int i = 0; i < handObjects.Count; i++)
         {
-            CCard cardComponent = handObject.GetComponent<CCard>();
+            CCard cardComponent = handObjects[i].GetComponent<CCard>();
             if (cardComponent != null)
             {
                 handCards.Add(cardComponent.Card);
@@ -62,13 +68,13 @@ public class CHand : MonoBehaviour
     {
         List<GameObject> handObjects = new List<GameObject>();
         List<int> handCards = new List<int>();
-        foreach (Transform child in transform)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            handObjects.Add(child.gameObject);
+            handObjects.Add(transform.GetChild(i).gameObject);
         }
-        foreach (GameObject handObject in handObjects)
+        for (int i = 0; i < handObjects.Count; i++)
         {
-            CCard cardComponent = handObject.GetComponent<CCard>();
+            CCard cardComponent = handObjects[i].GetComponent<CCard>();
             if (cardComponent != null)
             {
                 handCards.Add(cardComponent.CardId);
@@ -81,13 +87,13 @@ public class CHand : MonoBehaviour
     {
         List<GameObject> handObjects = new List<GameObject>();
         List<CCard> handCards = new List<CCard>();
-        foreach (Transform child in transform)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            handObjects.Add(child.gameObject);
+            handObjects.Add(transform.GetChild(i).gameObject);
         }
-        foreach (GameObject handObject in handObjects)
+        for (int i = 0; i < handObjects.Count; i++)
         {
-            CCard cardComponent = handObject.GetComponent<CCard>();
+            CCard cardComponent = handObjects[i].GetComponent<CCard>();
             if (cardComponent != null)
             {
                 handCards.Add(cardComponent);
@@ -100,8 +106,9 @@ public class CHand : MonoBehaviour
     {
         GameCard[] gameCards = Resources.LoadAll<GameCard>("CardData");
         AllCards = new List<GameCard>(gameCards);
-        foreach (GameCard card in gameCards)
+        for (int i=0; i<gameCards.Length; i++)
         {
+            GameCard card = gameCards[i];
             if (!AllCardsDict.ContainsKey(card.CardId))
             {
                 AllCardsDict[card.CardId] = card;
@@ -116,20 +123,24 @@ public class CHand : MonoBehaviour
     public List<int> GetCardDeckByInt()
     {
         List<int> deckCards = new List<int>();
-        foreach (GameCard card in _cardDeck)
+        for (int i = 0; i < _cardDeck.Count; i++)
         {
-            deckCards.Add(card.CardId);
+            deckCards.Add(_cardDeck[i].CardId);
         }
         return deckCards;
     }
 
     private void LoadStartDeck()
     {
-        GameCard[] _gameCards = Resources.LoadAll<GameCard>("CardData");
+        GameCard[] gameCards = Resources.LoadAll<GameCard>("CardData");
         _cardDeck = new List<GameCard>();
-        foreach (GameCard card in _gameCards)
+        for (int i = 0; i < gameCards.Length; i++)
         {
-            _cardDeck.Add(card);
+            GameCard card = gameCards[i];
+            if (card.InStartDeck)
+            {
+                _cardDeck.Add(gameCards[i]);
+            }
         }
     }
     public void CardPositionReset()
@@ -171,7 +182,7 @@ public class CHand : MonoBehaviour
         ClearHand();
         for (int i = 0; i < cardId.Count; i++)
         {
-            AddCard(cardId[i], true);
+            AddCard(cardId[i], true, true);
         }
         CardPositionReset();
     }
@@ -202,24 +213,25 @@ public class CHand : MonoBehaviour
             Logger.Log($"덱 삭제 - {selectedCard.CardId}:{selectedCard.CardName} (남은 카드 : {_cardDeck.Count}");
         }
         GameObject go = Instantiate(_cardPrefab, this.transform);
+        go.transform.position += Vector3.right * 2160;
         CCard card = go.GetComponent<CCard>();
         card.Setup(selectedCard, _tooltipClass);
         return true;
     }
 
-    public bool AddCard(int cardId, bool debug = false)
+    public bool AddCard(int cardId, bool create = false, bool noAnimation = false)
     {
         if (GetHandSize() >= _cardMax)
         {
             Logger.Error("패 가득참");
             return false;
         }
-        if (!debug && (_cardDeck.Count == 0 || _cardDeck == null))
+        if (!create && (_cardDeck.Count == 0 || _cardDeck == null))
         {
             Logger.Error("덱 없음");
             return false;
         }
-        if (!debug)
+        if (!create)
         {
             int temp = _cardDeck.FindIndex(c => c.CardId == cardId);
             if (temp == -1)
@@ -236,7 +248,7 @@ public class CHand : MonoBehaviour
         GameObject go = Instantiate(_cardPrefab, this.transform);
         CCard card = go.GetComponent<CCard>();
         card.Setup(AllCardsDict[cardId], _tooltipClass);
-        if (debug)
+        if (noAnimation)
         {
             card.IsLoaded = true;
         }
@@ -258,6 +270,29 @@ public class CHand : MonoBehaviour
             if (!AddCard()) yield break;
             _soundManager.PlaySE(EEffectSound.CardDraw);
             yield return new WaitForSecondsRealtime(0.25f * ratio);
+        }
+    }
+    
+    public void AddCardInDeck(List<int> target)
+    {
+        for (int i = 0; i < target.Count; i++)
+        {
+            GameCard card = AllCardsDict[target[i]];
+            if (card == null)
+            {
+                Logger.Error("카드 정보에 등록되지 않은 카드");
+            }
+            else
+            {
+                if (_cardDeck.Contains(card))
+                {
+                    Logger.Error("이미 존재하는 카드");
+                }
+                else
+                {
+                    _cardDeck.Add(card);
+                }
+            }
         }
     }
 }

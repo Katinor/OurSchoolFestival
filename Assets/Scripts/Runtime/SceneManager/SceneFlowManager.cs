@@ -131,6 +131,7 @@ public partial class SceneFlowManager : MonoBehaviour
     {
         if (showLoading) _loadingText.gameObject.SetActive(true);
         else _loadingText.gameObject.SetActive(false);
+        _fadeGroup.blocksRaycasts = true;
         yield return StartCoroutine(Co_FadeTo(1f, _fadeDuration * ratio, true));
     }
 
@@ -139,6 +140,7 @@ public partial class SceneFlowManager : MonoBehaviour
         _loadingText.gameObject.SetActive(false);
         yield return new WaitForSeconds(delay);
         yield return StartCoroutine(Co_FadeTo(0f, _fadeDuration * ratio, true));
+        _fadeGroup.blocksRaycasts = false;
     }
 
     private IEnumerator Co_LoadSceneWithTransition(ESceneId id, string sceneName)

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 417_AutomationFestivaltile
+  m_EditorClassIdentifier: 
+  _cardId: 417
+  _cardName: "\uCD95\uC81C \uC2DC\uC124 \uC790\uB3D9\uD654"
+  _description: <sprite=1>+2 <sprite=5>+1
+  _flavorText: 
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: a58e83b3d5757954d88feb09e0d341fb, type: 3}
+  _costInfo:
+    moneyCurrent: 18
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList:
+  - tag: 5
+    level: 3
+  _actionList:
+  - action: 1
+    level: 2
+  - action: 5
+    level: 1
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 058

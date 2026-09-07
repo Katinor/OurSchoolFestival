@@ -139,7 +139,8 @@ public partial class GameManager
 
     private void CallUpgrade()
     {
-        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay)
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent
+            || _gameState == EGameState.LastDayIdle || _gameState == EGameState.LastDayTileInspect)
         {
             return;
         }
@@ -174,7 +175,8 @@ public partial class GameManager
     }
     private void CallTileAction()
     {
-        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay)
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent
+            || _gameState == EGameState.LastDayIdle || _gameState == EGameState.LastDayTileInspect)
         {
             return;
         }
@@ -221,7 +223,8 @@ public partial class GameManager
 
     public void CallCard(CCard card, bool alreadyPaiedMaterials)
     {
-        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay)
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent
+            || _gameState == EGameState.LastDayIdle || _gameState == EGameState.LastDayTileInspect)
         {
             return;
         }
@@ -296,6 +299,9 @@ public partial class GameManager
                 case 3:
                     CreateError("기술 불만족", true);
                     break;
+                case 4:
+                    CreateError("손패에 공간 부족함", true);
+                    break;
                 default:
                     CreateError("알 수 없는 이유", true);
                     break;
@@ -304,7 +310,8 @@ public partial class GameManager
     }
     public void DeleteCard(CCard card)
     {
-        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay)
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent
+            || _gameState == EGameState.LastDayIdle || _gameState == EGameState.LastDayTileInspect)
         {
             return;
         }
@@ -390,7 +397,8 @@ public partial class GameManager
 
     private void CallCardAdd()
     {
-        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay)
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent
+            || _gameState == EGameState.LastDayIdle || _gameState == EGameState.LastDayTileInspect)
         {
             return;
         }
@@ -568,7 +576,7 @@ public partial class GameManager
 
     private void CallGotoTitle()
     {
-        if (_gameState == EGameState.NoInput)
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent)
         {
             return;
         }

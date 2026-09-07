@@ -57,6 +57,12 @@ public static partial class CCardStatic
         return true;
     }
 
+    public static bool CardDraw(GameManager manager, int level)
+    {
+        manager.DrawCards(level);
+        return true;
+    }
+
     public static bool CardScience(GameManager manager, int level)
     {
         return CardTech(manager, ETech.Science, level);

@@ -1,8 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public partial class GameManager
 {
+    private IEnumerator StateShow()
+    {
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(5f);
+            Logger.Log($"현재 스테이트 - {_gameState}");
+        }
+    }
     private void UpdateIdle()
     {
         CatchCommonKeyaction();
@@ -34,6 +43,40 @@ public partial class GameManager
                 {
                     OnClickElse();
                     _gameState = EGameState.Idle;
+                }
+            }
+        }
+    }
+    private void UpdateLastIdle()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            _questionAction = null;
+            _questionCard = null;
+            OnClickElse();
+            _gameState = EGameState.LastDayIdle;
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                Logger.Log("UI 클릭함");
+                return;
+            }
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _hitMask))
+            {
+                Vector3 hitPoint = hit.point;
+                if (findObjectByTile(hitPoint, out Vector3Int posInCell, out GameObject go))
+                {
+                    Logger.V3($"클릭대상 - {go.name}", posInCell);
+                    OnClickTile(go, posInCell);
+                    _gameState = EGameState.LastDayTileInspect;
+                }
+                else
+                {
+                    OnClickElse();
+                    _gameState = EGameState.LastDayIdle;
                 }
             }
         }

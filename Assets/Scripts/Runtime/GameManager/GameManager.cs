@@ -15,7 +15,9 @@ public enum ETileCatalog
     Booth,
     Foodbooth,
     FestivalHQ,
-    CoffeeBooth
+    CoffeeBooth,
+    LaboBooth,
+    InfoLab
 }
 
 public enum EGameState
@@ -26,7 +28,10 @@ public enum EGameState
     TileSelect,
     Question,
     NextDay,
-    NoInput
+    LastDayIdle,
+    LastDayTileInspect,
+    DailyEvent,
+    NoInput,
 }
 
 public partial class GameManager : MonoBehaviour
@@ -49,6 +54,9 @@ public partial class GameManager : MonoBehaviour
 
     [Header("카메라")]
     [SerializeField] CameraManager _camera;
+
+    [Header("일일 이벤트 매니저")]
+    [SerializeField] DailyEventManager _dailyManager;
 
     [Header("핸드추가 (디버그용)")]
     [SerializeField] Button _cardAddButton;
@@ -213,6 +221,8 @@ public partial class GameManager : MonoBehaviour
     void Start()
     {
         _tilemap = this.GetComponentInChildren<Tilemap>();
+        _gameState = EGameState.NoInput;
+        StartCoroutine(StateShow());
         if (SceneFlowManager.Instance != null)
         {
             _sceneManager = SceneFlowManager.Instance;
@@ -238,13 +248,6 @@ public partial class GameManager : MonoBehaviour
         {
             _saveSlot = _sceneManager.TargetSaveData;
             LoadData();
-            if (_currentDay >= 16)
-            {
-                _gameState = EGameState.NextDay;
-                StartCoroutine(_sceneManager.LoadingScreenOff(0.5f));
-                StartCoroutine(CallNextDayCoroutine());
-                StartCoroutine(_sceneManager.LoadingScreenOff(1f, 1f));
-            }
         }
         else
         {
@@ -257,6 +260,7 @@ public partial class GameManager : MonoBehaviour
         }
         if (_currentDay < 6) _soundManager.PlayBGM(EBackgroundSound.Part1);
         else if (_currentDay < 11) _soundManager.PlayBGM(EBackgroundSound.Part2);
+        else if (_currentDay == 16) _soundManager.PlayBGM(EBackgroundSound.Result);
         else _soundManager.PlayBGM(EBackgroundSound.Part3);
         StartCoroutine(StartManager());
     }
@@ -268,6 +272,10 @@ public partial class GameManager : MonoBehaviour
             case EGameState.Idle:
             case EGameState.TileInspect:
                 UpdateIdle();
+                break;
+            case EGameState.LastDayIdle:
+            case EGameState.LastDayTileInspect:
+                UpdateLastIdle();
                 break;
             case EGameState.MaterialCount:
                 UpdateMaterialCheck();
@@ -290,8 +298,15 @@ public partial class GameManager : MonoBehaviour
     {
         if (_sceneManager != null) yield return StartCoroutine(_sceneManager.LoadingScreenOff(2f, 1f));
         if (_sceneManager == null || !_sceneManager.LoadSavedData) yield return StartCoroutine(_cardHand.AddCardCoroutine(6, 0.5f));
-        SaveData();
-        _gameState = EGameState.Idle;
+        if (_currentDay >= 16)
+        {
+            _gameState = EGameState.LastDayIdle;
+        }
+        else
+        {
+            _gameState = EGameState.Idle;
+            SaveData();
+        }
         yield break;
     }
     public bool CheckResource(int moneyCurrent, int moneyIncrease,
@@ -397,5 +412,25 @@ public partial class GameManager : MonoBehaviour
     public void PayCost(SCost cost)
     {
         _resources.PayCost(cost);
+    }
+
+    public void GetCard(int cardId, bool create = true)
+    {
+        _cardHand.AddCard(cardId, create);
+    }
+
+    public void AddDeck(List<int> deckIds)
+    {
+        _cardHand.AddCardInDeck(deckIds);
+    }
+
+    public void DrawCards(int cardCount)
+    {
+        _cardHand.AddCards(cardCount);
+    }
+
+    public bool CanDraw(int cardCount)
+    {
+        return _cardHand.CanDraw(cardCount);
     }
 }

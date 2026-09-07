@@ -22,7 +22,6 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     #region Member Variable - CardData
     private string _cardName;
     private GameCard _gameCard;
-    private string _tileAdditionalDescription;
     private string _tooltip;
     private bool _isDeletable;
     private SCost _cost;
@@ -34,14 +33,16 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private List<Func<GameManager, int, bool>> _actionFuncList;
     private Func<GameManager, ETileCatalog, Vector3Int, bool> _actionTileFunc;
     private int _actionScoreFunction;
+    private int _needHandCount;
     private ETileCatalog _actionBuilding;
     private List<int> _actionLevelList;
+    private List<int> _addCardOnHand = new List<int>();
+    private List<int> _addCardOnDeck = new List<int>();
     private bool _hasTileAction = false;
     private bool _hasPointFunction = false;
     private bool _isTileRoad = false;
     private bool _canPayMaterials = false;
     private bool _isSingle = false;
-    private int _weight = 100;
     private bool _isLoaded = false;
     #endregion
 
@@ -115,12 +116,6 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         get { return _canPayMaterials; }
         protected set { _canPayMaterials = value; }
-    }
-
-    public int Weight
-    {
-        get { return _weight; }
-        set { _weight = value; }
     }
 
     public bool IsSingle
@@ -231,12 +226,25 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         _cardName = targetCard.CardName;
         _isDeletable = targetCard.IsDeletable;
         _costLabel.text = targetCard.CostInfo.moneyCurrent.ToString();
+        _isSingle = targetCard.IsSingle;
         _techData = targetCard.TagList;
-        _tagLabel.text = "";
+        _addCardOnHand = targetCard.AddCardOnHand;
+        _needHandCount = 0;
+        if (_addCardOnHand != null && _addCardOnHand.Count > 0)
+        {
+            _needHandCount += _addCardOnHand.Count;
+        }
+        _addCardOnDeck = targetCard.AddCardOnDeck;
+        if (_isSingle)
+        {
+            _tagLabel.text = "[고유]";
+        }
+        else _tagLabel.text = "";
         _canPayMaterials = false;
         for (int i = 0; i < _techData.Count; i++)
         {
             if (i > 0) _tagLabel.text += ", ";
+            else if (_isSingle) _tagLabel.text += ", ";
             _tagLabel.text += TagTranslator(_techData[i]);
             if (_techData[i].tag == ETech.Structure)
             {
@@ -245,8 +253,6 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         _cost = new SCost(targetCard.CostInfo, _canUseMaterials);
         _costMoney = _cost.moneyCurrent;
-        _weight = targetCard.Weight;
-        _isSingle = targetCard.IsSingle;
 
         _descriptionLabel.text = $"{targetCard.Description}\n<i><size=75%>{targetCard.FlavorText}</size><i>";
         _tooltip = targetCard.Tooltip;
@@ -313,6 +319,10 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     _actionFuncList.Add(CCardStatic.CardEmpty);
                     _actionScoreFunction = targetCard.ActionList[i].level;
                     _hasPointFunction = true;
+                    break;
+                case EAction.Draw:
+                    _actionFuncList.Add(CCardStatic.CardDraw);
+                    _needHandCount = targetCard.ActionList[i].level;
                     break;
             }
             _actionLevelList.Add(targetCard.ActionList[i].level);
@@ -388,6 +398,17 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             _gameManager.AddScoreAction(_actionScoreFunction);
         }
+        if (_addCardOnHand != null && _addCardOnHand.Count > 0)
+        {
+            for (int i = 0; i < _addCardOnHand.Count; i++)
+            {
+                _gameManager.GetCard(_addCardOnHand[i], true);
+            }
+        }
+        if (_addCardOnDeck != null && _addCardOnDeck.Count > 0)
+        {
+            _gameManager.AddDeck(_addCardOnDeck);
+        }
         if (isDone)
         {
             Logger.Success($"{_cardName} 발동 성공!");
@@ -409,6 +430,10 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public int AvailableToUse()
     {
         if (!_gameManager.CheckResource(_cost)) return 1;
+        if (_needHandCount > 0)
+        {
+            if (!_gameManager.CanDraw(_needHandCount)) return 4;
+        }
         for(int i = 0; i < _techData.Count; i++)
         {
             TechData tempData = _techData[i];

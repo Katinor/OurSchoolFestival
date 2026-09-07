@@ -6,15 +6,25 @@ public partial class GameManager
 {
     private void CallNextDay()
     {
+        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent)
+        {
+            return;
+        }
         _gameState = EGameState.NextDay;
         StartCoroutine(CallNextDayCoroutine());
     }
     private IEnumerator CallNextDayCoroutine()
     {
-        if (_currentDay >= 15) _soundManager.PlayBGM(EBackgroundSound.Result);
+        if (_currentDay == 15) _soundManager.PlayBGM(EBackgroundSound.Result);
         yield return StartCoroutine(_DayManager.LoadingScreenOn());
         yield return StartCoroutine(_DayManager.StartDayResult(this, _soundManager));
-        if (_currentDay >= 15) CallGotoTitleResult();
+        if (_currentDay >= 15)
+        {
+            CallGotoTitleResult();
+            _currentDay = 16;
+            SaveData();
+            yield break;
+        }
         List<CTile> tileList = GetAllTiles();
         for(int i = 0; i < tileList.Count; i++)
         {

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 413_CheckSafety
+  m_EditorClassIdentifier: 
+  _cardId: 413
+  _cardName: "\uC2DC\uC124 \uC548\uC804 \uC810\uAC80"
+  _description: "<sprite=6>+1\n<b>\uB4DC\uB85C\uC6B0 1</b>"
+  _flavorText: 
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: e0403cf317c4aae47af1cbe97f907ce0, type: 3}
+  _costInfo:
+    moneyCurrent: 11
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList:
+  - tag: 5
+    level: 1
+  _actionList:
+  - action: 17
+    level: 1
+  - action: 6
+    level: 1
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 058

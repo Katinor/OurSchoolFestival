@@ -23,7 +23,8 @@ public enum EEffectSound
     Success,
     PayingMoney,
     Beep,
-    CardDraw
+    CardDraw,
+    Suprise
 }
 
 [Serializable]

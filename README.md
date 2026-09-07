@@ -34,3 +34,6 @@ Evil - designed by AndrejsKirma from Flaticon
 유토이미지 꼬마나비
 
 ### 이 프로젝트는 OpenTracks (구 DOVA-SYNDROME) 의 배경음악을 사용합니다.
+
+### 이 프로젝트는 Fixabay에 등록된 사운드를 사용합니다. 아래는 아티스트 목록입니다.
+Yodguard, DRAGON-STUDIO

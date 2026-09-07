@@ -175,7 +175,8 @@ public enum EAction
     Cult,
     Tile,
     CustomScript,
-    ScoreFunction
+    ScoreFunction,
+    Draw
 }
 public struct SScoreInfo
 {

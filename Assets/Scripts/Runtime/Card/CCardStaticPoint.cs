@@ -22,6 +22,8 @@ public static partial class CCardStatic
                 return CardPoint07;
             case 8:
                 return CardPoint08;
+            case 9:
+                return CardPoint09;
             default:
                 Logger.Error($"해당하는 함수 찾을 수 없음 : {level}");
                 return null;
@@ -68,5 +70,10 @@ public static partial class CCardStatic
     {
         return new SScoreInfo(2, "기타");
         // return new SScoreInfo(2, "길거리 라디오");
+    }
+    public static SScoreInfo CardPoint09(GameManager manager)
+    {
+        return new SScoreInfo(1, "기타");
+        // return new SScoreInfo(1, "학생 연구 발표회");
     }
 }

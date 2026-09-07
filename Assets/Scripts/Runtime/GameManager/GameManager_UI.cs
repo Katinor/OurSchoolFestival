@@ -345,6 +345,13 @@ public partial class GameManager
 
     private void SetDayButton(int day)
     {
-        _nextDayText.text = "다음날" + "\n" + $"<size=75%>{day} / 15일차</size>";
+        if (day >= 16)
+        {
+            _nextDayText.text = "점수화면" + "\n" + $"<size=75%>게임 종료됨</size>";
+        }
+        else
+        {
+            _nextDayText.text = "다음날" + "\n" + $"<size=75%>{day} / 15일차</size>";
+        }   
     }
 }

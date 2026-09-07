@@ -145,6 +145,8 @@ public class TItleManager : MonoBehaviour
                         ResetInput();
                         _targetSlot = i;
                         _useSaveData = true;
+                        _PrologueToggle.gameObject.SetActive(false);
+                        _PrologueToggle.isOn = false;
                         ShowQuestion($"{i + 1}번 데이터를 삭제합니까?", CallSlotDelete);
                     }
                 }
