@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [Flags]
 public enum ETileState
@@ -244,6 +245,7 @@ public class CTile : MonoBehaviour
             if (_radius > 0)
             {
                 List<CTile> tempList = _gameManager.FindNeighborTiles(_tilePosition, _radius);
+                Logger.Log($"{this.Name} - {_radius} : {tempList.Count}");
                 for (int i = 0; i < tempList.Count; i++)
                 {
                     tempList[i].ShowParticle(0, 0, 0.5f);

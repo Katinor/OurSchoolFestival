@@ -5,6 +5,7 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 public enum EBackgroundSound
 {
+    None,
     Title,
     Part1,
     Part2,
@@ -14,6 +15,7 @@ public enum EBackgroundSound
     Event1,
     Event2,
     Event3,
+    CardIllust,
 }
 
 public enum EEffectSound
@@ -55,6 +57,10 @@ public class SoundManager : MonoBehaviour
 
     Dictionary<EBackgroundSound, AudioSource> _bgmDict;
     Dictionary<EEffectSound, AudioSource> _seDict;
+    private EBackgroundSound _lastBackGround = EBackgroundSound.None;
+    private EBackgroundSound _currentBackGround = EBackgroundSound.None;
+
+    private float _fadeFactor = 1.0f;
 
     //private static SoundManager _instance;
 
@@ -78,6 +84,37 @@ public class SoundManager : MonoBehaviour
     }
     void Update()
     {
+        if (_lastBackGround == EBackgroundSound.None && _currentBackGround != EBackgroundSound.None)
+        {
+            _fadeFactor = 1.0f;
+            _lastBackGround = _currentBackGround;
+            _bgmDict[_currentBackGround].Play();
+        }
+        else if (_lastBackGround != _currentBackGround)
+        {
+            if (_fadeFactor > 0.0f)
+            {
+                _fadeFactor -= Time.deltaTime * 4;
+            }
+            if (_fadeFactor <= 0.0f)
+            {
+                _fadeFactor = 0.0f;
+                _lastBackGround = _currentBackGround;
+                StopBGMInternal();
+                if (_currentBackGround != EBackgroundSound.None) _bgmDict[_currentBackGround].Play();
+            }
+        }
+        else
+        {
+            if (_fadeFactor < 1.0f)
+            {
+                _fadeFactor += Time.deltaTime * 4;
+            }
+            if (_fadeFactor > 1.0f)
+            {
+                _fadeFactor = 1.0f;
+            }
+        }
         SetVolume();
     }
 
@@ -113,7 +150,7 @@ public class SoundManager : MonoBehaviour
 
     private void SetVolume()
     {
-        float bgmVolume = _bgmSlider.value;
+        float bgmVolume = _bgmSlider.value * _fadeFactor;
         float seVolume = _seSlider.value;
 
         if (bgmVolume <= 0.0001f)
@@ -160,10 +197,13 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBGM(EBackgroundSound soundType)
     {
-        StopBGM();
-        if (_bgmDict.ContainsKey(soundType))
+        if (soundType == EBackgroundSound.None)
         {
-            _bgmDict[soundType].Play();
+            _currentBackGround = EBackgroundSound.None;
+        }
+        else if (_bgmDict.ContainsKey(soundType))
+        {
+            _currentBackGround = soundType;
         }
         else
         {
@@ -172,6 +212,13 @@ public class SoundManager : MonoBehaviour
     }
 
     public void StopBGM()
+    {
+        _fadeFactor = 0.0f;
+        _currentBackGround = EBackgroundSound.None;
+        StopBGMInternal();
+    }
+
+    private void StopBGMInternal()
     {
         foreach (var audioSource in _bgmDict.Values)
         {

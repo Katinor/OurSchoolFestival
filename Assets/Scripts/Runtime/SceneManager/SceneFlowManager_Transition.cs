@@ -7,7 +7,6 @@ public partial class SceneFlowManager
     {
         if (_fadeGroup == null)
         {
-            //경고 -> 인스펙터 확인
             return;
         }
 
@@ -22,12 +21,10 @@ public partial class SceneFlowManager
     {
         if (_fadeGroup == null)
         {
-            // 경고 - 비어있으니 확인 요망
             yield break;
         }
         if (duration < 0f)
-        {
-            // 기본 페이드 시간을 적용하겠다.
+        { 
             duration = _fadeDuration;
         }
 
@@ -44,15 +41,10 @@ public partial class SceneFlowManager
 
     private IEnumerator Co_Fade_Internal(float targetAlpha, float duration, bool blockRaycastWhileFading)
     {
-        // 현재 알파값을 시작 값으로 저장
         float startAlpha = _fadeGroup.alpha;
-        // 페이드 중에는 막기
         _fadeGroup.blocksRaycasts = blockRaycastWhileFading;
-        // 페이드 자체는 상호작용 UI가 아니므로 false
         _fadeGroup.interactable = false;
 
-        // 지속시간이 없을 경우, 바로 맞춰주고
-        // 너무 어둡다 싶을때 레이캐스트 막기
         if (duration <= 0f)
         {
             _fadeGroup.alpha = targetAlpha;
@@ -64,15 +56,11 @@ public partial class SceneFlowManager
 
         while (t < duration)
         {
-            // dt 선택
-            // ㄴ Time.deltaTime : 타임 스케일 영향을 받음
-            // ㄴ Time.unscaledTime : 타임 스케일 무시
             float dt = Time.unscaledDeltaTime;
             t += dt;
             float lerp = Mathf.Clamp01(t / duration);
             _fadeGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, lerp);
-            yield return null; // 다음 프레임까지 대기
-
+            yield return null;
         }
         _fadeGroup.alpha = targetAlpha;
         _fadeGroup.blocksRaycasts = (targetAlpha >= 0.99f);

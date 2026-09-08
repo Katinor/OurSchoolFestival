@@ -43,7 +43,7 @@ public class SaveSlotUI : MonoBehaviour
             $"<sprite=0> {tempResources.moneyCurrent}<color=yellow>+{tempResources.moneyIncrease}</color> " +
             $"<sprite=2> {tempResources.materialsCurrent}<color=yellow>+{tempResources.materialsIncrease}</color> " +
             $"<sprite=4> {tempResources.menpowerCurrent}<color=yellow>+{tempResources.menpowerIncrease}</color>" + "\n" +
-            $"<sprite=6> {Clamp(tempResources.festivalSuccess, 0, 14)} / 14 " +
+            $"<sprite=6> {Clamp(tempResources.festivalSuccess, 0, 18)} / 18 " +
             $"<sprite=7> {Clamp(tempResources.festivalInterest, 0, 19)} / 19 " +
             $"<sprite=8> {Clamp(tempResources.festivalRoad, 0, 8)} / 8 " +
             $"<sprite=9> {data.ScoreTotal}";

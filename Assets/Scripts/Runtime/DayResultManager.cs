@@ -69,7 +69,7 @@ public class DayResultManager : MonoBehaviour
         SScoreInfo tempInfo;
         _isPressed = false;
         TurnOffAll();
-        gameManager.CalculateScore();
+        EGameAchievement tempAchievement = gameManager.CalculateScore();
         _loadingText.gameObject.SetActive(false);
         yield return new WaitForSecondsRealtime(_waitTime);
         soundManager.PlaySE(EEffectSound.QuestionAppear);

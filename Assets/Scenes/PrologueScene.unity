@@ -838,39 +838,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backgroundSounds:
-  - soundType: 0
+  - soundType: 1
     audioClip: {fileID: 1173840739}
     volume: 0.6
     loop: 1
-  - soundType: 1
+  - soundType: 2
     audioClip: {fileID: 1201180687}
     volume: 0.85
     loop: 1
-  - soundType: 2
+  - soundType: 3
     audioClip: {fileID: 1405725479}
     volume: 0.35
     loop: 1
-  - soundType: 3
+  - soundType: 4
     audioClip: {fileID: 1404808022}
     volume: 0.4
     loop: 1
-  - soundType: 4
+  - soundType: 5
     audioClip: {fileID: 1209622154}
     volume: 0.8
     loop: 1
-  - soundType: 5
+  - soundType: 6
     audioClip: {fileID: 916741158}
     volume: 0.25
     loop: 1
-  - soundType: 6
+  - soundType: 7
     audioClip: {fileID: 723683388}
     volume: 0.25
     loop: 1
-  - soundType: 7
+  - soundType: 8
     audioClip: {fileID: 485834593}
     volume: 0.25
     loop: 1
-  - soundType: 8
+  - soundType: 9
     audioClip: {fileID: 1343777591}
     volume: 0.35
     loop: 1
@@ -1618,7 +1618,7 @@ MonoBehaviour:
     _illustHide: 1
     _illustChange: 0
     _illustIndex: 0
-    _bgmSwitch: 1
+    _bgmSwitch: 2
     _backgroundSound: 0
     _seChange: 0
     _effectSound: 0
@@ -1660,7 +1660,7 @@ MonoBehaviour:
     _illustChange: 0
     _illustIndex: 0
     _bgmSwitch: 1
-    _backgroundSound: 6
+    _backgroundSound: 7
     _seChange: 0
     _effectSound: 0
   - _speakerName: "\uAD50\uC7A5 \uC120\uC0DD\uB2D8"
@@ -1670,7 +1670,7 @@ MonoBehaviour:
     _illustChange: 1
     _illustIndex: 0
     _bgmSwitch: 2
-    _backgroundSound: 6
+    _backgroundSound: 7
     _seChange: 0
     _effectSound: 4
   - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
@@ -2328,7 +2328,7 @@ MonoBehaviour:
     _illustChange: 1
     _illustIndex: 1
     _bgmSwitch: 2
-    _backgroundSound: 4
+    _backgroundSound: 5
     _seChange: 0
     _effectSound: 4
   - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
@@ -3903,8 +3903,8 @@ MonoBehaviour:
     _illustHide: 1
     _illustChange: 0
     _illustIndex: 0
-    _bgmSwitch: 1
-    _backgroundSound: 6
+    _bgmSwitch: 2
+    _backgroundSound: 0
     _seChange: 0
     _effectSound: 0
   - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
@@ -3913,7 +3913,7 @@ MonoBehaviour:
     _illustChange: 1
     _illustIndex: 2
     _bgmSwitch: 2
-    _backgroundSound: 0
+    _backgroundSound: 1
     _seChange: 0
     _effectSound: 0
   - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
@@ -4893,7 +4893,7 @@ MonoBehaviour:
     _illustChange: 1
     _illustIndex: 5
     _bgmSwitch: 2
-    _backgroundSound: 8
+    _backgroundSound: 9
     _seChange: 0
     _effectSound: 0
   - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"

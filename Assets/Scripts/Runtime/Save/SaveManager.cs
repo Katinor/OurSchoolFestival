@@ -19,6 +19,7 @@ public class CSaveData
     public int _version;
     public int _randomSeed;
     public int _currentDay;
+    public int _achievement;
     public List<int> _resources;
     public List<int> _currentTechEnum;
     public List<int> _currentTechLevel;
@@ -47,6 +48,11 @@ public class CSaveData
     {
         get { return _currentDay; }
         private set { _currentDay = value; }
+    }
+    public EGameAchievement Achievement
+    {
+        get { return (EGameAchievement) _achievement; }
+        private set { _achievement = (int) value; }
     }
     public CResources Resources
     {
@@ -150,6 +156,7 @@ public class CSaveData
             int version,
             int randomSeed,
             int currentDay,
+            EGameAchievement achievement,
             CResources resources,
             Dictionary<ETech, int> currentTech,
             List<int> cardScoresList,
@@ -163,6 +170,7 @@ public class CSaveData
         _version = version;
         _randomSeed = randomSeed;
         _currentDay = currentDay;
+        this.Achievement = achievement;
         this.Resources = resources;
         this.CurrentTech = currentTech;
         _cardScoresList = new List<int>(cardScoresList);

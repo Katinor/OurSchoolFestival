@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 609_CommonBuyArtMaterials
+  m_EditorClassIdentifier: 
+  _cardId: 609
+  _cardName: "\uBBF8\uC220 \uC7AC\uB8CC \uACF5\uB3D9\uAD6C\uB9E4"
+  _description: <sprite=2>+1 <sprite=3>+1
+  _flavorText: 
+  _tooltip: '
+
+'
+  _illust: {fileID: 2800000, guid: 0c9227b13628ca6408f9fad43e8db4c1, type: 3}
+  _costInfo:
+    moneyCurrent: 10
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 0
+  _inStartDeck: 0
+  _tagList:
+  - tag: 7
+    level: 1
+  _actionList:
+  - action: 2
+    level: 1
+  - action: 3
+    level: 1
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 

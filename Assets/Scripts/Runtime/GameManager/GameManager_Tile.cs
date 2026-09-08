@@ -451,7 +451,7 @@ public partial class GameManager
         Vector3Int centerAsCube = new Vector3Int
             (
                 // 전부 정수라 나머지는 자동으로 버려짐!
-                pos.x - ((pos.y - (Mathf.Abs(pos.y) % 2)) / 2),
+                pos.x - ((pos.y - (Mathf.Abs(pos.y) & 1)) / 2),
                 pos.y,
                 (-1) * (pos.x - (int)((pos.y - (Mathf.Abs(pos.y) % 2)) / 2f)) - pos.y
             );

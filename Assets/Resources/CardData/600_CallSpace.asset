@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 600_CallSpace
+  m_EditorClassIdentifier: 
+  _cardId: 600
+  _cardName: "\uC2A4\uD398\uC774\uC2A4 \uD638\uCD9C"
+  _description: "<sprite=12>+1\n<b>\uB371 \uCD94\uAC00 : \uBBF8\uC220 \uB3D9\uC544\uB9AC
+    \uB371</b>\n<b>[\uC791\uD488 \uC81C\uC791]</b>\uC744 \uC190\uC73C\uB85C \uAC00\uC838\uC635\uB2C8\uB2E4."
+  _flavorText: 
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: a66595b5c64c9d24b8f7d24411223acf, type: 3}
+  _costInfo:
+    moneyCurrent: 0
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList: []
+  _actionList:
+  - action: 11
+    level: 1
+  _addCardOnHand: 59020000
+  _addCardOnDeck: 5c0200005d0200005e0200005f0200006002000061020000620200006302000064020000650200006602000067020000
+  _comments: 

@@ -93,6 +93,12 @@ public static partial class CCardStatic
         return false;
     }
 
+    public static bool CardIllust(GameManager manager, int level)
+    {
+        manager.ShowIllust(level);
+        return true;
+    }
+
     private static bool CardTech(GameManager manager, ETech tech, int level)
     {
         bool returnValue = CardTechValue(manager, tech, level);

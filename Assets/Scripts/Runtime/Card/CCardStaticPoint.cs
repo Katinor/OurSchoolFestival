@@ -24,6 +24,12 @@ public static partial class CCardStatic
                 return CardPoint08;
             case 9:
                 return CardPoint09;
+            case 10:
+                return CardPoint10;
+            case 11:
+                return CardPoint11;
+            case 12:
+                return CardPoint12;
             default:
                 Logger.Error($"해당하는 함수 찾을 수 없음 : {level}");
                 return null;
@@ -43,7 +49,7 @@ public static partial class CCardStatic
     }
     public static SScoreInfo CardPoint03(GameManager manager)
     {
-        return new SScoreInfo(3, "기타");
+        return new SScoreInfo(3, "과학");
         // return new SScoreInfo(3, "과학 세미나");
     }
     public static SScoreInfo CardPoint04(GameManager manager)
@@ -53,7 +59,7 @@ public static partial class CCardStatic
     }
     public static SScoreInfo CardPoint05(GameManager manager)
     {
-        return new SScoreInfo(1, "기타");
+        return new SScoreInfo(1, "과학");
         // return new SScoreInfo(1, "과학부 출동!");
     }
     public static SScoreInfo CardPoint06(GameManager manager)
@@ -73,7 +79,22 @@ public static partial class CCardStatic
     }
     public static SScoreInfo CardPoint09(GameManager manager)
     {
-        return new SScoreInfo(1, "기타");
+        return new SScoreInfo(1, "과학");
         // return new SScoreInfo(1, "학생 연구 발표회");
+    }
+    public static SScoreInfo CardPoint10(GameManager manager)
+    {
+        return new SScoreInfo(1, "미술");
+        // return new SScoreInfo(1, "설치 미술");
+    }
+    public static SScoreInfo CardPoint11(GameManager manager)
+    {
+        return new SScoreInfo(1, "미술");
+        // return new SScoreInfo(1, "학생 작품 전시");
+    }
+    public static SScoreInfo CardPoint12(GameManager manager)
+    {
+        return new SScoreInfo(2, "미술");
+        // return new SScoreInfo(2, "교내 미술 공모전");
     }
 }

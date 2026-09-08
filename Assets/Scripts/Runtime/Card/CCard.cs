@@ -326,6 +326,9 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     _actionFuncList.Add(CCardStatic.CardDraw);
                     _needHandCount = targetCard.ActionList[i].level;
                     break;
+                case EAction.IllustShow:
+                    _actionFuncList.Add(CCardStatic.CardIllust);
+                    break;
             }
             _actionLevelList.Add(targetCard.ActionList[i].level);
         }

@@ -176,7 +176,8 @@ public enum EAction
     Tile,
     CustomScript,
     ScoreFunction,
-    Draw
+    Draw,
+    IllustShow
 }
 public struct SScoreInfo
 {

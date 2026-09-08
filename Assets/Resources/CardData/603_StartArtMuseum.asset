@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 603_StartArtMuseum
+  m_EditorClassIdentifier: 
+  _cardId: 603
+  _cardName: "\uCD95\uC81C \uBBF8\uC220\uC804 \uAC1C\uCD5C"
+  _description: "<sprite=12>+2 <sprite=7>+2\n\uC804\uC2DC\uD68C \uBCF8\uBD80\uAC00
+    \uC778\uC811\uD55C \uBBF8\uC220 \uC791\uD488\uB9CC\uD07C \uCD95\uC81C \uC810\uC218\uB97C
+    \uCD94\uAC00\uB85C \uC5BB\uC2B5\uB2C8\uB2E4."
+  _flavorText: 
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: 0df10c4bc4e241d478577d8881249e43, type: 3}
+  _costInfo:
+    moneyCurrent: 15
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList:
+  - tag: 7
+    level: 3
+  _actionList:
+  - action: 11
+    level: 2
+  - action: 18
+    level: 1
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 

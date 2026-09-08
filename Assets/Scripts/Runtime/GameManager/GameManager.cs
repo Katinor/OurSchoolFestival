@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -18,7 +17,9 @@ public enum ETileCatalog
     FestivalHQ,
     CoffeeBooth,
     LaboBooth,
-    InfoLab
+    InfoLab,
+    ArtistMasterpiece,
+    ArtMuseum
 }
 
 public enum EGameState
@@ -33,6 +34,20 @@ public enum EGameState
     LastDayTileInspect,
     DailyEvent,
     NoInput,
+}
+[Flags]
+public enum EGameAchievement
+{
+    None = 0,
+    GameClear = 1 << 0,
+    FoodMaster = 1 << 1,
+    NatureMaster = 1 << 2,
+    BrainMaster = 1 << 3,
+    ScienceMaster = 1 << 4,
+    MusicMaster = 1 << 5,
+    ArtMaster = 1 << 6,
+    // ExerciseMaster = 1 << 7,
+    // CultMaster = 1 << 8
 }
 
 public partial class GameManager : MonoBehaviour
@@ -58,6 +73,9 @@ public partial class GameManager : MonoBehaviour
 
     [Header("일일 이벤트 매니저")]
     [SerializeField] DailyEventManager _dailyManager;
+
+    [Header("컷씬 매니저")]
+    [SerializeField] CutsceneManager _cutsceneManager;
 
     [Header("핸드추가 (디버그용)")]
     [SerializeField] Button _cardAddButton;
@@ -168,6 +186,7 @@ public partial class GameManager : MonoBehaviour
     private List<Func<GameManager, SScoreInfo>> _cardScores;
     private List<int> _cardScoresList;
     private SScoreSet _scoreSet;
+    private EGameAchievement _achievement = EGameAchievement.None;
     private int _scoreTotal;
     private Stack<CUndoData> _undoDataList;
 
@@ -191,6 +210,10 @@ public partial class GameManager : MonoBehaviour
     private bool _soundUIOn = false;
 
     private int _dailyEventArg = -1;
+
+    public readonly int SuccessMax = 18;
+    public readonly int InterestMax = 19;
+    public readonly int RoadMax = 8;
     #endregion
 
     public Grid GameGrid
@@ -440,5 +463,27 @@ public partial class GameManager : MonoBehaviour
     public bool CanDraw(int cardCount)
     {
         return _cardHand.CanDraw(cardCount);
+    }
+
+    public void ShowIllust(int index)
+    {
+        OnClickElse();
+        _gameState = EGameState.NoInput;
+        StartCoroutine(_cutsceneManager.CutscenePlay(index));
+    }
+
+    public void HideIllust()
+    {
+        if (_currentDay < 6) _soundManager.PlayBGM(EBackgroundSound.Part1);
+        else if (_currentDay < 11) _soundManager.PlayBGM(EBackgroundSound.Part2);
+        else if (_currentDay == 16) _soundManager.PlayBGM(EBackgroundSound.Result);
+        else _soundManager.PlayBGM(EBackgroundSound.Part3);
+        _gameState = EGameState.Idle;
+    }
+
+    public int GetTech(ETech target)
+    {
+        if (_currentTech.ContainsKey(target)) return _currentTech[target];
+        else return 0;
     }
 }

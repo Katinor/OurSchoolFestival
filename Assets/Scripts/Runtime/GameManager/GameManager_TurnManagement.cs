@@ -49,28 +49,115 @@ public partial class GameManager
         if(_currentDay == 6) _soundManager.PlayBGM(EBackgroundSound.Part2);
         if(_currentDay == 11) _soundManager.PlayBGM(EBackgroundSound.Part3);
         yield return StartCoroutine(_DayManager.LoadingScreenOff());
-        yield return StartCoroutine(_cardHand.AddCardCoroutine(4));
         ClearUndo();
+        StartCoroutine(StartDailyEvent());
         SaveData();
         _gameState = EGameState.Idle;
     }
 
     public int GetFestivalScore()
     {
-        return Clamp(_resources.festivalSuccess, 0, 14) + Clamp(_resources.festivalInterest, 0, 19) + Clamp(_resources.festivalRoad, 0, 8);
+        return Clamp(_resources.festivalSuccess, 0, SuccessMax) + Clamp(_resources.festivalInterest, 0, InterestMax) + Clamp(_resources.festivalRoad, 0, RoadMax);
     }
 
     public string GetFestivalDesc()
     {
-        return $"완성도 {Clamp(_resources.festivalSuccess, 0, 14)} / 관심도 {Clamp(_resources.festivalInterest, 0, 19)} / 안정도 {Clamp(_resources.festivalRoad, 0, 8)}";
+        return $"완성도 {Clamp(_resources.festivalSuccess, 0, SuccessMax)} / 관심도 {Clamp(_resources.festivalInterest, 0, InterestMax)} / 안정도 {Clamp(_resources.festivalRoad, 0, RoadMax)}";
     }
 
-    public void CalculateScore()
+    public EGameAchievement CalculateScore()
     {
         _scoreSet.tileScore = CalcTileScore();
         _scoreSet.cardScore = CalcCardScore();
+        EGameAchievement tempAchievement = CheckAchievement();
         _scoreSet.achievementScore = CalcAchievementScore();
-        _scoreTotal = GetFestivalScore() + _scoreSet.tileScore.Score + _scoreSet.cardScore.Score + _scoreSet.achievementScore.Score;
+        _scoreTotal = (int) (( GetFestivalScore() + _scoreSet.tileScore.Score + _scoreSet.cardScore.Score ) * (1 + (_scoreSet.achievementScore.Score * 0.1)));
+        return tempAchievement;
+    }
+
+    public EGameAchievement CheckAchievement()
+    {
+        int _maxAchevement = System.Enum.GetValues(typeof(EGameAchievement)).Length - 1;
+        Logger.Log($"최대 과제 갯수 : {_maxAchevement}");
+        EGameAchievement tempAchievement = EGameAchievement.None;
+        List<CTile> tempList = null;
+        int count;
+        for (int i = 0; i < _maxAchevement; i++)
+        {
+            EGameAchievement targetSwitch = (EGameAchievement)(1 << i);
+            if ((_achievement & targetSwitch) != EGameAchievement.None) continue;
+            switch (targetSwitch)
+            {
+                case EGameAchievement.GameClear:
+                    if (    
+                            _resources.festivalSuccess >= SuccessMax &&
+                            _resources.festivalInterest >= InterestMax &&
+                            _resources.festivalRoad >= RoadMax
+                       )
+                    {
+                        _achievement |= EGameAchievement.GameClear;
+                        tempAchievement |= EGameAchievement.GameClear;
+                    }
+                    break;
+                case EGameAchievement.FoodMaster:
+                    if (tempList == null) tempList = GetAllTiles();
+                    count = 0;
+                    for(int j = 0; j < tempList.Count; j++)
+                    {
+                        if (tempList[j].TileInCatalog == ETileCatalog.Foodbooth) count++;
+                    }
+                    if ( count >= 3 )
+                    {
+                        _achievement |= EGameAchievement.FoodMaster;
+                        tempAchievement |= EGameAchievement.FoodMaster;
+                    }
+                    break;
+                case EGameAchievement.NatureMaster:
+                    if (tempList == null) tempList = GetAllTiles();
+                    count = 0;
+                    for (int j = 0; j < tempList.Count; j++)
+                    {
+                        if (tempList[j].TileInCatalog == ETileCatalog.Trees) count++;
+                    }
+                    if (count >= 3)
+                    {
+                        _achievement |= EGameAchievement.NatureMaster;
+                        tempAchievement |= EGameAchievement.NatureMaster;
+                    }
+                    break;
+                case EGameAchievement.BrainMaster:
+                    {
+                        if (_cardHand.GetHandSize() >= 15)
+                        {
+                            _achievement |= EGameAchievement.BrainMaster;
+                            tempAchievement |= EGameAchievement.BrainMaster;
+                        }
+                    }
+                    break;
+                case EGameAchievement.ScienceMaster:
+                    if (_currentTech.ContainsKey(ETech.Science) && _currentTech[ETech.Science] >= 5)
+                    {
+                        _achievement |= EGameAchievement.ScienceMaster;
+                        tempAchievement |= EGameAchievement.ScienceMaster;
+                    }
+                    break;
+                case EGameAchievement.MusicMaster:
+                    if (_currentTech.ContainsKey(ETech.Music) && _currentTech[ETech.Music] >= 5)
+                    {
+                        _achievement |= EGameAchievement.MusicMaster;
+                        tempAchievement |= EGameAchievement.MusicMaster;
+                    }
+                    break;
+                case EGameAchievement.ArtMaster:
+                    if (_currentTech.ContainsKey(ETech.Art) && _currentTech[ETech.Art] >= 5)
+                    {
+                        _achievement |= EGameAchievement.ArtMaster;
+                        tempAchievement |= EGameAchievement.ArtMaster;
+                    }
+                    break;
+            }
+        }
+        return tempAchievement;
     }
 
     private SScoreInfo CalcTileScore()
@@ -143,10 +230,52 @@ public partial class GameManager
         }
         return new SScoreInfo(score, description);
     }
-
     private SScoreInfo CalcAchievementScore()
     {
-        return new SScoreInfo(0, "");
+        string tempString = string.Empty;
+        int _maxAchevement = System.Enum.GetValues(typeof(EGameAchievement)).Length - 1;
+        int count = 0;
+        for (int i = 0; i < _maxAchevement; i++)
+        {
+            EGameAchievement targetSwitch = (EGameAchievement)(1 << i);
+            if ((_achievement & targetSwitch) != EGameAchievement.None)
+            {
+                if (!string.IsNullOrEmpty(tempString)) tempString += ", ";
+                switch (targetSwitch)
+                {
+                    case EGameAchievement.GameClear:
+                        count += 5;
+                        tempString += "축제성공(5)";
+                        break;
+                    case EGameAchievement.FoodMaster:
+                        count += 1;
+                        tempString += "먹거리장인(1)";
+                        break;
+                    case EGameAchievement.NatureMaster:
+                        count += 1;
+                        tempString += "환경보호가(1)";
+                        break;
+                    case EGameAchievement.BrainMaster:
+                        count += 1;
+                        tempString += "아이디어뱅크(1)";
+                        break;
+                    case EGameAchievement.ScienceMaster:
+                        count += 1;
+                        tempString += "과학왕(1)";
+                        break;
+                    case EGameAchievement.MusicMaster:
+                        count += 1;
+                        tempString += "음악왕(1)";
+                        break;
+                    case EGameAchievement.ArtMaster:
+                        count += 1;
+                        tempString += "미술왕(1)";
+                        break;
+                }
+            }
+        }
+        tempString += $"\n총점에 배율로 적용 : x{1f + (count / 10f):F1}";
+        return new SScoreInfo(count, tempString);
     }
     public SScoreInfo GetTileScore()
     {
@@ -176,6 +305,7 @@ public partial class GameManager
             _version,
             _randomSeed,
             _currentDay,
+            _achievement,
             _resources,
             _currentTech,
             _cardScoresList,
@@ -199,6 +329,7 @@ public partial class GameManager
         _randomSeed = savedData.RandomSeed;
         _currentDay = savedData.CurrentDay;
         SetDayButton(_currentDay);
+        _achievement = savedData.Achievement;
         _resources = savedData.Resources;
         _currentTech = savedData.CurrentTech;
         ReloadTech();

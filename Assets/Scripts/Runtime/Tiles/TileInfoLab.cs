@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class TileInfoLab : CTile
+﻿public class TileInfoLab : CTile
 {
     public TileInfoLab()
     {

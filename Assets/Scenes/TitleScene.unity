@@ -152,27 +152,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backgroundSounds:
-  - soundType: 0
+  - soundType: 1
     audioClip: {fileID: 1182526721}
     volume: 0.6
     loop: 1
-  - soundType: 1
+  - soundType: 2
     audioClip: {fileID: 425531450}
     volume: 0.85
     loop: 1
-  - soundType: 2
+  - soundType: 3
     audioClip: {fileID: 2132103458}
     volume: 0.35
     loop: 1
-  - soundType: 3
+  - soundType: 4
     audioClip: {fileID: 818196557}
     volume: 0.4
     loop: 1
-  - soundType: 4
+  - soundType: 5
     audioClip: {fileID: 1354884894}
     volume: 0.8
     loop: 1
-  - soundType: 5
+  - soundType: 6
     audioClip: {fileID: 300869635}
     volume: 0.25
     loop: 1

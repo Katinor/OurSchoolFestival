@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class TileLaboBooth : CTile
+﻿public class TileLaboBooth : CTile
 {
     public TileLaboBooth()
     {

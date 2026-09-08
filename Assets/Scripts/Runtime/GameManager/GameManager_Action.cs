@@ -241,7 +241,7 @@ public partial class GameManager
                 {
                     if (card.IsTileRoad)
                     {
-                        if (_resources.festivalRoad >= 8)
+                        if (_resources.festivalRoad >= RoadMax)
                         {
                             ShowQuestion
                             (
