@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 812_LightFromStar
+  m_EditorClassIdentifier: 
+  _cardId: 812
+  _cardName: "\uBCC4\uC5D0\uC11C \uC628 \uBE5B"
+  _description: <sprite=6>+2 <sprite=1>-1
+  _flavorText: "\uCE74\uD2F0\uB178\uB974 \"\uBD88... \uC548\uCF30\uB294\uB370?\""
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: 16719300a3cd5aa4b98f7cd8db54670b, type: 3}
+  _costInfo:
+    moneyCurrent: 6
+    moneyIncrease: 1
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList: []
+  _actionList:
+  - action: 6
+    level: 2
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 

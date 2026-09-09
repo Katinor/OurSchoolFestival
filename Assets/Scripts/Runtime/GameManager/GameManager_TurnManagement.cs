@@ -157,6 +157,17 @@ public partial class GameManager
                     break;
             }
         }
+
+        // 게임 클리어에 관해서는 만족 못한 경우 다시 취소되도록
+        if (  !(
+                _resources.festivalSuccess >= SuccessMax &&
+                _resources.festivalInterest >= InterestMax &&
+                _resources.festivalRoad >= RoadMax
+               ) )
+        {
+            _achievement &= ~EGameAchievement.GameClear;
+            tempAchievement &= ~EGameAchievement.GameClear;
+        }
         return tempAchievement;
     }
 
@@ -311,6 +322,7 @@ public partial class GameManager
             _cardScoresList,
             _cardHand.GetAllHandByInt(),
             _cardHand.GetCardDeckByInt(),
+            _cardHand.GetPinoDeckByInt(),
             tileIdList,
             tilePointList,
             _scoreTotal
@@ -343,7 +355,7 @@ public partial class GameManager
             }
         }
         _cardHand.LoadSavedHand(savedData.CardsOnHand);
-        _cardHand.LoadSavedDeck(savedData.CardsOnDeck);
+        _cardHand.LoadSavedDeck(savedData.CardsOnDeck, savedData.CardsPinoDeck);
         LoadTilesFromSave(savedData.TileInt, savedData.TilePoint);
         UnityEngine.Random.InitState(_randomSeed);
     }

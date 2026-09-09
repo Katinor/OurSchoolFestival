@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 507_RentInstrument
+  m_EditorClassIdentifier: 
+  _cardId: 507
+  _cardName: "\uC545\uAE30 \uB300\uC5EC \uD611\uC57D"
+  _description: "<sprite=1>+2\n<b>\uAC74\uC124</b> : \uC74C\uD5A5 \uC911\uACC4\uB9DD"
+  _flavorText: 
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: 8358c60d702bc2245b86a658280c7e04, type: 3}
+  _costInfo:
+    moneyCurrent: 18
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList:
+  - tag: 6
+    level: 1
+  _actionList:
+  - action: 1
+    level: 2
+  - action: 14
+    level: 14
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 

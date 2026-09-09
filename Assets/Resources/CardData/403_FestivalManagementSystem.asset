@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardId: 403
   _cardName: "\uCD95\uC81C \uAD00\uB9AC \uC2DC\uC2A4\uD15C"
-  _description: "<sprite=10>+1\n<b>\uAC74\uC124 : \uC815\uBCF4 \uCC98\uB9AC\uC2E4</b>\n<b>[\uCD5C\uC885
+  _description: "<sprite=10>+1\n<b>\uAC74\uC124</b> : \uC815\uBCF4 \uCC98\uB9AC\uC2E4\n<b>[\uCD5C\uC885
     \uAE30\uC220 \uAC80\uC99D]</b>\uC744 \uC190\uC73C\uB85C \uAC00\uC838\uC635\uB2C8\uB2E4."
   _flavorText: 
   _tooltip: "<size=150%>\uAC74\uC124</size>\n\uD2B9\uC815 \uD0C0\uC77C\uC744 \uAC74\uC124\uD569\uB2C8\uB2E4.\n<size=150%>\uC815\uBCF4

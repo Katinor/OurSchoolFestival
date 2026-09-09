@@ -10,6 +10,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     #region Inspector
     [SerializeField] GameCard _testCard;
+    [SerializeField] private Image _cardCase;
     [SerializeField] private TMP_Text _nameLabel;
     [SerializeField] private TMP_Text _costLabel;
     [SerializeField] private TMP_Text _tagLabel;
@@ -232,6 +233,13 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         _techData = targetCard.TagList;
         _addCardOnHand = targetCard.AddCardOnHand;
         _needHandCount = 0;
+        if (targetCard.CardId < 400) _cardCase.color = new Color(128 / 255f, 128 / 255f, 128 / 255f);
+        else if (targetCard.CardId < 500) _cardCase.color = new Color(0, 96 / 255f, 191 / 255f);
+        else if (targetCard.CardId < 600) _cardCase.color = new Color(96 / 255f, 191 / 255f, 191 / 255f);
+        else if (targetCard.CardId < 700) _cardCase.color = new Color(96 / 255f, 191 / 255f, 96 / 255f);
+        else if (targetCard.CardId < 800) _cardCase.color = new Color(191 / 255f, 96 / 255f, 191 / 255f);
+        else if (targetCard.CardId < 900) _cardCase.color = new Color(191 / 255f, 0 / 255f, 0 / 255f);
+        else _cardCase.color = new Color(128 / 255f, 128 / 255f, 128 / 255f);
         if (_addCardOnHand != null && _addCardOnHand.Count > 0)
         {
             _needHandCount += _addCardOnHand.Count;

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 809_Dreamland
+  m_EditorClassIdentifier: 
+  _cardId: 809
+  _cardName: "\uAFC8 \uC18D \uB3C4\uC2DC\uC758 \uC124\uACC4\uB3C4"
+  _description: <sprite=2>+4 <sprite=7>-1
+  _flavorText: "...\uB294 \uBB38\uC744 \uC54C\uACE0 \uC788\uB2E4. ...\uAC00 \uBC14\uB85C
+    \uADF8 \uBB38\uC774\uB2E4. ...\uB294 \uBB38\uC758 \uC5F4\uC1E0\uC774\uC790 \uD30C\uC218\uAFBC\uC774\uB2E4."
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: 6578e7ebb6f04224cb3f1cfa39cd63db, type: 3}
+  _costInfo:
+    moneyCurrent: 3
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList: []
+  _actionList:
+  - action: 2
+    level: 4
+  - action: 7
+    level: -1
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 

@@ -33,7 +33,7 @@ MonoBehaviour:
     menpowerIncrease: 0
   _isDeletable: 1
   _isSingle: 1
-  _weight: 100
+  _inStartDeck: 1
   _tagList:
   - tag: 4
     level: 6
@@ -47,6 +47,7 @@ MonoBehaviour:
   - action: 14
     level: 3
   - action: 16
-    level: 4
-  _tileAdditionalDesc: 
+    level: 1
+  _addCardOnHand: 
+  _addCardOnDeck: 
   _comments: 055

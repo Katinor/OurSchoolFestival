@@ -2867,6 +2867,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogData:
+  - _speakerName: 
+    _dialogueText: "\uCE74\uD2F0\uB178\uB974\uC640 \uD568\uAED8 \uACF5\uD130\uB85C
+      \uB098\uC654\uB2E4."
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
   - _speakerName: "\uCE74\uD2F0\uB178\uB974"
     _dialogueText: "......\uD558\uC544."
     _illustHide: 0
@@ -9670,7 +9677,7 @@ GameObject:
   - component: {fileID: 1058538336}
   - component: {fileID: 1058538337}
   m_Layer: 0
-  m_Name: DailyEventSet02
+  m_Name: DailyEventSet03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9704,34 +9711,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogData:
+  - _speakerName: 
+    _dialogueText: "\uCE74\uD2F0\uB178\uB974\uAC00 \uC624\uB298\uB3C4 \uB0A0 \uBD88\uB800\uB2E4."
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
   - _speakerName: "\uCE74\uD2F0\uB178\uB974"
-    _dialogueText: "\uB2E4\uB978 \uB3D9\uC544\uB9AC\uC5D0\uB3C4 \uC0AC\uB78C \uC880
-      \uBE4C\uB9B4\uAC70\uBA74, \uB0B4\uAC00 \uC5F0\uB77D\uD574\uB458\uAC8C."
+    _dialogueText: "\uC2AC\uC2AC \uCD95\uC81C\uB97C \uAFB8\uBA70\uC57C\uD558\uC9C0
+      \uC54A\uC544?\n\uBBF8\uC220 \uB3D9\uC544\uB9AC\uB3C4 \uBD80\uB974\uBA74 \uC88B\uC744
+      \uAC83 \uAC19\uC740\uB370."
     _illustHide: 0
     _illustChange: 1
     _illustIndex: 0
     _questions: []
-  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
-    _dialogueText: "\uB204\uAD6C \uBD80\uB97C\uB798?"
-    _illustHide: 0
-    _illustChange: 0
-    _illustIndex: 0
-    _questions: []
   - _speakerName: 
-    _dialogueText: "\uC5EC\uB7EC \uACE0\uBBFC\uC744 \uD574\uBCF8 \uACB0\uACFC,\n\uBBF8\uC220
-      \uB3D9\uC544\uB9AC\uB97C \uB5A0\uC62C\uB838\uB2E4."
+    _dialogueText: "\uBBF8\uC220\uB3D9\uC544\uB9AC\uC640 \uD568\uAED8\uB77C\uBA74\n\uD655\uC2E4\uD788
+      \uCD95\uC81C\uAC00 \uB354 \uAC00\uB4DD \uCC30 \uAC83\uC774\uB2E4."
     _illustHide: 0
     _illustChange: 0
     _illustIndex: 0
     _questions: []
   - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
-    _dialogueText: "\uBBF8\uC220 \uB3D9\uC544\uB9AC \uCABD\uC774 \uC88B\uACA0\uC5B4."
+    _dialogueText: "\uC88B\uC544. \uADF8\uB7FC \uBD80\uD0C1\uD560\uAC8C."
     _illustHide: 0
     _illustChange: 0
     _illustIndex: 0
     _questions: []
   - _speakerName: "\uCE74\uD2F0\uB178\uB974"
-    _dialogueText: "\uC2A4\uD398\uC774\uC2A4\uAD6C\uB098."
+    _dialogueText: "\uC2A4\uD398\uC774\uC2A4\uC5D0\uAC8C \uC5F0\uB77D\uD574\uBCFC\uAC8C."
     _illustHide: 0
     _illustChange: 0
     _illustIndex: 0
@@ -9753,7 +9761,7 @@ MonoBehaviour:
     _dialogueText: "\uBD88\uB800\uC5B4~?"
     _illustHide: 0
     _illustChange: 1
-    _illustIndex: 1
+    _illustIndex: 2
     _questions: []
   - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
     _dialogueText: "\uC751. \uCD95\uC81C \uC900\uBE44\uB97C \uC880 \uB3C4\uC640\uC92C\uC73C\uBA74
@@ -9779,7 +9787,7 @@ MonoBehaviour:
     _dialogueText: "\uCD95\uC81C\uC796\uC544! \uC7AC\uBC0C\uC744 \uAC83 \uAC19\uC796\uC544!?"
     _illustHide: 0
     _illustChange: 1
-    _illustIndex: 1
+    _illustIndex: 2
     _questions: []
   - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
     _dialogueText: "\uADF8\uB7FC \uBD80\uD0C1\uD560\uAC8C, \uC2A4\uD398\uC774\uC2A4."
@@ -9800,7 +9808,7 @@ MonoBehaviour:
     _illustChange: 0
     _illustIndex: 0
     _questions: []
-  - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
+  - _speakerName: 
     _dialogueText: "<b>[\uC2A4\uD398\uC774\uC2A4 \uD638\uCD9C]</b> \uCE74\uB4DC\uB97C
       \uD68D\uB4DD\uD588\uB2E4!\n\uBBF8\uC220\uB3D9\uC544\uB9AC\uC758 \uC791\uD488\uC73C\uB85C
       \uCD95\uC81C\uB97C \uAFB8\uBA70\uBCF4\uC790!"
@@ -10907,7 +10915,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 358208803}
+  - {fileID: 1406717033}
   - {fileID: 1058538336}
+  - {fileID: 1472055820}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1165335573
@@ -10936,9 +10946,14 @@ MonoBehaviour:
   _sprites:
   - {fileID: 21300000, guid: 0064d4ed41d0b2241937484d0f3c1580, type: 3}
   - {fileID: 21300000, guid: b2a4e3c88b25d7b4c84899ec09f07d12, type: 3}
+  - {fileID: 21300000, guid: b2a4e3c88b25d7b4c84899ec09f07d12, type: 3}
+  - {fileID: 21300000, guid: 6c0d86a2e615b754f92626e409dd484c, type: 3}
+  - {fileID: 21300000, guid: 6c0d86a2e615b754f92626e409dd484c, type: 3}
   _dialogueDatas:
   - {fileID: 358208804}
+  - {fileID: 1406717034}
   - {fileID: 1058538337}
+  - {fileID: 1472055821}
 --- !u!1 &1174728196
 GameObject:
   m_ObjectHideFlags: 0
@@ -13960,6 +13975,144 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1405773368}
   m_CullTransparentMesh: 1
+--- !u!1 &1406717032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1406717033}
+  - component: {fileID: 1406717034}
+  m_Layer: 0
+  m_Name: DailyEventSet02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1406717033
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406717032}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1165335572}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1406717034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406717032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cb75957f39f37246a58a06dc4f89cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogData:
+  - _speakerName: 
+    _dialogueText: "\uCE74\uD2F0\uB178\uB974\uAC00 \uCD95\uC81C\uB97C \uC900\uBE44\uC911\uC778
+      \uB0A0 \uBD88\uB800\uB2E4."
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uB2E4\uB978 \uB3D9\uC544\uB9AC\uC5D0\uB3C4 \uC0AC\uB78C \uC880
+      \uBE4C\uB9B4\uAC70\uBA74, \uB0B4\uAC00 \uC5F0\uB77D\uD574\uB458\uAC8C."
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uB204\uAD6C \uBD80\uB97C\uB798?"
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uC5EC\uB7EC \uACE0\uBBFC\uC744 \uD574\uBCF8 \uACB0\uACFC,\n\uC74C\uC545
+      \uB3D9\uC544\uB9AC\uB97C \uB5A0\uC62C\uB838\uB2E4."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
+    _dialogueText: "\uC6B0\uC120 \uC2DC\uC124\uC774 \uBD80\uC871\uD558\uB2C8\uAE4C,\n\uC74C\uC545\uC73C\uB85C
+      \uAE30\uB300\uAC10\uC744 \uB9CC\uB4E4\uC5B4\uBCF4\uC790."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uBE44\uBC14\uCCB4 \uB9D0\uC774\uC9C0? \uC5F0\uB77D\uD560\uAC8C."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uCE74\uD2F0\uB178\uB974\uB294 \uC9E7\uAC8C \uC5F0\uB77D\uC744
+      \uB123\uC5C8\uB2E4."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uC7A0\uC2DC \uB4A4,"
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uBE44\uBC14\uCCB4"
+    _dialogueText: "\uC0AC\uD0D5\uC744 \uC900\uB2E4\uACE0!?"
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 1
+    _questions: []
+  - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
+    _dialogueText: "... \uBB50?"
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "... \uD558\uB8E8\uC5D0 \uD55C \uD1B5\uC529 \uC0AC\uC904\uD14C\uB2C8\uAE4C.
+      \uB3C4\uC640\uC918."
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uBE44\uBC14\uCCB4"
+    _dialogueText: "\uC751! \uBD80\uC6D0\uB4E4\uB3C4 \uB370\uB824\uC654\uC73C\uB2C8\n\uAC70\uB9AC
+      \uBC84\uC2A4\uD0B9\uBD80\uD130 \uC2DC\uC791\uD574\uBCFC\uAE4C!"
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 1
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uADF8\uB807\uAC8C \uC74C\uC545 \uB3D9\uC544\uB9AC\uB3C4\n\uCD95\uC81C
+      \uC900\uBE44\uC5D0 \uD569\uB958\uD558\uAC8C \uB418\uC5C8\uB2E4."
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "<b>[\uBE44\uBC14\uCCB4 \uD638\uCD9C]</b> \uCE74\uB4DC\uB97C \uD68D\uB4DD\uD588\uB2E4!\n\uC74C\uC545\uB3D9\uC544\uB9AC\uC758
+      \uBC84\uC2A4\uD0B9\uC73C\uB85C \uCD95\uC81C\uB97C \uBE5B\uB0B4\uBCF4\uC790!"
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
 --- !u!1 &1433832668
 GameObject:
   m_ObjectHideFlags: 0
@@ -14629,6 +14782,162 @@ Transform:
   m_Children: []
   m_Father: {fileID: 798194635}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1472055819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1472055820}
+  - component: {fileID: 1472055821}
+  m_Layer: 0
+  m_Name: DailyEventSet04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1472055820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472055819}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1165335572}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1472055821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472055819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cb75957f39f37246a58a06dc4f89cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogData:
+  - _speakerName: 
+    _dialogueText: "\uCD95\uC81C\uB97C \uC900\uBE44\uD558\uACE0 \uC788\uB294\uB370,\n\uCE74\uD2F0\uB178\uB974\uAC00
+      \uACE0\uBBFC\uC774 \uB9CE\uC544\uBCF4\uC778\uB2E4."
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uC74C..."
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
+    _dialogueText: "\uC65C\uADF8\uB798 \uCE74\uD2F0\uB178\uB974."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uC0AC\uC2E4 \uC18C\uAC1C\uD574\uC904 \uC218 \uC788\uB294 \uB3D9\uC544\uB9AC\uAC00
+      \uD558\uB098 \uB354 \uC788\uB294\uB370..."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uCE74\uD2F0\uB178\uB974 \uB2F5\uC9C0 \uC54A\uAC8C, \uB9D0\uC5D0
+      \uC790\uC2E0\uC774 \uC5C6\uB2E4."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
+    _dialogueText: "\uC77C\uB2E8\uC740 \uC18C\uAC1C\uC2DC\uCF1C\uC918.\n\uC77C\uC190\uC740
+      \uB9CE\uC744\uC218\uB85D \uC88B\uC73C\uB2C8\uAE4C."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uADF8\uB798. \uB124\uAC00 \uB9CC\uB098\uBCF4\uACE0 \uACE8\uB77C."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uCE74\uD2F0\uB178\uB974\uB294 \uC5B4\uB518\uAC00 \uC804\uD654\uB97C
+      \uAC78\uC5C8\uB2E4."
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uC2DC\uAC04\uC774 \uC9C0\uB098\uC790,\n\uC815\uB9D0\uB85C \uD2B9\uC774\uD558\uACE0
+      \uC2E0\uAE30\uD55C \uC544\uC774\uAC00 \uCC3E\uC544\uC654\uB2E4."
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 4
+    _questions: []
+  - _speakerName: "\uD53C\uB178"
+    _dialogueText: "\uCE74-\uD2F0\uB178\uB974-! \uC660\uC77C\uB85C \uB0A0 \uBD88\uB800\uC5B4-!"
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 4
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uACE0\uC591\uC774 \uADC0\uC640 \uAF2C\uB9AC\uB97C \uD558\uACE0
+      \uC788\uB294 \uD559\uC0DD\uC774,\n\uCE74\uD2F0\uB178\uB974\uC758 \uADC0\uCC2E\uC544
+      \uD558\uB294 \uD45C\uC815 \uC55E\uC73C\uB85C \uB2E4\uAC00\uC654\uB2E4."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 4
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uBBF8\uB9AC \uB9D0\uD558\uB294\uB370,\n\uADC0\uC640 \uAF2C\uB9AC\uB294
+      \uC804\uD30C \uC218\uC2E0\uD55C\uB2F5\uC2DC\uACE0 \uB2EC\uACE0 \uB2E4\uB2C8\uB294
+      \uC7A5\uC2DD\uD488\uC774\uC57C."
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uD53C\uB178"
+    _dialogueText: "\uC7A5\uC2DD\uD488\uC774\uB77C\uB2C8! \uC644\uC804\uCCB4\uAC00
+      \uB418\uAE30 \uC704\uD55C \uC544\uD2F0\uD329\uD2B8\uC57C!"
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 4
+    _questions: []
+  - _speakerName: "\uD53C\uB178"
+    _dialogueText: "\uC544\uBB34\uD2BC, \uD559\uAD50 \uCD95\uC81C\uB97C \uB3C4\uC640\uB2EC\uB77C\uB294\uAC70\uC9C0?\n\uD559\uAD50\uC758
+      \uAD34\uB2F4\uC744 \uCC3E\uC544\uAC00\uBA74, \uADF8\uAC8C \uC778\uAE30\uB97C
+      \uB04C\uAC70\uC57C!"
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uD53C\uB178\uAC00 \uBC15\uC218\uB97C \uB450\uBC88 \uCE58\uB2C8,\n\uD2B9\uC774\uD558\uAC8C
+      \uC785\uC740 \uD559\uC0DD\uB4E4\uC774 \uCC9C\uB9C9\uC744 \uCE58\uAE30 \uC2DC\uC791\uD588\uB2E4."
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "<b>[\uD53C\uB178 \uD638\uCD9C]</b> \uCE74\uB4DC\uB97C \uD68D\uB4DD\uD588\uB2E4!\n\uBBF8\uC2A4\uD130\uB9AC
+      \uB3D9\uC544\uB9AC\uC640 \uD568\uAED8 \uAD34\uB2F4\uC744 \uD30C\uD5E4\uCCD0\uBCF4\uC790."
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
 --- !u!1 &1497702329
 GameObject:
   m_ObjectHideFlags: 0
@@ -16095,6 +16404,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 89fa0a2eec5431140a727f9fa3e4b7b7, type: 2}
   - {fileID: 11400000, guid: 02c5725de497f354a9340781577f02e9, type: 2}
   - {fileID: 11400000, guid: 5c130d07191af3d4fa0853a4900201dd, type: 2}
+  - {fileID: 11400000, guid: 763a3b1872734104e8cc4a75acc58682, type: 2}
+  - {fileID: 11400000, guid: bdc11ae0becd90f44b4c1382d6807d4f, type: 2}
+  - {fileID: 11400000, guid: 902e87fc1c4fe9545bc5946ffc3d8de2, type: 2}
+  - {fileID: 11400000, guid: 2977eb49fa3e5074aad52c435fb13774, type: 2}
   _gridSizeXRight: 4
   _gridSizeYUpper: 3
   _roadSize: 8
@@ -17696,7 +18009,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0064d4ed41d0b2241937484d0f3c1580, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6c0d86a2e615b754f92626e409dd484c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -19157,11 +19470,21 @@ MonoBehaviour:
     Description: "\uACFC\uD559\uB3D9\uC544\uB9AC\uAC00 \uAE30\uC220\uC758 \uAC80\uC99D\uC744
       \uB9C8\uCCE4\uB2E4!\n\uB371\uC5D0 \uCD5C\uCCA8\uB2E8 \uAE30\uC220 \uCE74\uB4DC\uAC00
       3\uC7A5 \uCD94\uAC00\uB418\uC5C8\uB2E4."
+  - Title: "\"\uB2E4 \uD568\uAED8 \uB6F0\uC5B4! \uCD95\uC81C\uB97C \uBE5B\uB0B4\uBCF4\uC790!\""
+    Mark: {fileID: 21300000, guid: b8f4fb7f7ed9ac6448cc4af26d37c776, type: 3}
+    Illust: {fileID: 21300000, guid: 039fbc9252f24de4dad03c3ac2b7ff0d, type: 3}
+    Description: "\uC74C\uC545\uB3D9\uC544\uB9AC\uAC00 \uB77C\uC774\uBE0C\uB97C \uAC1C\uB9C9\uD588\uB2E4!\n\uBC84\uC2A4\uD0B9
+      \uBD80\uC2A4\uAC00 \uD06C\uAC8C \uAC15\uD654\uB418\uC5C8\uB2E4."
   - Title: "\"\uC900\uBE44\uAC00 \uB05D\uB0AC\uC5B4! \uC2DC\uC791\uD558\uC790!\""
     Mark: {fileID: 21300000, guid: ec2b41667a752a74f9a8b72ccc2b0421, type: 3}
     Illust: {fileID: 21300000, guid: bbc54730812a753459788fe1ca91456b, type: 3}
     Description: "\uBBF8\uC220\uB3D9\uC544\uB9AC\uAC00 \uC804\uC2DC\uD68C\uB97C \uAC1C\uCD5C\uD588\uB2E4!\n\uC804\uC2DC\uD68C
       \uBCF8\uBD80\uAC00 \uD06C\uAC8C \uAC15\uD654\uB418\uC5C8\uB2E4."
+  - Title: "\"\uC2E0\uBE44\uB97C \uD0D0\uD5D8\uD560 \uC900\uBE44\uB294 \uB410\uC5B4?\""
+    Mark: {fileID: 21300000, guid: 73508b152cf4c9a4aa23bc6e8036c782, type: 3}
+    Illust: {fileID: 21300000, guid: c80e726b6cdb89649b6e2528e1638788, type: 3}
+    Description: "\uD53C\uB178\uAC00 \uB3D9\uC544\uB9AC \uBD80\uC2A4\uB97C \uB9CC\uB4E4\uC5C8\uB2E4!\n\uD559\uAD50\uC758
+      \uBBF8\uC2A4\uD130\uB9AC\uB97C \uD30C\uD5E4\uCCD0\uBCF4\uC790."
   _uiHideButton: {fileID: 1174728199}
   _nextButton: {fileID: 1383769654}
 --- !u!1 &1811617142

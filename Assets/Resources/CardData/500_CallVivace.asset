@@ -14,27 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardId: 500
   _cardName: "\uBE44\uBC14\uCCB4 \uD638\uCD9C"
-  _description: <sprite=5>+3 <sprite=7>+1
-  _flavorText: "\uC74C\uC545\uBD80\uC7A5 \uBE44\uBC14\uCCB4\uB97C \uC9C1\uC811 \uBD88\uB7EC
-    \uCD95\uC81C\uC5D0\uC11C \uBC84\uC2A4\uD0B9\uC744 \uD558\uB3C4\uB85D \uD569\uB2C8\uB2E4."
+  _description: "<sprite=11>+1\n<b>\uB371 \uCD94\uAC00 : \uC74C\uC545 \uB3D9\uC544\uB9AC
+    \uB371</b>\n<b>[\uBC84\uC2A4\uD0B9 \uBD80\uC2A4]</b>\uB97C \uC190\uC73C\uB85C
+    \uAC00\uC838\uC635\uB2C8\uB2E4."
+  _flavorText: 
   _tooltip: 
-  _illust: {fileID: 2800000, guid: 53c7af0192d5b304692cae087c7fd7bf, type: 3}
+  _illust: {fileID: 2800000, guid: 7cff6d11644e62c498bc6f7e712795cc, type: 3}
   _costInfo:
-    moneyCurrent: 15
+    moneyCurrent: 0
     moneyIncrease: 0
     materialsCurrent: 0
     materialsIncrease: 0
     menpowerCurrent: 0
     menpowerIncrease: 0
-  _isDeletable: 1
+  _isDeletable: 0
   _isSingle: 1
   _inStartDeck: 0
-  _tagList:
-  - tag: 6
-    level: 1
+  _tagList: []
   _actionList:
-  - action: 5
-    level: 3
-  - action: 7
+  - action: 10
     level: 1
+  _addCardOnHand: f5010000
+  _addCardOnDeck: f8010000f9010000fa010000fb010000fc010000fd010000fe010000ff01000000020000010200000202000003020000
   _comments: 

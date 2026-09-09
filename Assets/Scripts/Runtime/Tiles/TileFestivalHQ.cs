@@ -26,7 +26,6 @@ public class TileFestivalHQ : CTile
 
     public override void OnSelected()
     {
-        base.OnSelected();
         SScoreInfo score = OnScore();
         _tileInfo = $"<sprite=9> {score.Score}";
         base.OnSelected();

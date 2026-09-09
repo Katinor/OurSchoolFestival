@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 806_ClassroomNowhere
+  m_EditorClassIdentifier: 
+  _cardId: 806
+  _cardName: "\uC874\uC7AC\uD558\uC9C0 \uC54A\uB294 \uAD50\uC2E4"
+  _description: <sprite=6>+2 <sprite=5>-1
+  _flavorText: 
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: 768ef30b434808948be9391e77e24e67, type: 3}
+  _costInfo:
+    moneyCurrent: 4
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 1
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList: []
+  _actionList:
+  - action: 6
+    level: 2
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public static partial class CCardStatic
 {
@@ -126,5 +127,30 @@ public static partial class CCardStatic
             manager.CurrentTech.Remove(tech);
         }
         return true;
+    }
+    public static Func<GameManager, SScoreInfo> FindPointFunction(int level)
+    {
+        return (GameManager manager) =>
+        {
+            int source = Math.Abs(level / 100);
+            switch (source)
+            {
+                case 0:
+                    return new SScoreInfo(level % 100, "공용");
+                case 1:
+                    return new SScoreInfo(level % 100, "과학");
+                case 2:
+                    return new SScoreInfo(level % 100, "음악");
+                case 3:
+                    return new SScoreInfo(level % 100, "미술");
+                case 4:
+                    return new SScoreInfo(level % 100, "운동");
+                case 5:
+                    return new SScoreInfo(level % 100, "미스터리");
+                default:
+                    Logger.Error($"{level} => 카드점수 값이 잘못됨.");
+                    return new SScoreInfo(level, "공용");
+            }
+        };
     }
 }

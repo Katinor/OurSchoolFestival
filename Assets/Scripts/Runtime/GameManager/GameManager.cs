@@ -19,7 +19,10 @@ public enum ETileCatalog
     LaboBooth,
     InfoLab,
     ArtistMasterpiece,
-    ArtMuseum
+    ArtMuseum,
+    CultBooth,
+    BuskingBooth,
+    SoundRelay
 }
 
 public enum EGameState
@@ -46,8 +49,7 @@ public enum EGameAchievement
     ScienceMaster = 1 << 4,
     MusicMaster = 1 << 5,
     ArtMaster = 1 << 6,
-    // ExerciseMaster = 1 << 7,
-    // CultMaster = 1 << 8
+    // ExerciseMaster = 1 << 7
 }
 
 public partial class GameManager : MonoBehaviour
@@ -485,5 +487,15 @@ public partial class GameManager : MonoBehaviour
     {
         if (_currentTech.ContainsKey(target)) return _currentTech[target];
         else return 0;
+    }
+
+    public void GetMysteryCard()
+    {
+        _cardHand.AddMysteryCard();
+    }
+
+    public bool MysteryAvailable()
+    {
+        return _cardHand.MysteryAvailable();
     }
 }

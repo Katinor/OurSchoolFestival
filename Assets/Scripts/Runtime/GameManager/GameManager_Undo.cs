@@ -9,6 +9,7 @@ public class CUndoData
     private List<Func<GameManager, SScoreInfo>> _cardScoresList;
     private List<int> _cardsOnHand;
     private List<int> _cardsOnDeck;
+    private List<int> _cardsPinoDeck;
     private List<int> _tileInt;
     private List<int> _tilePoint;
     private List<bool> _tileUsed;
@@ -43,6 +44,11 @@ public class CUndoData
         get { return _cardsOnDeck; }
         private set { _cardsOnDeck = value; }
     }
+    public List<int> CardsPinoDeck
+    {
+        get { return _cardsPinoDeck; }
+        private set { _cardsPinoDeck = value; }
+    }
     public List<int> TileInt
     {
         get { return _tileInt; }
@@ -68,6 +74,7 @@ public class CUndoData
             List<Func<GameManager, SScoreInfo>> cardScoresList,
             List<int> cardsOnHand,
             List<int> cardsOnDeck,
+            List<int> cardsPinoDeck,
             List<int> tileInt,
             List<int> tilePoint,
             List<bool> tileUsed
@@ -80,6 +87,7 @@ public class CUndoData
         Logger.Log($"카드점수 저장 - {_cardScoresList.Count}");
         _cardsOnHand = new List<int>(cardsOnHand);
         _cardsOnDeck = new List<int>(cardsOnDeck);
+        _cardsPinoDeck = new List<int>(cardsPinoDeck);
         _tileInt = new List<int>(tileInt);
         _tilePoint = new List<int>(tilePoint);
         _tileUsed = new List<bool>(tileUsed);
@@ -99,6 +107,7 @@ public partial class GameManager
                 _cardScores,
                 _cardHand.GetAllHandByInt(),
                 _cardHand.GetCardDeckByInt(),
+                _cardHand.GetPinoDeckByInt(),
                 tileIdList,
                 tilePointList,
                 tileUsedList
@@ -125,7 +134,7 @@ public partial class GameManager
         ReloadTech();
         _cardScores = undoData.CardScoresList;
         _cardHand.LoadSavedHand(undoData.CardsOnHand);
-        _cardHand.LoadSavedDeck(undoData.CardsOnDeck);
+        _cardHand.LoadSavedDeck(undoData.CardsOnDeck, undoData.CardsPinoDeck);
         LoadTilesFromUndo(undoData.TileInt, undoData.TilePoint, undoData.TileUsed);
 
         if (_undoDataList.Count == 0)

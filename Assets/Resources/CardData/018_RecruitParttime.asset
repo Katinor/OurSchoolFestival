@@ -17,7 +17,7 @@ MonoBehaviour:
   _description: <sprite=1>-1 <sprite=5>+3
   _flavorText: "\uC77C\uB2E8 \uC77C\uC190\uC774 \uB9CE\uC774 \uD544\uC694\uD569\uB2C8\uB2E4!"
   _tooltip: 
-  _illust: {fileID: 2800000, guid: 4381f89e22af08c4b99aada7d358816e, type: 3}
+  _illust: {fileID: 2800000, guid: c63eb8d522470b244b029ff23f9f9fcc, type: 3}
   _costInfo:
     moneyCurrent: 6
     moneyIncrease: 1
@@ -27,12 +27,13 @@ MonoBehaviour:
     menpowerIncrease: 0
   _isDeletable: 1
   _isSingle: 0
-  _weight: 100
+  _inStartDeck: 1
   _tagList:
   - tag: 1
     level: 1
   _actionList:
   - action: 5
     level: 3
-  _tileAdditionalDesc: 
+  _addCardOnHand: 
+  _addCardOnDeck: 
   _comments: 43

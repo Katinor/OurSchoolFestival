@@ -43,7 +43,7 @@ MonoBehaviour:
   - action: 7
     level: 1
   - action: 16
-    level: 6
+    level: 2
   - action: 15
     level: 1
   _addCardOnHand: 

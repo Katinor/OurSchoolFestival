@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 804_PinoRitual
+  m_EditorClassIdentifier: 
+  _cardId: 804
+  _cardName: "\uD53C\uB178\uC758 \uC989\uC11D \uC758\uC2DD"
+  _description: <sprite=6>+2 <sprite=9>-1
+  _flavorText: 
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: 86cd5fbb95f34634fab8cdb348c68eb4, type: 3}
+  _costInfo:
+    moneyCurrent: 4
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList: []
+  _actionList:
+  - action: 6
+    level: 2
+  - action: 16
+    level: -501
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 

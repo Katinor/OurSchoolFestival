@@ -94,9 +94,9 @@ public partial class GameManager
         _materialsIncreaseText.text = "+" + _resources.materialsIncrease.ToString();
         _menpowerCurrentText.text = _resources.menpowerCurrent.ToString();
         _menpowerIncreaseText.text = "+" + _resources.menpowerIncrease.ToString();
-        _successText.text = Clamp(_resources.festivalSuccess, 0, 14).ToString();
-        _interestText.text = Clamp(_resources.festivalInterest, 0, 19).ToString();
-        _roadText.text = Clamp(_resources.festivalRoad, 0, 8).ToString();
+        _successText.text = _resources.festivalSuccess.ToString();
+        _interestText.text = _resources.festivalInterest.ToString();
+        _roadText.text = _resources.festivalRoad.ToString();
     }
 
     private int Clamp(int target, int min, int max)

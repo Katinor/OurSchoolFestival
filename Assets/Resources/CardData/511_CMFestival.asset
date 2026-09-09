@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 511_CMFestival
+  m_EditorClassIdentifier: 
+  _cardId: 511
+  _cardName: "\uCD95\uC81C \uACF5\uC5F0 \uD64D\uBCF4"
+  _description: <sprite=1>+1 <sprite=7>+2
+  _flavorText: 
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: b5eac08058742384ab5c4089283b7934, type: 3}
+  _costInfo:
+    moneyCurrent: 12
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList:
+  - tag: 6
+    level: 1
+  _actionList:
+  - action: 1
+    level: 1
+  - action: 7
+    level: 2
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 

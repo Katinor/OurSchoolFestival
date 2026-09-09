@@ -38,7 +38,7 @@ MonoBehaviour:
   - action: 5
     level: 6
   - action: 16
-    level: 5
+    level: 101
   _addCardOnHand: 
   _addCardOnDeck: 
   _comments: 058

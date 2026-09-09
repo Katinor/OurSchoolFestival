@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CHand : MonoBehaviour
@@ -13,6 +14,7 @@ public class CHand : MonoBehaviour
 
     private List<GameCard> AllCards;
     private List<GameCard> _cardDeck;
+    private List<GameCard> _cardPinoDeck;
     private Dictionary<int, GameCard> AllCardsDict;
     private int _lastHandCount;
 
@@ -128,17 +130,31 @@ public class CHand : MonoBehaviour
         }
         return deckCards;
     }
+    public List<int> GetPinoDeckByInt()
+    {
+        List<int> deckCards = new List<int>();
+        for (int i = 0; i < _cardPinoDeck.Count; i++)
+        {
+            deckCards.Add(_cardPinoDeck[i].CardId);
+        }
+        return deckCards;
+    }
 
     private void LoadStartDeck()
     {
         GameCard[] gameCards = Resources.LoadAll<GameCard>("CardData");
         _cardDeck = new List<GameCard>();
+        _cardPinoDeck = new List<GameCard>();
         for (int i = 0; i < gameCards.Length; i++)
         {
             GameCard card = gameCards[i];
             if (card.InStartDeck)
             {
                 _cardDeck.Add(gameCards[i]);
+            }
+            if (card.CardId >= 801 && card.CardId <= 899)
+            {
+                _cardPinoDeck.Add(gameCards[i]);
             }
         }
     }
@@ -156,13 +172,19 @@ public class CHand : MonoBehaviour
         }
     }
 
-    public void LoadSavedDeck(List<int> cardId)
+    public void LoadSavedDeck(List<int> cardId, List<int> cardPinoId)
     {
         _cardDeck = new List<GameCard>();
         for(int i = 0; i < cardId.Count; i++)
         {
             GameCard card = AllCardsDict[cardId[i]];
             _cardDeck.Add(card);
+        }
+        _cardPinoDeck = new List<GameCard>();
+        for (int i = 0; i < cardPinoId.Count; i++)
+        {
+            GameCard card = AllCardsDict[cardPinoId[i]];
+            _cardPinoDeck.Add(card);
         }
     }
 
@@ -254,6 +276,39 @@ public class CHand : MonoBehaviour
         }
         CardPositionReset();
         return true;
+    }
+    public void AddMysteryCard()
+    {
+        if (_cardPinoDeck.Count <= 0)
+        {
+            Logger.Error("덱 없음");
+            return;
+        }
+        int index = UnityEngine.Random.Range(0, _cardPinoDeck.Count);
+        GameCard selectedCard = _cardPinoDeck[index];
+        if (selectedCard == null)
+        {
+            Logger.Error("카드 선택 실패");
+            return;
+        }
+
+        if (selectedCard.IsSingle)
+        {
+            _cardPinoDeck.RemoveAll(c => c.CardId == selectedCard.CardId);
+            Logger.Log($"덱 삭제 - {selectedCard.CardId}:{selectedCard.CardName} (남은 카드 : {_cardPinoDeck.Count}");
+        }
+        GameObject go = Instantiate(_cardPrefab, this.transform);
+        go.transform.SetAsFirstSibling();
+        go.transform.position += Vector3.right * 2160;
+        CCard card = go.GetComponent<CCard>();
+        card.Setup(selectedCard, _tooltipClass);
+        CardPositionReset();
+        return;
+    }
+
+    public bool MysteryAvailable()
+    {
+        return (_cardPinoDeck.Count > 0);
     }
 
     public void AddCards(int count)

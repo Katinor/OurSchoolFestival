@@ -162,6 +162,12 @@ public class CTile : MonoBehaviour
     {
         return _baseRenderer.material.color;
     }
+
+    public Vector3Int TilePosition
+    {
+        get { return _tilePosition; }
+        protected set { _tilePosition = value; }
+    }
     #endregion
 
     /// <summary>

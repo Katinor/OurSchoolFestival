@@ -26,6 +26,7 @@ public class CSaveData
     public List<int> _cardScoresList;
     public List<int> _cardsOnHand;
     public List<int> _cardsOnDeck;
+    public List<int> _cardsPinoDeck;
     public List<int> _tileInt;
     public List<int> _tilePoint;
     public int _scoreTotal;
@@ -133,6 +134,11 @@ public class CSaveData
         get { return _cardsOnDeck; }
         private set { _cardsOnDeck = value; }
     }
+    public List<int> CardsPinoDeck
+    {
+        get { return _cardsPinoDeck; }
+        private set { _cardsPinoDeck = value; }
+    }
     public List<int> TileInt
     {
         get { return _tileInt; }
@@ -162,6 +168,7 @@ public class CSaveData
             List<int> cardScoresList,
             List<int> cardsOnHand,
             List<int> cardsOnDeck,
+            List<int> cardsPinoDeck,
             List<int> tileInt,
             List<int> tilePoint,
             int scoreTotal
@@ -176,6 +183,7 @@ public class CSaveData
         _cardScoresList = new List<int>(cardScoresList);
         _cardsOnHand = new List<int>(cardsOnHand);
         _cardsOnDeck = new List<int>(cardsOnDeck);
+        _cardsPinoDeck = new List<int>(cardsPinoDeck);
         _tileInt = new List<int>(tileInt);
         _tilePoint = new List<int>(tilePoint);
         _scoreTotal = scoreTotal;
