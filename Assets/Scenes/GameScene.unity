@@ -10945,7 +10945,7 @@ MonoBehaviour:
   _speakerText: {fileID: 1079000341}
   _sprites:
   - {fileID: 21300000, guid: 0064d4ed41d0b2241937484d0f3c1580, type: 3}
-  - {fileID: 21300000, guid: b2a4e3c88b25d7b4c84899ec09f07d12, type: 3}
+  - {fileID: 21300000, guid: b00b432293ec16940b4ee89984eb0b0b, type: 3}
   - {fileID: 21300000, guid: b2a4e3c88b25d7b4c84899ec09f07d12, type: 3}
   - {fileID: 21300000, guid: 6c0d86a2e615b754f92626e409dd484c, type: 3}
   - {fileID: 21300000, guid: 6c0d86a2e615b754f92626e409dd484c, type: 3}
