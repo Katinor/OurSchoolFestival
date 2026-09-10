@@ -42,9 +42,6 @@ public partial class GameManager
         }
         _menpowerRamainsSlider.value = _resources.menpowerRemain / 8f;
         _resources.menpowerCurrent = _resources.menpowerIncrease;
-
-        _randomSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-        UnityEngine.Random.InitState(_randomSeed);
         
         _currentDay++;
         SetDayButton(_currentDay);
@@ -53,6 +50,8 @@ public partial class GameManager
         yield return StartCoroutine(_DayManager.LoadingScreenOff());
         ClearUndo();
         StartCoroutine(StartDailyEvent());
+        _randomSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        UnityEngine.Random.InitState(_randomSeed);
         SaveData();
         _gameState = EGameState.Idle;
     }
