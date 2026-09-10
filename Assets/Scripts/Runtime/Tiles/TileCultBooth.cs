@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class TileCultBooth : CTile
+﻿public class TileCultBooth : CTile
 {
     public TileCultBooth()
     {
@@ -21,7 +19,6 @@ public class TileCultBooth : CTile
     {
         Logger.V3($"{_name} : 액션 발동", _tilePosition);
         gameManager.PayCost(_actionCost);
-        List<CTile> tileList = gameManager.GetAllTiles();
         gameManager.GetMysteryCard();
         ShowParticle(0, 0, 0.5f);
         _actionUsed = true;

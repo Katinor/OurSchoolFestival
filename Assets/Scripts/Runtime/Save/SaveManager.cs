@@ -59,7 +59,7 @@ public class CSaveData
     {
         get
         {
-            if (_resources == null || _resources.Count < 9) return default;
+            if (_resources == null || _resources.Count < 10) return default;
             return new CResources(
                 _resources[0],
                 _resources[1],
@@ -211,9 +211,9 @@ public static class SaveManager
 
     private static string GetSavepath(int slot)
     {
-        if (slot >= _maxSaveSlot)
+        if (slot >= _maxSaveSlot || slot < 0)
         {
-            Logger.Error("갯수를 초과한 슬롯번호 호출");
+            Logger.Error("잘못된 슬롯번호 호출");
             return null;
         }
         if (_isPersist) return Path.Combine(Application.persistentDataPath, $"save{slot:D2}.json");
@@ -297,6 +297,11 @@ public static class SaveManager
                     Logger.Error($"불러오기 오류 : {index} 데이터가 잘못됨.");
                     return null;
                 }
+            }
+            else
+            {
+                Logger.Error($"불러오기 실패 : {index} 데이터 파일 없음");
+                return null;
             }
         }
         Logger.Success($"불러오기 성공 : {index} 데이터 불러옴");

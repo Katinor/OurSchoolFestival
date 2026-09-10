@@ -26,8 +26,10 @@ public class DayResultManager : MonoBehaviour
     [SerializeField] private TMP_Text _totalScore;
     [SerializeField] private Button _nextDay;
     [SerializeField] private TMP_Text _nextDayText;
+    [SerializeField] private Button _epilogueButton;
 
     private bool _isPressed = false;
+    private bool _goEpilogue = false;
 
     private Coroutine _fadeRoutine;
 
@@ -48,6 +50,20 @@ public class DayResultManager : MonoBehaviour
             _nextDay.onClick.AddListener(() =>
             {
                 _isPressed = true;
+                _goEpilogue = false;
+            });
+        }
+        if (_epilogueButton == null)
+        {
+            Logger.Error("에필로그 버튼이 비어있음");
+            enabled = false;
+        }
+        else
+        {
+            _epilogueButton.onClick.AddListener(() =>
+            {
+                _isPressed = true;
+                _goEpilogue = true;
             });
         }
         _fadeGroup.alpha = 0f;
@@ -73,8 +89,14 @@ public class DayResultManager : MonoBehaviour
         _loadingText.gameObject.SetActive(false);
         yield return new WaitForSecondsRealtime(_waitTime);
         soundManager.PlaySE(EEffectSound.QuestionAppear);
-        if (gameManager.CurrentDay >= 16) _resultTitle.text = $"게임 결과";
-        else _resultTitle.text = $"{gameManager.CurrentDay}일차 결과";
+        if (gameManager.CurrentDay >= 16)
+        {
+            _resultTitle.text = $"게임 결과";
+        }
+        else
+        {
+            _resultTitle.text = $"{gameManager.CurrentDay}일차 결과";
+        }
         _resultTitle.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(_waitTime * 2);
         soundManager.PlaySE(EEffectSound.QuestionAppear);
@@ -125,8 +147,17 @@ public class DayResultManager : MonoBehaviour
         else _nextDayText.text = $"다음날\n<size=75%>{gameManager.CurrentDay + 1}일차로</size>";
         _nextDay.gameObject.SetActive(true);
         _fadeGroup.interactable = true;
+        if (gameManager.CurrentDay >= 15)
+        {
+            _epilogueButton.gameObject.SetActive(true);
+        }
         yield return new WaitUntil(() => _isPressed);
-        if (gameManager.CurrentDay >= 16) gameManager.CallGotoTitleResult();
+        if (_goEpilogue) gameManager.EpilogueFlag = true;
+        else gameManager.EpilogueFlag = false;
+        if (gameManager.CurrentDay >= 16)
+        {
+            gameManager.CallGotoTitleResult();
+        }
         else TurnOffAll();
     }
 
@@ -147,6 +178,7 @@ public class DayResultManager : MonoBehaviour
         _descAchievement.gameObject.SetActive(false);
         _totalScore.gameObject.SetActive(false);
         _nextDay.gameObject.SetActive(false);
+        _epilogueButton.gameObject.SetActive(false);
     }
 
     // 페이드 코루틴

@@ -611,7 +611,8 @@ public partial class GameManager
 
     private void ActionGotoTitle()
     {
-        _sceneManager.LoadScene(ESceneId.Title);
+        if (_epilogueFlag) _sceneManager.LoadScene(ESceneId.Epilogue);
+        else _sceneManager.LoadScene(ESceneId.Title);
     }
 
     public void CallGotoTitleResult()

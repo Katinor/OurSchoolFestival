@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
 public partial class GameManager
 {
@@ -337,7 +339,14 @@ public partial class GameManager
     private void LoadDataCore()
     {
         CSaveData savedData = SaveManager.LoadData(_saveSlot);
-        if (_version != savedData.Version) Logger.Error("버전이 틀립니다.");
+        if (savedData == null)
+        {
+            Logger.Error("세이브 데이터를 불러오지 못했습니다.");
+        }
+        if (_version != savedData.Version)
+        {
+            Logger.Error("버전이 틀립니다.");
+        }
         _randomSeed = savedData.RandomSeed;
         _currentDay = savedData.CurrentDay;
         SetDayButton(_currentDay);
@@ -345,14 +354,18 @@ public partial class GameManager
         _resources = savedData.Resources;
         _currentTech = savedData.CurrentTech;
         ReloadTech();
-        _cardScoresList = new List<int>(savedData.CardScoresList);
-        _cardScores = new List<Func<GameManager, SScoreInfo>>();
-        if (_cardScoresList != null)
+        if (savedData.CardScoresList == null)
         {
-            for (int i = 0; i < _cardScoresList.Count; i++)
-            {
-                _cardScores.Add(CCardStatic.FindPointFunction(_cardScoresList[i]));
-            }
+            _cardScoresList = new List<int>();
+        }
+        else
+        {
+            _cardScoresList = new List<int>(savedData.CardScoresList);
+        }
+        _cardScores = new List<Func<GameManager, SScoreInfo>>();
+        for (int i = 0; i < _cardScoresList.Count; i++)
+        {
+            _cardScores.Add(CCardStatic.FindPointFunction(_cardScoresList[i]));
         }
         _cardHand.LoadSavedHand(savedData.CardsOnHand);
         _cardHand.LoadSavedDeck(savedData.CardsOnDeck, savedData.CardsPinoDeck);

@@ -3665,7 +3665,7 @@ MonoBehaviour:
   - Id: 2
     SceneName: GameScene
   - Id: 3
-    SceneName: ResultScene
+    SceneName: EpilogueScene
   _fadeDuration: 0.5
   _fadeGroup: {fileID: 349393602}
   _loadingText: {fileID: 441310888}

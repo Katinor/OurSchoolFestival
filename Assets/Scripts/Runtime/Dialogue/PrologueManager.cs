@@ -12,6 +12,9 @@ public enum EDialogBGM
 
 public class PrologueManager : MonoBehaviour
 {
+    [Header("프롤로그 / 에필로그 선택")]
+    [SerializeField] private bool _isEpilogue = false;
+
     [Header("사운드")]
     [SerializeField] private SoundManager _soundManager;
 
@@ -159,7 +162,8 @@ public class PrologueManager : MonoBehaviour
         }
         else
         {
-            _sceneManager.LoadScene(ESceneId.Game);
+            if (_isEpilogue) _sceneManager.LoadScene(ESceneId.Title);
+            else _sceneManager.LoadScene(ESceneId.Game);
         }
     }
 

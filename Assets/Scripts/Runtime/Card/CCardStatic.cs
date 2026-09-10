@@ -81,7 +81,7 @@ public static partial class CCardStatic
 
     public static bool CardExercise(GameManager manager, int level)
     {
-        return CardTech(manager, ETech.Exercise, level);
+        return CardTech(manager, ETech.Sports, level);
     }
 
     public static bool CardCult(GameManager manager, int level)

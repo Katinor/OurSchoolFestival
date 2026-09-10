@@ -105,7 +105,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public bool HasPointFunction
     {
         get { return _hasTileAction; }
-        protected set { _hasTileAction = value; }
+        protected set { _hasPointFunction = value; }
     }
 
     public bool IsTileRoad
@@ -186,11 +186,11 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             if (_gameManager.GameState == EGameState.Idle || _gameManager.GameState == EGameState.TileInspect)
             {
-                if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space))
+                if ((Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space)) && _useButton != null)
                 {
                     _useButton.onClick.Invoke();
                 }
-                if (Input.GetKeyDown(KeyCode.X))
+                if (Input.GetKeyDown(KeyCode.X) && _useButton != null)
                 {
                     _deleteButton.onClick.Invoke();
                 }
@@ -309,7 +309,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 case EAction.Art:
                     _actionFuncList.Add(CCardStatic.CardArt);
                     break;
-                case EAction.Exercise:
+                case EAction.Sports:
                     _actionFuncList.Add(CCardStatic.CardExercise);
                     break;
                 case EAction.Cult:
@@ -379,7 +379,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 return $"음악 {data.level} 필요";
             case ETech.Art:
                 return $"미술 {data.level} 필요";
-            case ETech.Exercise:
+            case ETech.Sports:
                 return $"활동 {data.level} 필요";
             case ETech.Cult:
                 return $"사교 {data.level} 필요";

@@ -197,15 +197,11 @@ public class CTile : MonoBehaviour
     /// <returns></returns>
     public virtual bool Upgrade(GameManager gameManager)
     {
-        // 비용에 문제가 있다면 Return하는 함수 필요
-        if (_tilePosition != null)
-        {
-            Logger.V3($"타일 업그레이드", _tilePosition);
-            gameManager.PayCost(_upgradeCost);
-            gameManager.BuildTile(_upgradeResult, _tilePosition);
-            return true;
-        }
-        return false;
+        
+        Logger.V3($"타일 업그레이드", _tilePosition);
+        gameManager.PayCost(_upgradeCost);
+        gameManager.BuildTile(_upgradeResult, _tilePosition);
+        return true;
     }
     /// <summary>
     /// 타일의 액션을 발동할 수 있다면 발동합니다.
@@ -224,10 +220,8 @@ public class CTile : MonoBehaviour
     protected virtual void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        if (_baseColor == null)
-        {
-            _baseColor = _baseRenderer.material.color;
-        }
+        _baseColor = _baseRenderer.material.color;
+
         if (_gameManager == null)
         {
             Logger.Error("게임매니저 못찾음");
@@ -342,19 +336,34 @@ public class CTile : MonoBehaviour
     }
     public virtual void ShowAllParticle(int radius = 0, bool isFirstSkip = true)
     {
-        int firstIndex = 0;
-        if (isFirstSkip) firstIndex = 1;
-        else _particleSystem[0].transform.localScale = Vector3.one;
-        if (_particleSystem == null || _particleSystem.Count <= firstIndex)
+        if (_particleSystem == null || _particleSystem.Count == 0)
         {
             return;
         }
+
+        int firstIndex = 0;
+        if (isFirstSkip)
+        {
+            firstIndex = 1;
+            if (_particleSystem.Count <= firstIndex)
+            {
+                return;
+            }
+        }
+        else
+        {
+            _particleSystem[0].transform.localScale = Vector3.one;
+        }
+
 
         for (int i = firstIndex; i < _particleSystem.Count; i++)
         {
             if (_particleSystem[i] != null)
             {
-                if (_isParticleScaled && (i != 0)) _particleSystem[i].transform.localScale = Vector3.one * (1 + radius);
+                if (_isParticleScaled && (i != 0))
+                {
+                    _particleSystem[i].transform.localScale = Vector3.one * (1 + radius);
+                }
                 _particleSystem[i].Play(true);
             }
             else

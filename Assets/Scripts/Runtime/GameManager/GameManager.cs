@@ -168,6 +168,8 @@ public partial class GameManager : MonoBehaviour
 
     [Header("턴 화면")]
     [SerializeField] private DayResultManager _DayManager;
+    [SerializeField] private TMP_Text _dailyOpeningText;
+    [SerializeField] private TMP_Text _dailyTitleText;
     #endregion
 
     #region Member Variable
@@ -212,6 +214,8 @@ public partial class GameManager : MonoBehaviour
     private bool _soundUIOn = false;
 
     private int _dailyEventArg = -1;
+    private bool _epilogueFlag = false;
+    private float _fadeDuration = 1f;
 
     public readonly int SuccessMax = 18;
     public readonly int InterestMax = 19;
@@ -252,6 +256,12 @@ public partial class GameManager : MonoBehaviour
         set { _dailyEventArg = value; }
     }
 
+    public bool EpilogueFlag
+    {
+        get { return _epilogueFlag; }
+        set { _epilogueFlag = value; }
+    }
+
     void Start()
     {
         _tilemap = this.GetComponentInChildren<Tilemap>();
@@ -276,6 +286,8 @@ public partial class GameManager : MonoBehaviour
         _undoText.gameObject.SetActive(false);
         _undoText.text = "";
         _undoTooltip.SetText("");
+        _dailyOpeningText.gameObject.SetActive(false);
+        _dailyTitleText.gameObject.SetActive(false);
         SetListener();
         DrawMapTiles();
         if (_sceneManager != null && _sceneManager.LoadSavedData)
@@ -426,7 +438,7 @@ public partial class GameManager : MonoBehaviour
                 return "<sprite=11>";
             case ETech.Art:
                 return "<sprite=12>";
-            case ETech.Exercise:
+            case ETech.Sports:
                 return "<sprite=13>";
             case ETech.Cult:
                 return "<sprite=14>";

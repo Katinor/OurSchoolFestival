@@ -166,9 +166,4 @@ public class DailyEventManager : MonoBehaviour
         _canvas.gameObject.SetActive(true);
         RefreshDialogue();
     }
-
-    private void CallQuestion()
-    {
-
-    }
 }

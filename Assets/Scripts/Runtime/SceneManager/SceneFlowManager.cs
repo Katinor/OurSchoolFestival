@@ -9,7 +9,7 @@ public enum ESceneId
     Title = 0,
     Prologue = 1,
     Game = 2,
-    Result = 3,
+    Epilogue = 3,
 }
 
 [Serializable]

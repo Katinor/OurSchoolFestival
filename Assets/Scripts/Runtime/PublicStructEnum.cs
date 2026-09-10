@@ -153,7 +153,7 @@ public enum ETech
     Science     = 5,  // 과학 필요카드
     Music       = 6,  // 음악 필요카드
     Art         = 7,  // 미술 필요카드
-    Exercise    = 8,  // 친목 필요카드
+    Sports      = 8,  // 운동 필요카드
     Cult        = 9,  // 사교 필요카드
 }
 
@@ -171,7 +171,7 @@ public enum EAction
     Science,
     Music,
     Art,
-    Exercise,
+    Sports,
     Cult,
     Tile,
     CustomScript,
