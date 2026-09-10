@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 703_StartFestivalSports
+  m_EditorClassIdentifier: 
+  _cardId: 703
+  _cardName: "\uCD95\uC81C \uCCB4\uC721\uC81C \uAC1C\uB9C9"
+  _description: "<sprite=13>+2\n\uCCB4\uC721 \uBCF8\uBD80\uC758 \uC561\uC158\uC73C\uB85C
+    \uC5BB\uB294 \uC810\uC218\uAC00 \uC601\uAD6C\uD788 1 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  _flavorText: 
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: 0713534c88b6a834bb0c03029b3e7b15, type: 3}
+  _costInfo:
+    moneyCurrent: 16
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList:
+  - tag: 8
+    level: 3
+  _actionList:
+  - action: 12
+    level: 2
+  - action: 18
+    level: 3
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 

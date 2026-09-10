@@ -22,7 +22,11 @@ public enum ETileCatalog
     ArtMuseum,
     CultBooth,
     BuskingBooth,
-    SoundRelay
+    SoundRelay,
+    InformationCenter,
+    SportsHQ,
+    SportsAttraction,
+    ElectronicSystem
 }
 
 public enum EGameState
@@ -49,7 +53,7 @@ public enum EGameAchievement
     ScienceMaster = 1 << 4,
     MusicMaster = 1 << 5,
     ArtMaster = 1 << 6,
-    // ExerciseMaster = 1 << 7
+    SportsMaster = 1 << 7
 }
 
 public partial class GameManager : MonoBehaviour
@@ -280,7 +284,7 @@ public partial class GameManager : MonoBehaviour
         _cardScores = new List<Func<GameManager, SScoreInfo>>();
         _cardScoresList = new List<int>();
         _scoreSet = new SScoreSet();
-        _resources = new CResources(1000, 20, 50, 5, 10, 5);
+        _resources = new CResources(200, 50, 1, 1, 1, 1);
         _undoDataList = new Stack<CUndoData>();
         _undoButton.interactable = false;
         _undoText.gameObject.SetActive(false);

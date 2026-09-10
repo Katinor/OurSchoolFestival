@@ -15,7 +15,7 @@ MonoBehaviour:
   _cardId: 813
   _cardName: "\uC798\uBABB\uB41C \uBC24 \uD558\uB298"
   _description: <sprite=7>-2 <sprite=9>+3
-  _flavorText: "\uCE74\uD2F0\uB178\uB974 \"\uBD88... \uC548\uCF30\uB294\uB370?\""
+  _flavorText: "\uC624\uB298\uB530\uB77C \uBCC4\uC774 \uC218\uC0C1\uD558\uAC8C \uB9CE\uB124..?"
   _tooltip: 
   _illust: {fileID: 2800000, guid: 533b6208ea802d7498af5ad4514286f7, type: 3}
   _costInfo:

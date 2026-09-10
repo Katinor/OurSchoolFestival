@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 713_SpecialRound
+  m_EditorClassIdentifier: 
+  _cardId: 713
+  _cardName: "\uD2B9\uBCC4 \uACBD\uAE30!"
+  _description: "[\uCCB4\uC721 \uBCF8\uBD80]\uC758 \uC561\uC158\uC744 1\uD68C \uCD94\uAC00
+    \uC0AC\uC6A9 \uAC00\uB2A5"
+  _flavorText: "\uC774\uBBF8 \uC0AC\uC6A9\uD55C \uC0C1\uD0DC\uC5EC\uC57C \uD569\uB2C8\uB2E4."
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: 8b6071757d6ea094391db4357a88014b, type: 3}
+  _costInfo:
+    moneyCurrent: 12
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 0
+  _tagList:
+  - tag: 8
+    level: 2
+  _actionList:
+  - action: 15
+    level: 2
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 

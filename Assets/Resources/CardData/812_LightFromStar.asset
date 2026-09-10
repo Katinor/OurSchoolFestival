@@ -28,7 +28,9 @@ MonoBehaviour:
   _isDeletable: 1
   _isSingle: 1
   _inStartDeck: 0
-  _tagList: []
+  _tagList:
+  - tag: 5
+    level: 2
   _actionList:
   - action: 6
     level: 2

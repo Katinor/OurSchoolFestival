@@ -30,8 +30,11 @@ public partial class GameManager
             case 3:
                 page = 2;
                 break;
-            case 5:
+            case 4:
                 page = 3;
+                break;
+            case 5:
+                page = 4;
                 break;
             default:
                 break;
@@ -73,6 +76,9 @@ public partial class GameManager
                 break;
             case 3:
                 GetCard(600, true, true);
+                break;
+            case 4:
+                GetCard(700, true, true);
                 break;
             case 5:
                 GetCard(800, true, true);

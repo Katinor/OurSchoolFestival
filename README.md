@@ -55,7 +55,7 @@
 주요 구현 요소는 다음과 같습니다.
 
 - **ScriptableObject 기반 데이터 중심 카드 시스템**
-- **Cube Coordinate System 기반 Hex Grid** 좌표 관리 및 인접 / 범위 탐색
+- **Cube Coordinate System 기반 Hex Grid** 좌표 관리 및 인접 / 범위 탐색 (BFS)
 - **상속 기반 타일 시스템**과 시설별 액션 / 점수 계산
 - 카드 / 자원 / 기술 / 타일을 연결하는 **턴 진행 시스템**
 - 게임 상태 스냅샷 기반 **Undo 시스템**

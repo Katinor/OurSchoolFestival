@@ -9,6 +9,8 @@ public static partial class CCardStatic
         {
             case 1:
                 return CardCustom01;
+            case 2:
+                return CardCustom02;
             default:
                 Logger.Error($"해당하는 함수 찾을 수 없음 : {level}");
                 return null;
@@ -24,6 +26,15 @@ public static partial class CCardStatic
             if (tiles[i].TileInCatalog == ETileCatalog.Booth)  tempCount += 1;
         }
         if (tempCount >= 3) manager.Resources.materialsIncrease += 3;
+        return true;
+    }
+    public static bool CardCustom02(GameManager manager, int level)
+    {
+        List<CTile> tiles = manager.GetAllTiles();
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            if (tiles[i].TileInCatalog == ETileCatalog.SportsHQ) tiles[i].ActionUsed = false;
+        }
         return true;
     }
 }

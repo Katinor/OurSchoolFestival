@@ -157,6 +157,13 @@ public partial class GameManager
                         tempAchievement |= EGameAchievement.ArtMaster;
                     }
                     break;
+                case EGameAchievement.SportsMaster:
+                    if (_currentTech.ContainsKey(ETech.Sports) && _currentTech[ETech.Sports] >= 5)
+                    {
+                        _achievement |= EGameAchievement.SportsMaster;
+                        tempAchievement |= EGameAchievement.SportsMaster;
+                    }
+                    break;
             }
         }
 
@@ -283,6 +290,10 @@ public partial class GameManager
                     case EGameAchievement.ArtMaster:
                         count += 1;
                         tempString += "미술왕(1)";
+                        break;
+                    case EGameAchievement.SportsMaster:
+                        count += 1;
+                        tempString += "체육왕(1)";
                         break;
                 }
             }

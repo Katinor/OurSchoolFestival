@@ -18,7 +18,8 @@ public class TileBuskingBooth : CTile
     {
         int count = GetConnectRelay();
         int score = 1 + count;
-        if (_gameManager.GetTech(ETech.Art) >= 5)
+        if (_gameManager.GetTech(ETech.Music
+            ) >= 5)
         {
             this._description = "음악동아리 부원들이 돌아가며 공연을 하고 있습니다!\n연결된 모든 음향중계기 + 1만큼 점수를 얻습니다.\n추가로 3개마다 1점을 더 얻습니다.";
             score += count / 3;

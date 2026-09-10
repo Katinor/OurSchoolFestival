@@ -10,7 +10,7 @@ public class TileInformationCenter : CTile
         this._tileState = ETileState.Built | ETileState.Action;
         this._tileInfo = "";
         this._baseColor = new UnityEngine.Color(1f, 0.5f, 0f);
-        this._tileInCatalog = ETileCatalog.CoffeeBooth;
+        this._tileInCatalog = ETileCatalog.InformationCenter;
         this._actionName = "선배의 후원";
         this._actionCost = new SCost(0, 0, 0, 0, 1, 0);
         this._actionEnabled = true;

@@ -1373,6 +1373,157 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213166834}
   m_CullTransparentMesh: 1
+--- !u!1 &213342874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 213342875}
+  - component: {fileID: 213342876}
+  m_Layer: 0
+  m_Name: DailyEventSet04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &213342875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213342874}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1165335572}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &213342876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213342874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cb75957f39f37246a58a06dc4f89cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogData:
+  - _speakerName: 
+    _dialogueText: "\uCE74\uD2F0\uB178\uB974\uAC00 \uC624\uB298\uB3C4 \uB0A0 \uBD88\uB800\uB2E4."
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uCD95\uC81C\uC5D0\uB294 \uC990\uAE38 \uAC70\uB9AC\uB3C4 \uC788\uB2E4\uACE0
+      \uB4E4\uC5C8\uC5B4.\n\uB9C8\uCE68 \uB0B4 \uD6C4\uBC30\uAC00 \uCCB4\uC721\uB3D9\uC544\uB9AC\uC758
+      \uBD80\uC7A5\uC774\uB354\uB77C."
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uCCB4\uC721\uB3D9\uC544\uB9AC\uC640 \uD568\uAED8\uB77C\uBA74,
+      \uB180\uAC70\uB9AC\uAC00 \uD48D\uBD80\uD574\uC9C0\uACA0\uAD6C\uB098."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
+    _dialogueText: "\uC88B\uC544. \uADF8\uB7FC \uBD80\uD0C1\uD560\uAC8C."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uC298\uC740 \uAE08\uBC29 \uB2EC\uB824\uC62C\uAC70\uB2C8 \uAE30\uB2E4\uB824\uBD10."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uCE74\uD2F0\uB178\uB974\uB294 \uC9E7\uAC8C \uC5F0\uB77D\uC744
+      \uB123\uC5C8\uB2E4."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uC7A0\uC2DC \uB4A4,"
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uC298"
+    _dialogueText: "\uCE74\uD2F0\uC624\uBE60-! \uC660 \uC77C\uB85C \uBA3C\uC800 \uC5F0\uB77D\uC744
+      \uB2E4\uD574?"
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 3
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uBB50... \uC0C1\uD669\uC774 \uC0C1\uD669\uC778\uC9C0\uB77C."
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uC298"
+    _dialogueText: "\uC6B0\uB9AC \uB3D9\uC544\uB9AC\uB294 \uBB34\uC5B8\uAC00 \uB9CC\uB4DC\uB294\uAC74
+      \uBAA8\uB974\uB2C8\uAE4C,\n\uB530\uB85C \uBD88\uB7EC\uC8FC\uC9C0\uB294 \uC54A\uACA0\uAD6C\uB098
+      \uC0DD\uAC01\uD588\uC5B4."
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 3
+    _questions: []
+  - _speakerName: "\uCE74\uD2F0\uB178\uB974"
+    _dialogueText: "\uB180\uAC70\uB9AC\uB77C\uBA74 \uB124\uAC00 \uC81C\uC77C \uC798
+      \uC54C\uC796\uC544."
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uC298"
+    _dialogueText: "\uADF8\uB807\uC9C0! \uC2E4\uB9DD\uC548\uC2DC\uD0AC\uAC8C!"
+    _illustHide: 0
+    _illustChange: 1
+    _illustIndex: 3
+    _questions: []
+  - _speakerName: "\uD559\uC0DD\uD68C\uC7A5"
+    _dialogueText: "\uADF8\uB7FC \uBD80\uD0C1\uD560\uAC8C, \uC298."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: "\uC2A4\uD398\uC774\uC2A4"
+    _dialogueText: "\uAC71\uC815\uB9C8 \uD68C\uC7A5\uB2D8!"
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "\uADF8\uB807\uAC8C \uCCB4\uC721 \uB3D9\uC544\uB9AC\uB3C4\n\uCD95\uC81C
+      \uC900\uBE44\uC5D0 \uD569\uB958\uD558\uAC8C \uB418\uC5C8\uB2E4."
+    _illustHide: 1
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
+  - _speakerName: 
+    _dialogueText: "<b>[\uC298 \uD638\uCD9C]</b> \uCE74\uB4DC\uB97C \uD68D\uB4DD\uD588\uB2E4!\n\uCCB4\uC721\uB3D9\uC544\uB9AC\uB97C
+      \uB3C4\uC640 \uB180\uAC70\uB9AC\uB97C \uB9CC\uB4E4\uC5B4\uBCF4\uC790."
+    _illustHide: 0
+    _illustChange: 0
+    _illustIndex: 0
+    _questions: []
 --- !u!1 &249145323
 GameObject:
   m_ObjectHideFlags: 0
@@ -11172,6 +11323,7 @@ Transform:
   - {fileID: 358208803}
   - {fileID: 1406717033}
   - {fileID: 1058538336}
+  - {fileID: 213342875}
   - {fileID: 1472055820}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15050,7 +15202,7 @@ GameObject:
   - component: {fileID: 1472055820}
   - component: {fileID: 1472055821}
   m_Layer: 0
-  m_Name: DailyEventSet04
+  m_Name: DailyEventSet05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16665,6 +16817,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bdc11ae0becd90f44b4c1382d6807d4f, type: 2}
   - {fileID: 11400000, guid: 902e87fc1c4fe9545bc5946ffc3d8de2, type: 2}
   - {fileID: 11400000, guid: 2977eb49fa3e5074aad52c435fb13774, type: 2}
+  - {fileID: 11400000, guid: 72a687e1149bd874f89c1c5333e8068c, type: 2}
+  - {fileID: 11400000, guid: af27b232397f64b4ba0dc1c1bde2b7c9, type: 2}
+  - {fileID: 11400000, guid: 21ed901ca471c4a4db721e55f70a9784, type: 2}
   _gridSizeXRight: 4
   _gridSizeYUpper: 3
   _roadSize: 8
@@ -20009,6 +20164,11 @@ MonoBehaviour:
     Mark: {fileID: 21300000, guid: ec2b41667a752a74f9a8b72ccc2b0421, type: 3}
     Illust: {fileID: 21300000, guid: bbc54730812a753459788fe1ca91456b, type: 3}
     Description: "\uBBF8\uC220\uB3D9\uC544\uB9AC\uAC00 \uC804\uC2DC\uD68C\uB97C \uAC1C\uCD5C\uD588\uB2E4!\n\uC804\uC2DC\uD68C
+      \uBCF8\uBD80\uAC00 \uD06C\uAC8C \uAC15\uD654\uB418\uC5C8\uB2E4."
+  - Title: "\"\uB05D\uAE4C\uC9C0 \uB2EC\uB824\uBCF4\uC790!\""
+    Mark: {fileID: 21300000, guid: e743b3758816a7643a4f5ceb27ddf3da, type: 3}
+    Illust: {fileID: 21300000, guid: 9253a56e7a4412247a1440730b27d980, type: 3}
+    Description: "\uCCB4\uC721\uB3D9\uC544\uB9AC\uAC00 \uB300\uD68C\uB97C \uC5F4\uC5C8\uB2E4!\n\uCCB4\uC721
       \uBCF8\uBD80\uAC00 \uD06C\uAC8C \uAC15\uD654\uB418\uC5C8\uB2E4."
   - Title: "\"\uC2E0\uBE44\uB97C \uD0D0\uD5D8\uD560 \uC900\uBE44\uB294 \uB410\uC5B4?\""
     Mark: {fileID: 21300000, guid: 73508b152cf4c9a4aa23bc6e8036c782, type: 3}
