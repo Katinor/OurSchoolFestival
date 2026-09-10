@@ -334,7 +334,7 @@ public partial class GameManager : MonoBehaviour
                 UpdateQuestionSelect();
                 break;
             case EGameState.DailyEvent:
-                if (DailyEventArg != -1) EndDailyEvent();
+                // if (DailyEventArg != -1) StartCoroutine(EndDailyEvent());
                 break;
         }
 

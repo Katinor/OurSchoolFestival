@@ -126,6 +126,11 @@ public partial class GameManager
             CreateError("되돌리기 불가능");
             return;
         }
+        if (_undoDataList.Count == 0)
+        {
+            CreateError("되돌리기 정보 없음", true);
+            return;
+        }
         _soundManager.PlaySE(EEffectSound.QuestionChoose);
         CUndoData undoData = _undoDataList.Pop();
         CreateSuccess($"[{undoData.Name}] 되돌아감!", false);

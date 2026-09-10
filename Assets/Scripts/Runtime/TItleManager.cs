@@ -54,7 +54,7 @@ public class TItleManager : MonoBehaviour
     void Start()
     {
         _sceneManager = SceneFlowManager.Instance;
-        _sceneManager.LoadingScreenOn(1f, false);
+        StartCoroutine(_sceneManager.LoadingScreenOn(1f, false));
         _titleCanvas.gameObject.SetActive(true);
         _saveCanvas.gameObject.SetActive(false);
         if (_saveSlots.Count != SaveManager.MaxSaveSlot)

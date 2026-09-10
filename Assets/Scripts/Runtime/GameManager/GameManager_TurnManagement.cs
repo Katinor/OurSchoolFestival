@@ -353,6 +353,7 @@ public partial class GameManager
         if (savedData == null)
         {
             Logger.Error("세이브 데이터를 불러오지 못했습니다.");
+            return;
         }
         if (_version != savedData.Version)
         {

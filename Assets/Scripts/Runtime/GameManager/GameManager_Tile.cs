@@ -92,6 +92,10 @@ public partial class GameManager
                 return false;
             }
             GameObject go = _tilemap.GetInstantiatedObject(posInCell.Value);
+            if (go == null)
+            {
+                return false;
+            }
             tile = go.GetComponent<CTile>();
             if (tile == null)
             {
@@ -342,7 +346,7 @@ public partial class GameManager
                 else
                 {
                     Logger.Error("CTile 찾기 실패");
-                    tempTileList.Add(new TileBasement());
+                    return null;
                 }
             }
         }

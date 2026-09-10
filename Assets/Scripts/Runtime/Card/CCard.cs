@@ -104,7 +104,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public bool HasPointFunction
     {
-        get { return _hasTileAction; }
+        get { return _hasPointFunction; }
         protected set { _hasPointFunction = value; }
     }
 
@@ -190,7 +190,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 {
                     _useButton.onClick.Invoke();
                 }
-                if (Input.GetKeyDown(KeyCode.X) && _useButton != null)
+                if (Input.GetKeyDown(KeyCode.X) && _deleteButton != null)
                 {
                     _deleteButton.onClick.Invoke();
                 }

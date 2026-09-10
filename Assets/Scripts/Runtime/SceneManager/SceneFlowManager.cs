@@ -146,18 +146,18 @@ public partial class SceneFlowManager : MonoBehaviour
     private IEnumerator Co_LoadSceneWithTransition(ESceneId id, string sceneName)
     {
         Logger.Log($"Transition : id = {id} / sceneName = {sceneName}");
-        yield return Co_FadeTo(1f, _fadeDuration);
+        yield return StartCoroutine(Co_FadeTo(1f, _fadeDuration));
 
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
-        while (op.progress < 0.09f)
+        while (op.progress < 0.9f)
         {
             yield return null;
         }
         op.allowSceneActivation = true;
 
         yield return null;
-        Co_FadeTo(0f, _fadeDuration);
+        // StartCoroutine(Co_FadeTo(0f, _fadeDuration));
         SyncCursorToCurrentScene();
 
         Logger.Success($"씬 로드 -> {sceneName}");

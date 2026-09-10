@@ -596,6 +596,7 @@ public partial class GameManager
             if (_undoDataList.Count == 0)
             {
                 CreateError("되돌리기 정보 없음", true);
+                return;
             }
             ShowQuestion
                 (

@@ -17,6 +17,11 @@
 
     public override bool OnAction(GameManager gameManager)
     {
+        if (!_gameManager.CanDraw(1))
+        {
+            gameManager.CreateError("카드 뽑을 수 없음.", true);
+            return false;
+        }
         Logger.V3($"{_name} : 액션 발동", _tilePosition);
         gameManager.PayCost(_actionCost);
         gameManager.DrawCards(1);
