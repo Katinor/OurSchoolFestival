@@ -32,6 +32,7 @@ public class TileSportsHQ : CTile
     {
         _tileInfo = $"<sprite=9> {_internalPoints}";
         _attractionCount = 0;
+        _withElectronicSystem = false;
         List<CTile> tiles = _gameManager.GetAllTiles();
         for (int i = 0; i < tiles.Count; i++)
         {

@@ -6,13 +6,15 @@ public class CUndoData
     private string _name;
     private CResources _resources;
     private Dictionary<ETech, int> _currentTech;
-    private List<Func<GameManager, SScoreInfo>> _cardScoresList;
+    private List<Func<GameManager, SScoreInfo>> _cardScores;
+    private List<int> _cardScoresList;
     private List<int> _cardsOnHand;
     private List<int> _cardsOnDeck;
     private List<int> _cardsPinoDeck;
     private List<int> _tileInt;
     private List<int> _tilePoint;
     private List<bool> _tileUsed;
+    private UnityEngine.Random.State _randomState;
 
     public string Name
     {
@@ -29,11 +31,18 @@ public class CUndoData
         get { return _currentTech; }
         protected set { _currentTech = value; }
     }
-    public List<Func<GameManager, SScoreInfo>> CardScoresList
+    public List<Func<GameManager, SScoreInfo>> CardScores
+    {
+        get { return _cardScores; }
+        private set { _cardScores = value; }
+    }
+
+    public List<int> CardScoresList
     {
         get { return _cardScoresList; }
         private set { _cardScoresList = value; }
     }
+
     public List<int> CardsOnHand
     {
         get { return _cardsOnHand; }
@@ -66,12 +75,19 @@ public class CUndoData
         private set { _tileUsed = value; }
     }
 
+    public UnityEngine.Random.State RandomState
+    {
+        get { return _randomState; }
+        private set { _randomState = value; }
+    }
+
     public CUndoData
         (
             string name,
             CResources resources,
             Dictionary<ETech, int> currentTech,
-            List<Func<GameManager, SScoreInfo>> cardScoresList,
+            List<Func<GameManager, SScoreInfo>> cardScores,
+            List<int> cardScoresList,
             List<int> cardsOnHand,
             List<int> cardsOnDeck,
             List<int> cardsPinoDeck,
@@ -83,7 +99,8 @@ public class CUndoData
         _name = name;
         _resources = new CResources(resources);
         _currentTech = new Dictionary<ETech, int>(currentTech);
-        _cardScoresList = new List<Func<GameManager, SScoreInfo>>(cardScoresList);
+        _cardScores = new List<Func<GameManager, SScoreInfo>>(cardScores);
+        _cardScoresList = new List<int>(cardScoresList);
         Logger.Log($"카드점수 저장 - {_cardScoresList.Count}");
         _cardsOnHand = new List<int>(cardsOnHand);
         _cardsOnDeck = new List<int>(cardsOnDeck);
@@ -91,6 +108,7 @@ public class CUndoData
         _tileInt = new List<int>(tileInt);
         _tilePoint = new List<int>(tilePoint);
         _tileUsed = new List<bool>(tileUsed);
+        _randomState = UnityEngine.Random.state;
     }
 }
 
@@ -105,6 +123,7 @@ public partial class GameManager
                 _resources,
                 _currentTech,
                 _cardScores,
+                _cardScoresList,
                 _cardHand.GetAllHandByInt(),
                 _cardHand.GetCardDeckByInt(),
                 _cardHand.GetPinoDeckByInt(),
@@ -137,7 +156,8 @@ public partial class GameManager
         _resources = undoData.Resources;
         _currentTech = undoData.CurrentTech;
         ReloadTech();
-        _cardScores = undoData.CardScoresList;
+        _cardScores = undoData.CardScores;
+        _cardScoresList = undoData.CardScoresList;
         _cardHand.LoadSavedHand(undoData.CardsOnHand);
         _cardHand.LoadSavedDeck(undoData.CardsOnDeck, undoData.CardsPinoDeck);
         LoadTilesFromUndo(undoData.TileInt, undoData.TilePoint, undoData.TileUsed);
@@ -154,6 +174,8 @@ public partial class GameManager
             _undoTooltip.SetText($"[{_undoDataList.Peek().Name}]을\n되돌립니다.");
             _undoText.text = _undoDataList.Count.ToString();
         }
+
+        UnityEngine.Random.state = undoData.RandomState;
     }
 
     public void ClearUndo()

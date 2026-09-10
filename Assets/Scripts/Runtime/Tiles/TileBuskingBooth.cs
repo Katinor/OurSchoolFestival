@@ -29,11 +29,10 @@ public class TileBuskingBooth : CTile
 
     public override void OnSelected()
     {
-        base.OnSelected();
         SScoreInfo score = OnScore();
         _tileInfo = $"<sprite=9> {score.Score}";
-        base.OnSelected();
         _additionalDescription = $"현재 점수는 <b>{score.Score}</b> 입니다.";
+        base.OnSelected();
     }
 
     private int GetConnectRelay()

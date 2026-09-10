@@ -28,7 +28,7 @@ public class TileFestivalHQ : CTile
     {
         SScoreInfo score = OnScore();
         _tileInfo = $"<sprite=9> {score.Score}";
-        base.OnSelected();
         _additionalDescription = $"현재 인접한 타일은 <b>{score.Score}</b>개 입니다.";
+        base.OnSelected();
     }
 }

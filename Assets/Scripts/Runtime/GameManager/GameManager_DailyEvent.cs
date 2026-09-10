@@ -69,6 +69,7 @@ public partial class GameManager
         Logger.Log($"{_currentDay}일차 일일이벤트 시작 : {page} 페이지 호출");
         _nextDayButton.interactable = false;
         _titleButton.interactable = false;
+        _gameState = EGameState.DailyEvent;
         _dailyManager.StartEvent(page, 0);
         yield break;
     }
@@ -106,7 +107,7 @@ public partial class GameManager
     {
         yield return null;
         Color color;
-        if (_currentDay >= 15) yield break;
+        if (_currentDay > 15) yield break;
         _dailyOpeningText.text = $"{_currentDay}일차\n";
         if (_currentDay < 6) _dailyOpeningText.text += "<size=75%>준비와 개막</size>";
         else if (_currentDay < 11) _dailyOpeningText.text += "<size=75%>축제 본행사</size>";

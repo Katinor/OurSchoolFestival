@@ -36,7 +36,7 @@ public class TileArtMuseum : CTile
     {
         SScoreInfo score = OnScore();
         _tileInfo = $"<sprite=9> {score.Score}";
-        base.OnSelected();
         _additionalDescription = $"현재 산출 점수는 <b>{score.Score}</b>점 입니다.";
+        base.OnSelected();
     }
 }

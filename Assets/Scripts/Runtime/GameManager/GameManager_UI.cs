@@ -314,7 +314,14 @@ public partial class GameManager
         _questionValue = 0;
         _questionAction = null;
         _questionCard = null;
-        _gameState = EGameState.Idle;
+        if (_currentDay >= 16)
+        {
+            _gameState = EGameState.LastDayIdle;
+        }
+        else 
+        {
+            _gameState = EGameState.Idle;
+        }
     }
 
     private void ShowTilechecker(string text, Action<CCard, Vector3Int> action, ETileState mask, ETileState maskReversed, CCard card)

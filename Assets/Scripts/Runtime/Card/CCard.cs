@@ -264,7 +264,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         _cost = new SCost(targetCard.CostInfo, _canUseMaterials);
         _costMoney = _cost.moneyCurrent;
 
-        _descriptionLabel.text = $"{targetCard.Description}\n<i><size=75%>{targetCard.FlavorText}</size><i>";
+        _descriptionLabel.text = $"{targetCard.Description}\n<i><size=75%>{targetCard.FlavorText}</size></i>";
         _tooltip = targetCard.Tooltip;
         _onMouseTooltipCard = tooltipClass;
         _illust.texture = targetCard.Illust;
