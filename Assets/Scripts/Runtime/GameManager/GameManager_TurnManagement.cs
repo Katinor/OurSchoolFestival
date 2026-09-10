@@ -42,18 +42,12 @@ public partial class GameManager
         }
         _menpowerRamainsSlider.value = _resources.menpowerRemain / 8f;
         _resources.menpowerCurrent = _resources.menpowerIncrease;
-        
         _currentDay++;
         SetDayButton(_currentDay);
         if(_currentDay == 6) _soundManager.PlayBGM(EBackgroundSound.Part2);
         if(_currentDay == 11) _soundManager.PlayBGM(EBackgroundSound.Part3);
         yield return StartCoroutine(_DayManager.LoadingScreenOff());
-        ClearUndo();
-        StartCoroutine(StartDailyEvent());
-        _randomSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-        UnityEngine.Random.InitState(_randomSeed);
-        SaveData();
-        _gameState = EGameState.Idle;
+        yield return StartCoroutine(StartDailyEvent());
     }
 
     public int GetFestivalScore()

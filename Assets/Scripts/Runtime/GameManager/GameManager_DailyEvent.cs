@@ -1,22 +1,13 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public partial class GameManager
 {
     public IEnumerator StartDailyEvent()
     {
-        if (_sceneManager != null && _sceneManager.LoadSavedData)
-        {
-            Logger.Log($"불러온 데이터 : 게임 속행");
-            if (_currentDay < 6) _soundManager.PlayBGM(EBackgroundSound.Part1);
-            else if (_currentDay < 11) _soundManager.PlayBGM(EBackgroundSound.Part2);
-            else if (_currentDay == 16) _soundManager.PlayBGM(EBackgroundSound.Result);
-            else _soundManager.PlayBGM(EBackgroundSound.Part3);
-            yield return StartCoroutine(DailyOpening());
-            _gameState = EGameState.Idle;
-            yield break;
-        }
+        ClearUndo();
         _dailyEventArg = -1;
         int page = -1;
         switch (_currentDay)
@@ -39,30 +30,47 @@ public partial class GameManager
             default:
                 break;
         }
-        if (page == -1)
+        if (_currentDay == 16)
+        {
+            _soundManager.PlayBGM(EBackgroundSound.Result);
+            _sceneManager.LoadSavedData = false;
+            _gameState = EGameState.LastDayIdle;
+            yield break;
+        }
+        else if (page == -1)
         {
             Logger.Log($"{_currentDay}일차 일일이벤트 없음 : 게임 속행");
             if (_currentDay < 6) _soundManager.PlayBGM(EBackgroundSound.Part1);
             else if (_currentDay < 11) _soundManager.PlayBGM(EBackgroundSound.Part2);
-            else if (_currentDay == 16) _soundManager.PlayBGM(EBackgroundSound.Result);
             else _soundManager.PlayBGM(EBackgroundSound.Part3);
             yield return StartCoroutine(DailyOpening());
+            if (_sceneManager != null && !_sceneManager.LoadSavedData)
+            {
+                _randomSeed = Random.Range(int.MinValue, int.MaxValue);
+                Random.InitState(_randomSeed);
+                SaveData();
+            }
+            if (_sceneManager != null ) _sceneManager.LoadSavedData = false;
             yield return StartCoroutine(_cardHand.AddCardCoroutine(4, 1f));
-            SaveData();
             _gameState = EGameState.Idle;
             yield break;
         }
-        else
+        _soundManager.PlayBGM(EBackgroundSound.DailyEvent);
+        yield return StartCoroutine(DailyOpening());
+        if (_sceneManager != null && !_sceneManager.LoadSavedData)
         {
-            _soundManager.PlayBGM(EBackgroundSound.DailyEvent);
-            yield return StartCoroutine(DailyOpening());
-            if (_currentDay == 1) yield return StartCoroutine(_cardHand.AddCardCoroutine(6, 0.5f));
-            else yield return StartCoroutine(_cardHand.AddCardCoroutine(4, 1f));
+            _randomSeed = Random.Range(int.MinValue, int.MaxValue);
+            Random.InitState(_randomSeed);
+            SaveData();
         }
+        if (_sceneManager != null) _sceneManager.LoadSavedData = false;
+        if (_currentDay == 1) yield return StartCoroutine(_cardHand.AddCardCoroutine(6, 0.5f));
+        else yield return StartCoroutine(_cardHand.AddCardCoroutine(4, 1f));
         Logger.Log($"{_currentDay}일차 일일이벤트 시작 : {page} 페이지 호출");
         _nextDayButton.interactable = false;
         _titleButton.interactable = false;
         _dailyManager.StartEvent(page, 0);
+        yield break;
     }
     public IEnumerator EndDailyEvent()
     {
@@ -84,7 +92,6 @@ public partial class GameManager
                 GetCard(800, true, true);
                 break;
         }
-        SaveData();
         if (_currentDay < 6) _soundManager.PlayBGM(EBackgroundSound.Part1);
         else if (_currentDay < 11) _soundManager.PlayBGM(EBackgroundSound.Part2);
         else if (_currentDay == 16) _soundManager.PlayBGM(EBackgroundSound.Result);
