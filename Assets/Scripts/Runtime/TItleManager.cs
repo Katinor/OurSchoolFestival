@@ -116,6 +116,7 @@ public class TItleManager : MonoBehaviour
         switch (_titleState)
         {
             case ETitleState.Title:
+                _PrologueToggle.gameObject.SetActive(false);
                 return;
             case ETitleState.Save:
                 for (int i = 0; i < _saveSlots.Count; i++)

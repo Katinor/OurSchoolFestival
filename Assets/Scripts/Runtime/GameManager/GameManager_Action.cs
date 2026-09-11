@@ -82,12 +82,12 @@ public partial class GameManager
         if (_materialsYes != null)
         {
             _materialsYes.onClick.AddListener(
-                () => CallMatAccept());
+                () => _questionValue = 1);
         }
         if (_materialsNo != null)
         {
             _materialsNo.onClick.AddListener(
-                () => CallMatDecline());
+                () => _questionValue = -1);
         }
         if (_materialsUp != null)
         {
@@ -139,8 +139,7 @@ public partial class GameManager
 
     private void CallUpgrade()
     {
-        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent
-            || _gameState == EGameState.LastDayIdle || _gameState == EGameState.LastDayTileInspect)
+        if (!(_gameState == EGameState.Idle || _gameState == EGameState.TileInspect))
         {
             return;
         }
@@ -175,8 +174,7 @@ public partial class GameManager
     }
     private void CallTileAction()
     {
-        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent
-            || _gameState == EGameState.LastDayIdle || _gameState == EGameState.LastDayTileInspect)
+        if (!(_gameState == EGameState.Idle || _gameState == EGameState.TileInspect))
         {
             return;
         }
@@ -223,10 +221,9 @@ public partial class GameManager
 
     public void CallCard(CCard card, bool alreadyPaiedMaterials)
     {
-        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent
-            || _gameState == EGameState.LastDayIdle || _gameState == EGameState.LastDayTileInspect)
+        if (!(_gameState == EGameState.Idle || _gameState == EGameState.TileInspect))
         {
-            return;
+            if (!(card.CanPayMaterials && alreadyPaiedMaterials)) return;
         }
         int cardAvailable = card.AvailableToUse();
         if (cardAvailable == 0)
@@ -310,8 +307,7 @@ public partial class GameManager
     }
     public void DeleteCard(CCard card)
     {
-        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent
-            || _gameState == EGameState.LastDayIdle || _gameState == EGameState.LastDayTileInspect)
+        if (!(_gameState == EGameState.Idle || _gameState == EGameState.TileInspect))
         {
             return;
         }
@@ -342,7 +338,7 @@ public partial class GameManager
     {
         PushUndo($"카드삭제 : {card.CardName}");
         card.DeleteCard();
-        _soundManager.PlaySE(EEffectSound.Success);
+        _soundManager.PlaySE(EEffectSound.Beep);
     }
 
     private void CallLeftToggle()
@@ -362,16 +358,6 @@ public partial class GameManager
     private void CallSoundToggle()
     {
         _soundUIOn = !_soundUIOn;
-    }
-
-    private void CallMatAccept()
-    {
-        _questionValue = 1;
-    }
-
-    private void CallMatDecline()
-    {
-        _questionValue = -1;
     }
 
     private void CallMatIncrease()
@@ -397,8 +383,7 @@ public partial class GameManager
 
     private void CallCardAdd()
     {
-        if (_gameState == EGameState.NoInput || _gameState == EGameState.NextDay || _gameState == EGameState.DailyEvent
-            || _gameState == EGameState.LastDayIdle || _gameState == EGameState.LastDayTileInspect)
+        if (!(_gameState == EGameState.Idle || _gameState == EGameState.TileInspect))
         {
             return;
         }

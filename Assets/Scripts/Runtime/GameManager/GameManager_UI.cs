@@ -97,6 +97,7 @@ public partial class GameManager
         _successText.text = _resources.festivalSuccess.ToString();
         _interestText.text = _resources.festivalInterest.ToString();
         _roadText.text = _resources.festivalRoad.ToString();
+        _handText.text = $"손패 {_cardHand.GetHandSize()} / 20";
     }
 
     private int Clamp(int target, int min, int max)
@@ -334,6 +335,7 @@ public partial class GameManager
         _questionTileRadius = card.GetRadius();
         _questionMask = mask;
         _questionMaskReverse = maskReversed;
+        _camera.StopFocusing();
         _gameState = EGameState.TileSelect;
     }
 
@@ -347,6 +349,7 @@ public partial class GameManager
         _questionTileRadius = radius;
         _questionMask = mask;
         _questionMaskReverse = maskReversed;
+        _camera.StopFocusing();
         _gameState = EGameState.TileSelect;
     }
 

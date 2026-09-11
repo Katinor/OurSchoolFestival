@@ -14,13 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardId: 14
   _cardName: "\uBD80\uC9C0 \uC815\uB9AC"
-  _description: <sprite=2>+5 <sprite=7>+1
+  _description: <sprite=2>+5 <sprite=9>+1
   _flavorText: "\uBD80\uC9C0\uB97C \uC815\uB9AC\uD558\uB2C8 \uB9CE\uC740 \uC790\uC7AC\uAC00
     \uB098\uC654\uC2B5\uB2C8\uB2E4."
-  _tooltip: "<size=150%>\uAC74\uC124</size>\n\uD2B9\uC815 \uD0C0\uC77C\uC744 \uAC74\uC124\uD569\uB2C8\uB2E4.\n<size=150%>\uCD9C\uC7A5
-    \uC74C\uB8CC\uBD80\uC2A4</size>\n\uC561\uC158 \uC0AC\uC6A9\uC2DC, \uAC04\uC774
-    \uC74C\uC2DD\uC810\uC758 \uAC2F\uC218\uB9CC\uD07C\n\uC790\uBCF8\uC744 \uC5BB\uB294
-    \uD0C0\uC77C\uC785\uB2C8\uB2E4."
+  _tooltip: "<size=150%><sprite=9>\uCD95\uC81C \uC810\uC218</size>\n\uCD95\uC81C
+    \uC9C0\uD45C\uAC00 \uC591\uC801\uC778 \uBA74\uC774\uB77C\uBA74,\n\uCD95\uC81C
+    \uC810\uC218\uB294 \uC9C8\uC801\uC778  \uD004\uB9AC\uD2F0\uB97C \uB098\uD0C0\uB0C5\uB2C8\uB2E4."
   _illust: {fileID: 2800000, guid: faad15851e6815843963859adcf37f48, type: 3}
   _costInfo:
     moneyCurrent: 14
@@ -31,12 +30,13 @@ MonoBehaviour:
     menpowerIncrease: 0
   _isDeletable: 1
   _isSingle: 0
-  _weight: 100
+  _inStartDeck: 1
   _tagList: []
   _actionList:
   - action: 2
     level: 5
-  - action: 7
+  - action: 16
     level: 1
-  _tileAdditionalDesc: 
+  _addCardOnHand: 
+  _addCardOnDeck: 
   _comments: 009

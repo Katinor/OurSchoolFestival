@@ -19,6 +19,6 @@
 
     public override SScoreInfo OnScore()
     {
-        return new SScoreInfo(1, _name);
+        return new SScoreInfo(1, "미술");
     }
 }

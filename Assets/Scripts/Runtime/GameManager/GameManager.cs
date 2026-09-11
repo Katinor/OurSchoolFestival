@@ -148,6 +148,7 @@ public partial class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text _successText;
     [SerializeField] private TMP_Text _interestText;
     [SerializeField] private TMP_Text _roadText;
+    [SerializeField] private TMP_Text _handText;
 
     [Header("물음메뉴")]
     [SerializeField] private RectTransform _questionPanel;
@@ -270,7 +271,7 @@ public partial class GameManager : MonoBehaviour
     {
         _tilemap = this.GetComponentInChildren<Tilemap>();
         _gameState = EGameState.NoInput;
-        // StartCoroutine(StateShow());
+        StartCoroutine(StateShow());
         if (SceneFlowManager.Instance != null)
         {
             _sceneManager = SceneFlowManager.Instance;
@@ -357,6 +358,9 @@ public partial class GameManager : MonoBehaviour
             StartCoroutine(StartDailyEvent());
         }
     }
+    /// <summary>
+    /// 현재 사용가능한지를 확인해줍니다.
+    /// </summary>
     public bool CheckResource(int moneyCurrent, int moneyIncrease,
         int materialsCurrent, int materialsIncrease, int menpowerCurrent, int menpowerIncrease, bool canUseMaterials = false)
     {
@@ -413,13 +417,17 @@ public partial class GameManager : MonoBehaviour
             return false;
         }
     }
-
+    /// <summary>
+    /// 현재 사용가능한지를 확인해줍니다.
+    /// </summary>
     public bool CheckResource(SCost cost)
     {
         return CheckResource(cost.moneyCurrent, cost.moneyIncrease, cost.materialsCurrent,
             cost.materialsIncrease, cost.menpowerCurrent, cost.menpowerIncrease, cost.canUseMaterials);
     }
-
+    /// <summary>
+    /// 현재 기술상태를 다시 가져옵니다.
+    /// </summary>
     public void ReloadTech()
     {
         _techText.text = "";
@@ -450,46 +458,64 @@ public partial class GameManager : MonoBehaviour
                 return "";
         }
     }
-
+    /// <summary>
+    /// 카드에 있는 점수 대리자를 추가합니다.
+    /// </summary>
     public void AddScoreAction(int level)
     {
         _cardScores.Add(CCardStatic.FindPointFunction(level));
         _cardScoresList.Add(level);
     }
-
+    /// <summary>
+    /// 비용을 지불합니다.
+    /// </summary>
     public void PayCost(SCost cost)
     {
         _resources.PayCost(cost);
     }
-
+    /// <summary>
+    /// 카드를 추가하는데에 사용합니다.
+    /// create를 키면 덱에서 가져오지 않고, 생성합니다.
+    /// isTop을 키면 왼손으로 들고옵니다.
+    /// </summary>
     public void GetCard(int cardId, bool create = true, bool isTop = true)
     {
         _cardHand.AddCard(cardId, create, false, isTop);
         _soundManager.PlaySE(EEffectSound.CardDraw);
     }
-
+    /// <summary>
+    /// 덱에 카드를 추가합니다.
+    /// </summary>
     public void AddDeck(List<int> deckIds)
     {
         _cardHand.AddCardInDeck(deckIds);
     }
-
+    /// <summary>
+    /// 일반 덱에서 카드를 뽑습니다.
+    /// </summary>
     public void DrawCards(int cardCount)
     {
         _cardHand.AddCards(cardCount);
     }
-
+    /// <summary>
+    /// 현재 특정 수만큼 카드를 뽑을 수 있는지 확인합니다.
+    /// </summary>
     public bool CanDraw(int cardCount)
     {
         return _cardHand.CanDraw(cardCount);
     }
-
+    /// <summary>
+    /// 일러스트를 보여줍니다.
+    /// </summary>
     public void ShowIllust(int index)
     {
         OnClickElse();
         _gameState = EGameState.NoInput;
         StartCoroutine(_cutsceneManager.CutscenePlay(index));
     }
-
+    /// <summary>
+    /// 일러스트를 숨깁니다.
+    /// </summary>
     public void HideIllust()
     {
         if (_currentDay < 6) _soundManager.PlayBGM(EBackgroundSound.Part1);
@@ -498,18 +524,24 @@ public partial class GameManager : MonoBehaviour
         else _soundManager.PlayBGM(EBackgroundSound.Part3);
         _gameState = EGameState.Idle;
     }
-
+    /// <summary>
+    /// 특정 기술의 레벨을 반환합니다.
+    /// </summary>
     public int GetTech(ETech target)
     {
         if (_currentTech.ContainsKey(target)) return _currentTech[target];
         else return 0;
     }
-
+    /// <summary>
+    /// 피노 덱에서 카드를 뽑습니다.
+    /// </summary>
     public void GetMysteryCard()
     {
         _cardHand.AddMysteryCard();
     }
-
+    /// <summary>
+    /// 피노 덱에 카드가 남아있는지 보여줍니다.
+    /// </summary>
     public bool MysteryAvailable()
     {
         return _cardHand.MysteryAvailable();

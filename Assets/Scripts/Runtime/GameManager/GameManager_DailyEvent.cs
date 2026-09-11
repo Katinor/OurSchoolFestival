@@ -27,6 +27,18 @@ public partial class GameManager
             case 5:
                 page = 4;
                 break;
+            case 6:
+                page = 5;
+                break;
+            case 9:
+                page = 6;
+                break;
+            case 11:
+                page = 7;
+                break;
+            case 14:
+                page = 8;
+                break;
             default:
                 break;
         }
@@ -91,6 +103,18 @@ public partial class GameManager
                 break;
             case 5:
                 GetCard(800, true, true);
+                break;
+            case 6:
+                _resources.moneyCurrent += 15;
+                break;
+            case 9:
+                _resources.materialsCurrent += 8;
+                break;
+            case 11:
+                DrawCards(2);
+                break;
+            case 14:
+                _resources.moneyCurrent += 20;
                 break;
         }
         if (_currentDay < 6) _soundManager.PlayBGM(EBackgroundSound.Part1);

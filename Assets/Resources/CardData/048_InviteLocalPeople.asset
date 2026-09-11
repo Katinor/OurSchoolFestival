@@ -17,7 +17,7 @@ MonoBehaviour:
   _description: <sprite=4>+3 <sprite=7>+2
   _flavorText: 
   _tooltip: 
-  _illust: {fileID: 2800000, guid: fdfb7bc3e4c4c06419d7fae528ee955b, type: 3}
+  _illust: {fileID: 2800000, guid: e2b409942caf17546875890940f2bbc5, type: 3}
   _costInfo:
     moneyCurrent: 13
     moneyIncrease: 0
@@ -33,9 +33,9 @@ MonoBehaviour:
     level: 5
   _actionList:
   - action: 4
-    level: 3
+    level: 4
   - action: 7
-    level: 2
+    level: 1
   _addCardOnHand: 
   _addCardOnDeck: 
   _comments: 042

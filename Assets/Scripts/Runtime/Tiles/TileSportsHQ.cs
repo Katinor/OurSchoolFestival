@@ -25,7 +25,7 @@ public class TileSportsHQ : CTile
 
     public override SScoreInfo OnScore()
     {
-        return new SScoreInfo(_internalPoints, _name);
+        return new SScoreInfo(_internalPoints, "체육");
     }
 
     public override void OnSelected()

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardId: 603
   _cardName: "\uCD95\uC81C \uBBF8\uC220\uC804 \uAC1C\uCD5C"
-  _description: "<sprite=12>+2 <sprite=7>+2\n\uC804\uC2DC\uD68C \uBCF8\uBD80\uAC00
-    \uC778\uC811\uD55C \uBBF8\uC220 \uC791\uD488\uB9CC\uD07C \uCD95\uC81C \uC810\uC218\uB97C
-    \uCD94\uAC00\uB85C \uC5BB\uC2B5\uB2C8\uB2E4."
+  _description: "<sprite=12>+2\n\uC804\uC2DC\uD68C \uBCF8\uBD80\uAC00 \uC778\uC811\uD55C
+    \uBBF8\uC220 \uC791\uD488\uB9CC\uD07C \uCD95\uC81C \uC810\uC218\uB97C \uCD94\uAC00\uB85C
+    \uC5BB\uC2B5\uB2C8\uB2E4."
   _flavorText: 
   _tooltip: 
   _illust: {fileID: 2800000, guid: 0df10c4bc4e241d478577d8881249e43, type: 3}

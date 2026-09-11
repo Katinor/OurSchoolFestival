@@ -17,7 +17,7 @@ MonoBehaviour:
   _description: <sprite=4>+4
   _flavorText: 
   _tooltip: 
-  _illust: {fileID: 2800000, guid: fdfb7bc3e4c4c06419d7fae528ee955b, type: 3}
+  _illust: {fileID: 2800000, guid: 1ce6dfe10183b3e4a9482f1a874d124f, type: 3}
   _costInfo:
     moneyCurrent: 8
     moneyIncrease: 0

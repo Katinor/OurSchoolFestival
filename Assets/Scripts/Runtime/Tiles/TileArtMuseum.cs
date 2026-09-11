@@ -30,7 +30,7 @@ public class TileArtMuseum : CTile
         {
             if (tiles[i].TileInCatalog == ETileCatalog.ArtistMasterpiece) tempCount += 1;
         }
-        return new SScoreInfo(tempCount, _name);
+        return new SScoreInfo(tempCount, "미술");
     }
     public override void OnSelected()
     {

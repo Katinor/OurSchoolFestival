@@ -20,7 +20,7 @@ public class TileFoodbooth : CTile
         {
             if (tiles[i].TileInCatalog == ETileCatalog.Trees) tempCount += 1;
         }
-        return new SScoreInfo(tempCount, _name);
+        return new SScoreInfo(tempCount, "공용");
     }
     public override void OnSelected()
     {

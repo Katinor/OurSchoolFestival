@@ -6,7 +6,7 @@ public class TileCoffeeShop : CTile
     {
         this._name = "출장 음료부스";
         this._description = "축제에 먹거리만 있다면 목이 막힐테니, 음료수도 함께 마셔봅시다!";
-        this._additionalDescription = "<size=150%>액션 : 음료 판매</size>\n<sprite=4> 1 사용\n설치된 모든 간이 음식점만큼 <sprite=0>을 얻습니다.";
+        this._additionalDescription = "<size=150%>액션 : 음료 판매</size>\n<sprite=4> 1 사용\n설치된 모든 간이 음식점의 2배만큼 <sprite=0>을 얻습니다.";
         this._tileState = ETileState.Built | ETileState.Action;
         this._tileInfo = "";
         this._baseColor = new UnityEngine.Color(1f, 0.5f, 0f);
@@ -27,7 +27,7 @@ public class TileCoffeeShop : CTile
         {
             if (tileList[i].TileInCatalog == ETileCatalog.Foodbooth) count++;
         }
-        gameManager.Resources.moneyCurrent += count;
+        gameManager.Resources.moneyCurrent += count * 2;
         ShowParticle(0, 0, 0.5f);
         _actionUsed = true;
         return true;

@@ -169,7 +169,6 @@ public class PrologueManager : MonoBehaviour
 
     private void RefreshDialogue()
     {
-        Logger.Log($"대화 불러오기 : {_pageIndex} - {_dialogueIndex}");
         CDialogData targetData = _dialogueDatas[_pageIndex].GetDialogueData(_dialogueIndex);
         if (string.IsNullOrEmpty(targetData.SpeakerName))
         {

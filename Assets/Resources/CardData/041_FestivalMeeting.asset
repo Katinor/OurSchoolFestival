@@ -17,7 +17,7 @@ MonoBehaviour:
   _description: "<sprite=4>+2\n<b>\uB4DC\uB85C\uC6B0 1</b>"
   _flavorText: 
   _tooltip: 
-  _illust: {fileID: 2800000, guid: fdfb7bc3e4c4c06419d7fae528ee955b, type: 3}
+  _illust: {fileID: 2800000, guid: aa6b246cc2a83704492a8897648806b5, type: 3}
   _costInfo:
     moneyCurrent: 8
     moneyIncrease: 0

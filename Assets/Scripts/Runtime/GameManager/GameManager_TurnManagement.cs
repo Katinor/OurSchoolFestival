@@ -122,7 +122,7 @@ public partial class GameManager
                     break;
                 case EGameAchievement.BrainMaster:
                     {
-                        if (_cardHand.GetHandSize() >= 15)
+                        if (_cardHand.GetHandSize() >= 12)
                         {
                             _achievement |= EGameAchievement.BrainMaster;
                             tempAchievement |= EGameAchievement.BrainMaster;
