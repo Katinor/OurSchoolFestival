@@ -1,3 +1,4 @@
+<img width="1920" height="1080" alt="엔드카드" src="https://github.com/user-attachments/assets/c51bfcc6-3c6b-48e1-b0e4-6e2c802ea2ed" />
 <p align="center">
   <img src="./gameLogo.png" alt="우리들의 학교축제 대작전!" width="640">
 </p>
