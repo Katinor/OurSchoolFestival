@@ -215,7 +215,7 @@ public class CHand : MonoBehaviour
             Logger.Error("패 가득참");
             return false;
         }
-        if (_cardDeck.Count == 0 || _cardDeck == null)
+        if (_cardDeck == null || _cardDeck.Count == 0)
         {
             Logger.Error("덱 없음");
             return false;
@@ -247,7 +247,7 @@ public class CHand : MonoBehaviour
             Logger.Error("패 가득참");
             return false;
         }
-        if (!create && (_cardDeck.Count == 0 || _cardDeck == null))
+        if (!create && (_cardDeck == null || _cardDeck.Count == 0))
         {
             Logger.Error("덱 없음");
             return false;

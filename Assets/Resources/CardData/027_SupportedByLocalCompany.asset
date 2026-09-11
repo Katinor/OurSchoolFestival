@@ -34,7 +34,7 @@ MonoBehaviour:
   _actionList:
   - action: 1
     level: 3
-  - action: 7
+  - action: 3
     level: 1
   _addCardOnHand: 
   _addCardOnDeck: 

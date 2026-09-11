@@ -25,7 +25,7 @@ public static partial class CCardStatic
         {
             if (tiles[i].TileInCatalog == ETileCatalog.Booth)  tempCount += 1;
         }
-        if (tempCount >= 3) manager.Resources.materialsIncrease += 3;
+        if (tempCount >= 3) manager.Resources.materialsIncrease += 2;
         return true;
     }
     public static bool CardCustom02(GameManager manager, int level)

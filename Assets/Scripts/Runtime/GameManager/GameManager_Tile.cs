@@ -191,6 +191,7 @@ public partial class GameManager
         else
         {
             ChangeBottomText($"({posInCell.x}, {posInCell.y}) : CTile 없는 객체");
+            return;
         }
         _lastNearObject = FindNeighborPosition(posInCell, targetTile.Radius);
         _lastSelectedPosition = posInCell;

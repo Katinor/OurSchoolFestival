@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardId: 12
   _cardName: "\uAC00\uB85C\uC218 \uB300\uB7C9\uC218\uC785"
-  _description: "<sprite=1>+2 <sprite=2>+2 <sprite=3>+3 <sprite=9>+1\n<b>\uAC74\uC124</b>
-    : \uAC00\uB85C\uC218"
+  _description: "<sprite=1>+1 <sprite=2>+2 <sprite=3>+2\n<b>\uAC74\uC124</b> : \uAC00\uB85C\uC218"
   _flavorText: "\uAE38 \uC8FC\uBCC0\uC744 \uAC00\uB85C\uC218\uB85C \uB3C4\uBC30\uD574\uBD05\uC2DC\uB2E4!"
   _tooltip: "<size=150%><sprite=9>\uCD95\uC81C \uC810\uC218</size>\n\uCD95\uC81C
     \uC9C0\uD45C\uAC00 \uC591\uC801\uC778 \uBA74\uC774\uB77C\uBA74,\n\uCD95\uC81C
@@ -39,15 +38,13 @@ MonoBehaviour:
     level: 6
   _actionList:
   - action: 1
-    level: 2
+    level: 1
   - action: 2
     level: 2
   - action: 3
-    level: 3
+    level: 2
   - action: 14
     level: 3
-  - action: 16
-    level: 1
   _addCardOnHand: 
   _addCardOnDeck: 
   _comments: 055

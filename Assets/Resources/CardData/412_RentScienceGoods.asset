@@ -19,7 +19,7 @@ MonoBehaviour:
   _tooltip: 
   _illust: {fileID: 2800000, guid: 11521647346d5304598b4699346d16cf, type: 3}
   _costInfo:
-    moneyCurrent: 10
+    moneyCurrent: 9
     moneyIncrease: 0
     materialsCurrent: 0
     materialsIncrease: 0

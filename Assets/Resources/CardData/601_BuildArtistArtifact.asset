@@ -30,7 +30,7 @@ MonoBehaviour:
     materialsIncrease: 0
     menpowerCurrent: 0
     menpowerIncrease: 0
-  _isDeletable: 1
+  _isDeletable: 0
   _isSingle: 1
   _inStartDeck: 0
   _tagList:

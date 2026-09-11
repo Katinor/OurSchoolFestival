@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16191f609e3a9564baa18f509fa837f4, type: 3}
+  m_Name: 044_EmergentGoodsSupport
+  m_EditorClassIdentifier: 
+  _cardId: 44
+  _cardName: "\uAE34\uAE09 \uBB3C\uC790 \uBC30\uBD84"
+  _description: <sprite=2>+4
+  _flavorText: 
+  _tooltip: 
+  _illust: {fileID: 2800000, guid: fdfb7bc3e4c4c06419d7fae528ee955b, type: 3}
+  _costInfo:
+    moneyCurrent: 9
+    moneyIncrease: 0
+    materialsCurrent: 0
+    materialsIncrease: 0
+    menpowerCurrent: 0
+    menpowerIncrease: 0
+  _isDeletable: 1
+  _isSingle: 1
+  _inStartDeck: 1
+  _tagList: []
+  _actionList:
+  - action: 2
+    level: 4
+  _addCardOnHand: 
+  _addCardOnDeck: 
+  _comments: 042

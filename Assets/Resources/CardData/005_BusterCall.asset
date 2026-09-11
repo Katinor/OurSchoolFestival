@@ -28,10 +28,11 @@ MonoBehaviour:
     menpowerIncrease: 0
   _isDeletable: 1
   _isSingle: 0
-  _weight: 100
+  _inStartDeck: 1
   _tagList: []
   _actionList:
   - action: 5
     level: 4
-  _tileAdditionalDesc: 
+  _addCardOnHand: 
+  _addCardOnDeck: 
   _comments: 030

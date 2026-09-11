@@ -233,6 +233,10 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         _techData = targetCard.TagList;
         _addCardOnHand = targetCard.AddCardOnHand;
         _needHandCount = 0;
+        if (!_isDeletable)
+        {
+            _deleteButton.interactable = false;
+        }
         if (targetCard.CardId < 400) _cardCase.color = new Color(128 / 255f, 128 / 255f, 128 / 255f);
         else if (targetCard.CardId < 500) _cardCase.color = new Color(0, 96 / 255f, 191 / 255f);
         else if (targetCard.CardId < 600) _cardCase.color = new Color(96 / 255f, 191 / 255f, 191 / 255f);
@@ -254,7 +258,7 @@ public class CCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         for (int i = 0; i < _techData.Count; i++)
         {
             if (i > 0) _tagLabel.text += ", ";
-            else if (_isSingle) _tagLabel.text += ", ";
+            else if (_isSingle) _tagLabel.text += " ";
             _tagLabel.text += TagTranslator(_techData[i]);
             if (_techData[i].tag == ETech.Structure)
             {

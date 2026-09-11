@@ -16,10 +16,12 @@ MonoBehaviour:
   _cardName: "\uBD84\uC2E4\uBB3C \uBCF4\uAD00\uC18C"
   _description: <sprite=5>-1 <sprite=9>+2
   _flavorText: 
-  _tooltip: 
+  _tooltip: "<size=150%><sprite=9>\uCD95\uC81C \uC810\uC218</size>\n\uCD95\uC81C
+    \uC9C0\uD45C\uAC00 \uC591\uC801\uC778 \uBA74\uC774\uB77C\uBA74,\n\uCD95\uC81C
+    \uC810\uC218\uB294 \uC9C8\uC801\uC778  \uD004\uB9AC\uD2F0\uB97C \uB098\uD0C0\uB0C5\uB2C8\uB2E4."
   _illust: {fileID: 2800000, guid: 0054470bc812d9044ace011b0f4ea41b, type: 3}
   _costInfo:
-    moneyCurrent: 5
+    moneyCurrent: 6
     moneyIncrease: 0
     materialsCurrent: 0
     materialsIncrease: 0
