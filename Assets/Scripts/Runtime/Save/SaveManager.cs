@@ -195,7 +195,7 @@ public static class SaveManager
     private static int _maxSaveSlot = System.Enum.GetValues(typeof(SaveSlot)).Length - 1;
     private static CSaveData[] _saveData = new CSaveData[_maxSaveSlot];
     private static SaveSlot _saveFlag = SaveSlot.None;
-    private readonly static bool _isPersist = false;
+    private readonly static bool _isPersist = true;
 
     public static int MaxSaveSlot
     {
