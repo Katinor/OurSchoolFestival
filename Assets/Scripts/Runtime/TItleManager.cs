@@ -223,6 +223,7 @@ public class TItleManager : MonoBehaviour
         _soundManager.PlaySE(EEffectSound.QuestionAppear);
         _titleCanvas.gameObject.SetActive(true);
         _saveCanvas.gameObject.SetActive(false);
+        HideQuestion();
         _titleState = ETitleState.Title;
     }
 
