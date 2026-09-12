@@ -196,7 +196,13 @@ public static class SaveManager
     private static CSaveData[] _saveData = new CSaveData[_maxSaveSlot];
     private static int[] _saveDataErrorCode = new int[_maxSaveSlot];
     private static SaveSlot _saveFlag = SaveSlot.None;
+
+#if UNITY_EDITOR
+    private readonly static bool _isPersist = false;
+#else
     private readonly static bool _isPersist = true;
+#endif
+
     public readonly static int Version = 1;
 
     public static int MaxSaveSlot
@@ -244,16 +250,16 @@ public static class SaveManager
         _saveData[index] = null;
         _saveFlag &= ~(SaveSlot)(1 << index);
 
-        
         if (LoadData(index))
         {
             Logger.Success($"{index} : 저장데이터 불러옴");
             _saveFlag |= (SaveSlot)(1 << index);
             return;
         }
+
         if (_saveDataErrorCode[index] == -10 || _saveDataErrorCode[index] == -11)
         {
-            Logger.Error($"{index} : 저장데이터 새로고침 - 데이터 없음");
+            Logger.Log($"{index} : 저장데이터 새로고침 - 데이터 없음");
             _saveFlag &= ~(SaveSlot)(1 << index);
             return;
         }
@@ -404,7 +410,6 @@ public static class SaveManager
         {
             // 저장 데이터 비어있음
             return 1;
-            
         }
         if (loadedData.Version != Version)
         {
@@ -470,7 +475,6 @@ public static class SaveManager
             Logger.Error($"{index} : 삭제 오류 - {ex.Message}");
             return false;
         }
-        
     }
 
     public static bool Available(int index)
@@ -493,7 +497,7 @@ public static class SaveManager
         {
             return false;
         }
-            
+
         data = _saveData[index];
         return true;
     }

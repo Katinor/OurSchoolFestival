@@ -355,6 +355,11 @@ public partial class GameManager
             Logger.Error("버전이 틀립니다.");
             return false;
         }
+        if (!DataCheckBeforeRestore(savedData))
+        {
+            Logger.Error("저장 데이터 복원 검증 실패함");
+            return false;
+        }
         _randomSeed = savedData.RandomSeed;
         _currentDay = savedData.CurrentDay;
         SetDayButton(_currentDay);
@@ -379,6 +384,44 @@ public partial class GameManager
         _cardHand.LoadSavedDeck(savedData.CardsOnDeck, savedData.CardsPinoDeck);
         LoadTilesFromSave(savedData.TileInt, savedData.TilePoint);
         UnityEngine.Random.InitState(_randomSeed);
+        return true;
+    }
+
+    private bool DataCheckBeforeRestore(CSaveData data)
+    {
+        // 카드 제대로 있는지 확인
+        if (!_cardHand.ValidateCardIds(data.CardsOnHand))
+        {
+            return false;
+        }
+        if (!_cardHand.ValidateCardIds(data.CardsOnDeck))
+        {
+            return false;
+        }
+        if (!_cardHand.ValidateCardIds(data.CardsPinoDeck))
+        {
+            return false;
+        }
+
+        if (data.TileInt == null || data.TilePoint == null)
+        {
+            return false;
+        }
+
+        int tileFullCount = (_gridSizeXRight * 2 + 1) * (_gridSizeYUpper * 2 + 1);
+        if (data.TileInt.Count !=  tileFullCount || data.TilePoint.Count != tileFullCount)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < data.TileInt.Count; i++)
+        {
+            if (data.TileInt[i] < 0 || data.TileInt[i] >= _tileBases.Count || _tileBases[data.TileInt[i]] == null)
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 }

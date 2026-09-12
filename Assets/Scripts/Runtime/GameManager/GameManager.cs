@@ -279,6 +279,11 @@ public partial class GameManager : MonoBehaviour
             (float bgmLevel, float seLevel) = _sceneManager.KeepVolume;
             _soundManager.SetVolumeForce(bgmLevel, seLevel);
         }
+        if (_tileBases == null)
+        {
+            Logger.Error("타일 목록이 설정되지 않음");
+            enabled = false;
+        }
         _hitMask |= LayerMask.GetMask("Tilemap");
         _rightPanelTransform.anchoredPosition3D = new Vector3(_rightPanelXOff, 0, 0);
         _currentTech = new Dictionary<ETech, int>();
@@ -315,7 +320,9 @@ public partial class GameManager : MonoBehaviour
             _cardHand.CardPositionReset();
         }
         if (_currentDay == 16) _soundManager.PlayBGM(EBackgroundSound.Result);
+#if UNITY_EDITOR
         StartCoroutine(StartManager());
+#endif
     }
 
     void Update()

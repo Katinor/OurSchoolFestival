@@ -153,7 +153,7 @@ public partial class GameManager
         if (_gameState == EGameState.TileInspect)
         {
             OnClickElse();
-            _gameState = EGameState.Idle;            
+            _gameState = EGameState.Idle;          
         }
         _soundManager.PlaySE(EEffectSound.QuestionChoose);
         CUndoData undoData = _undoDataList.Pop();
