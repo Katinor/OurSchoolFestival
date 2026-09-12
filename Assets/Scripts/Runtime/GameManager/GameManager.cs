@@ -285,6 +285,7 @@ public partial class GameManager : MonoBehaviour
         {
             Logger.Error("타일 목록이 설정되지 않음");
             enabled = false;
+            return;
         }
         _hitMask |= LayerMask.GetMask("Tilemap");
         _rightPanelTransform.anchoredPosition3D = new Vector3(_rightPanelXOff, 0, 0);
