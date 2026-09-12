@@ -271,7 +271,9 @@ public partial class GameManager : MonoBehaviour
     {
         _tilemap = this.GetComponentInChildren<Tilemap>();
         _gameState = EGameState.NoInput;
+#if UNITY_EDITOR
         StartCoroutine(StateShow());
+#endif
         if (SceneFlowManager.Instance != null)
         {
             _sceneManager = SceneFlowManager.Instance;
@@ -320,9 +322,7 @@ public partial class GameManager : MonoBehaviour
             _cardHand.CardPositionReset();
         }
         if (_currentDay == 16) _soundManager.PlayBGM(EBackgroundSound.Result);
-#if UNITY_EDITOR
         StartCoroutine(StartManager());
-#endif
     }
 
     void Update()
