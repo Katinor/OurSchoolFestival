@@ -66,8 +66,18 @@ public class TItleManager : MonoBehaviour
         SaveManager.RefreshAllData();
         for(int i = 0; i < _saveSlots.Count; i++)
         {
-            if (SaveManager.Available(i)) _saveSlots[i].LoadSavedata(SaveManager.LoadData(i));
-            else _saveSlots[i].ResetSavedata();
+            if (!SaveManager.Available(i))
+            {
+                _saveSlots[i].ResetSavedata();
+            }
+            else if (SaveManager.GetData(i, out CSaveData savedData))
+            {
+                _saveSlots[i].LoadSavedata(savedData);
+            }
+            else
+            {
+                _saveSlots[i].ShowLoadError(SaveManager.SaveErrorCode[i]);
+            }
         }
 
         #region Button Listener setting
@@ -128,17 +138,31 @@ public class TItleManager : MonoBehaviour
                         _saveSlots[i].Input = 0;
                         if (SaveManager.Available(i))
                         {
+                            if (!SaveManager.GetData(i, out _))
+                            {
+                                _saveSlots[i].ShowLoadError(SaveManager.SaveErrorCode[i]);
+                                continue;
+                            }
+
                             _useSaveData = true;
                             _PrologueToggle.gameObject.SetActive(false);
                             _PrologueToggle.isOn = false;
-                            ShowQuestion($"{i + 1}번 데이터를 불러옵니까?", CallGameScene);
+
+                            ShowQuestion(
+                                $"{i + 1}번 데이터를 불러옵니까?",
+                                CallGameScene
+                            );
                         }
                         else
                         {
                             _useSaveData = false;
                             _PrologueToggle.gameObject.SetActive(true);
                             _PrologueToggle.isOn = true;
-                            ShowQuestion($"{i + 1}번 데이터에 새 게임을 시작합니까?", CallGameScene);
+
+                            ShowQuestion(
+                                $"{i + 1}번 데이터에 새 게임을 시작합니까?",
+                                CallGameScene
+                            );
                         }
                     }
                     else if (_saveSlots[i].Input == -1)
@@ -290,10 +314,15 @@ public class TItleManager : MonoBehaviour
     }
     private void CallSlotDelete()
     {
-        SaveManager.DeleteData(_targetSlot);
-        _saveSlots[_targetSlot].ResetSavedata();
-        SaveManager.RefreshAllData();
-
+        if (SaveManager.DeleteData(_targetSlot))
+        {
+            _saveSlots[_targetSlot].ResetSavedata();
+        }
+        else
+        {
+            Logger.Error($"{_targetSlot} : 저장 데이터 삭제에 실패했습니다.");
+            // 화면에 실패한거 띄우는건 나중에...
+        }
     }
 
     private void ResetInput()

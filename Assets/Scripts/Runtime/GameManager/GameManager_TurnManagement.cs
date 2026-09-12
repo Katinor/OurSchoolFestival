@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
 
 public partial class GameManager
 {
@@ -22,9 +20,8 @@ public partial class GameManager
         yield return StartCoroutine(_DayManager.StartDayResult(this, _soundManager));
         if (_currentDay >= 15)
         {
+            yield return StartCoroutine(_DayManager.LoadingScreenOff());
             CallGotoTitleResult();
-            _currentDay = 16;
-            SaveData();
             yield break;
         }
         List<CTile> tileList = GetAllTiles();
@@ -314,10 +311,10 @@ public partial class GameManager
         return _scoreTotal;
     }
 
-    private void SaveData()
+    private bool SaveData()
     {
         (List<int> tileIdList, List<int> tilePointList) = GetAllTilesForSave();
-        SaveManager.SaveData(_saveSlot, new CSaveData
+        CSaveData tempData = new CSaveData
         (
             _version,
             _randomSeed,
@@ -332,25 +329,31 @@ public partial class GameManager
             tileIdList,
             tilePointList,
             _scoreTotal
-            ));
+            );
+        bool tempBool = SaveManager.SaveData(_saveSlot, tempData);
+        if (!tempBool)
+        {
+            CreateError("저장 실패함\n종료시 진행이 유실 될 수 있음.", true);
+        }
+        return tempBool;
     }
 
-    private void LoadData()
+    private bool LoadData()
     {
-        LoadDataCore();
+        return LoadDataCore();
     }
 
-    private void LoadDataCore()
+    private bool LoadDataCore()
     {
-        CSaveData savedData = SaveManager.LoadData(_saveSlot);
-        if (savedData == null)
+        if (!SaveManager.GetData(_saveSlot, out CSaveData savedData))
         {
             Logger.Error("세이브 데이터를 불러오지 못했습니다.");
-            return;
+            return false;
         }
         if (_version != savedData.Version)
         {
             Logger.Error("버전이 틀립니다.");
+            return false;
         }
         _randomSeed = savedData.RandomSeed;
         _currentDay = savedData.CurrentDay;
@@ -376,5 +379,6 @@ public partial class GameManager
         _cardHand.LoadSavedDeck(savedData.CardsOnDeck, savedData.CardsPinoDeck);
         LoadTilesFromSave(savedData.TileInt, savedData.TilePoint);
         UnityEngine.Random.InitState(_randomSeed);
+        return true;
     }
 }

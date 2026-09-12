@@ -583,16 +583,22 @@ public partial class GameManager
                 CreateError("되돌리기 정보 없음", true);
                 return;
             }
+            if (_gameState == EGameState.TileInspect)
+            {
+                OnClickElse();
+                _gameState = EGameState.Idle;
+            }
             ShowQuestion
                 (
                     $"[{_undoDataList.Peek().Name}]을 되돌립니다.\n진행합니까?",
                     (GameObject go, Vector3Int position) =>
                     {
+                        HideQuestion();
+                        OnClickElse();
                         PopUndo();
                     }
                 );
         }
-            
     }
 
     private void ActionGotoTitle()
@@ -603,11 +609,25 @@ public partial class GameManager
 
     public void CallGotoTitleResult()
     {
-        if(_currentDay != 16)
+        if (_currentDay == 16)
         {
-            _currentDay = 16;
-            SaveData();
+            ActionGotoTitle();
+            return;
         }
-        ActionGotoTitle();
+
+        // 최종 결과만 볼 수 있게 바꿔두기
+        _currentDay = 16;
+
+        if (SaveData())
+        {
+            ActionGotoTitle();
+            return;
+        }
+
+        _gameState = EGameState.LastDayIdle;
+        ShowQuestion(
+            "최종 결과 저장에 실패하였습니다.\n" +
+            "저장 없이 나가시겠습니까?",
+            (GameObject go, Vector3Int position) => ActionGotoTitle());
     }
 }

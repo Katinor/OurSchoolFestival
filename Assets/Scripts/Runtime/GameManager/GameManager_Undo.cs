@@ -140,7 +140,7 @@ public partial class GameManager
 
     public void PopUndo()
     {
-        if (_gameState == EGameState.NoInput)
+        if (!(_gameState == EGameState.Idle || _gameState == EGameState.TileInspect))
         {
             CreateError("되돌리기 불가능");
             return;
@@ -149,6 +149,11 @@ public partial class GameManager
         {
             CreateError("되돌리기 정보 없음", true);
             return;
+        }
+        if (_gameState == EGameState.TileInspect)
+        {
+            OnClickElse();
+            _gameState = EGameState.Idle;            
         }
         _soundManager.PlaySE(EEffectSound.QuestionChoose);
         CUndoData undoData = _undoDataList.Pop();

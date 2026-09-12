@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CHand : MonoBehaviour
@@ -203,7 +202,7 @@ public class CHand : MonoBehaviour
         ClearHand();
         for (int i = 0; i < cardId.Count; i++)
         {
-            AddCard(cardId[i], true, true);
+            AddCardUndo(cardId[i]);
         }
         CardPositionReset();
     }
@@ -277,6 +276,17 @@ public class CHand : MonoBehaviour
         CardPositionReset();
         return true;
     }
+
+    public void AddCardUndo(int cardId)
+    {
+        GameObject go = Instantiate(_cardPrefab, this.transform);
+        CCard card = go.GetComponent<CCard>();
+        card.Setup(AllCardsDict[cardId], _tooltipClass);
+        card.IsLoaded = true;
+
+        CardPositionReset();
+    }
+
     public void AddMysteryCard()
     {
         if (_cardPinoDeck.Count <= 0)
@@ -351,5 +361,28 @@ public class CHand : MonoBehaviour
             }
         }
         Logger.Success($"{target} 추가 => 현재 덱 {_cardDeck.Count} 장");
+    }
+
+    // 나중에 쓸려고 미리 만들어놓기
+    // 제발 나중에 이걸 볼 것
+    // 제발
+    public bool ValidateCardIds(List<int> cardIds)
+    {
+        if (cardIds == null)
+        {
+            Logger.Error("카드 목록이 없습니다.");
+            return false;
+        }
+
+        for (int i = 0; i < cardIds.Count; i++)
+        {
+            if (!AllCardsDict.ContainsKey(cardIds[i]))
+            {
+                Logger.Error($"존재하지 않는 카드 : {cardIds[i]}");
+                return false;
+            }
+        }
+
+        return true;
     }
 }

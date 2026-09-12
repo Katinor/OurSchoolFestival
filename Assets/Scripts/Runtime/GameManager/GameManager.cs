@@ -179,7 +179,7 @@ public partial class GameManager : MonoBehaviour
 
     #region Member Variable
     private SceneFlowManager _sceneManager;
-    private int _version = 1;
+    private int _version = SaveManager.Version;
     private int _saveSlot = 0;
     private int _randomSeed;
     private Tilemap _tilemap;
@@ -298,7 +298,12 @@ public partial class GameManager : MonoBehaviour
         if (_sceneManager != null && _sceneManager.LoadSavedData)
         {
             _saveSlot = _sceneManager.TargetSaveData;
-            LoadData();
+            if (!LoadData())
+            {
+                Logger.Error("로드 실패. 타이틀로 돌아감!");
+                _sceneManager.LoadScene(ESceneId.Title);
+                return;
+            }
         }
         else
         {

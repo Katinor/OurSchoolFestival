@@ -194,8 +194,10 @@ public static class SaveManager
 {
     private static int _maxSaveSlot = System.Enum.GetValues(typeof(SaveSlot)).Length - 1;
     private static CSaveData[] _saveData = new CSaveData[_maxSaveSlot];
+    private static int[] _saveDataErrorCode = new int[_maxSaveSlot];
     private static SaveSlot _saveFlag = SaveSlot.None;
     private readonly static bool _isPersist = true;
+    public readonly static int Version = 1;
 
     public static int MaxSaveSlot
     {
@@ -208,12 +210,17 @@ public static class SaveManager
         get { return _saveFlag; }
         private set { _saveFlag = value; }
     }
+    public static int[] SaveErrorCode
+    {
+        get { return _saveDataErrorCode; }
+        private set { _saveDataErrorCode = value; }
+    }
 
     private static string GetSavepath(int slot)
     {
         if (slot >= _maxSaveSlot || slot < 0)
         {
-            Logger.Error("잘못된 슬롯번호 호출");
+            Logger.Error($"{slot} : 잘못된 슬롯 번호");
             return null;
         }
         if (_isPersist) return Path.Combine(Application.persistentDataPath, $"save{slot:D2}.json");
@@ -222,106 +229,272 @@ public static class SaveManager
     public static void RefreshAllData()
     {
         FindAvailableData();
-        for (int i = 0; i < _maxSaveSlot; i++)
-        {
-            if ((_saveFlag & (SaveSlot)(1 << i)) != SaveSlot.None)
-            {
-                _saveData[i] = LoadData(i);
-            }
-            else
-            {
-                _saveData[i] = null;
-            }
-        }
         Logger.Log($"_saveFlag = {_saveFlag}");
     }
+
     public static void RefreshData(int index)
     {
-        CSaveData tempData = LoadData(index);
-        if (tempData == null)
+        if (index < 0 || index >= _maxSaveSlot)
         {
-            Logger.Error($"저장데이터 새로고침 : {index} 데이터 없음");
+            Logger.Error($"{index} : 잘못된 슬롯 번호");
+            return;
+        }
+
+        // 파일을 다시 읽어야해서 캐시 지워두기
+        _saveData[index] = null;
+        _saveFlag &= ~(SaveSlot)(1 << index);
+
+        
+        if (LoadData(index))
+        {
+            Logger.Success($"{index} : 저장데이터 불러옴");
+            _saveFlag |= (SaveSlot)(1 << index);
+            return;
+        }
+        if (_saveDataErrorCode[index] == -10 || _saveDataErrorCode[index] == -11)
+        {
+            Logger.Error($"{index} : 저장데이터 새로고침 - 데이터 없음");
             _saveFlag &= ~(SaveSlot)(1 << index);
+            return;
         }
         else
         {
-            Logger.Log($"저장데이터 불러옴 : {index}");
-            _saveData[index] = tempData;
+            Logger.Error($"{index} : 저장데이터 새로고침 - 데이터 오류있지만, UI에서 처리하도록.");
             _saveFlag |= (SaveSlot)(1 << index);
+            return;
         }
     }
     public static SaveSlot FindAvailableData()
     {
-        for(int i = 0; i < _maxSaveSlot; i++)
+        for (int i = 0; i < _maxSaveSlot; i++)
         {
-            string path = GetSavepath(i);
-            if (File.Exists(path))
-            {
-                _saveFlag |= (SaveSlot)(1 << i);
-                _saveData[i] = LoadData(i);
-            }
-            else
-            {
-                _saveFlag &= ~(SaveSlot)(1 << i);
-                _saveData[i] = null;
-            }
+            RefreshData(i);
         }
         return _saveFlag;
     }
-    public static void SaveData(int index, CSaveData data)
+    public static bool SaveData(int index, CSaveData data)
     {
-        string path = GetSavepath(index);
-        _saveData[index] = data;
-        File.WriteAllText(path, JsonUtility.ToJson(data));
-        _saveFlag |= (SaveSlot)(1 << index);
-        Logger.Success($"저장 성공 : {index} 데이터 저장함");
+        if (index < 0 || index >= _maxSaveSlot)
+        {
+            Logger.Error($"{index} : 잘못된 슬롯 번호");
+            return false;
+        }
+
+        if(CheckSaveData(data) != 0)
+        {
+            Logger.Error($"{index} : 저장데이터 검증 실패");
+            return false;
+        }
+
+        try
+        {
+            string path = GetSavepath(index);
+            // 임시 파일 만들기
+            string tempPath = path + ".tmp";
+            string backupPath = path + ".bak";
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            File.WriteAllText(tempPath, JsonUtility.ToJson(data));
+
+            if (File.Exists(path))
+            {
+                // 백업
+                File.Replace(tempPath, path, backupPath);
+            }
+            else
+            {
+                // 백업 없음
+                File.Move(tempPath, path);
+            }
+
+            _saveData[index] = data;
+            _saveDataErrorCode[index] = 0;
+            _saveFlag |= (SaveSlot)(1 << index);
+
+            Logger.Success($"{index} : 저장 성공, 데이터 저장함");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error($"저장 실패: {ex.Message}");
+            return false;
+        }
     }
-    public static CSaveData LoadData(int index)
+
+    public static bool LoadData(int index)
     {
+        if (index < 0 || index >= _maxSaveSlot)
+        {
+            Logger.Error($"{index} : 잘못된 슬롯 번호");
+            return false;
+        }
+        _saveDataErrorCode[index] = -1;
         if (_saveData[index] == null)
         {
-            Logger.Log($"불러오기 시도 : {index} 데이터가 없어, 로컬에서 시도함.");
+            Logger.Log($"{index} : 불러오기 시도 - 데이터가 없어, 로컬에서 시도함.");
             string path = GetSavepath(index);
-            if (File.Exists(path))
+
+            try
             {
                 CSaveData loadedData = JsonUtility.FromJson<CSaveData>
                     (
                         File.ReadAllText(path)
                     );
-                if (loadedData != null)
+
+                _saveDataErrorCode[index] = CheckSaveData(loadedData);
+                if (_saveDataErrorCode[index] != 0)
                 {
-                    _saveData[index] = loadedData;
+                    _saveData[index] = null;
+                    return false;
                 }
                 else
                 {
-                    Logger.Error($"불러오기 오류 : {index} 데이터가 잘못됨.");
-                    return null;
+                    _saveData[index] = loadedData;
+                    return true;
                 }
             }
-            else
+            catch (FileNotFoundException)
             {
-                Logger.Error($"불러오기 실패 : {index} 데이터 파일 없음");
-                return null;
+                _saveDataErrorCode[index] = -10;
+                _saveData[index] = null;
+                // 파일 없음 (보통 위에서 처리되지만 포함함)
+                return false;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                _saveDataErrorCode[index] = -11;
+                _saveData[index] = null;
+                // 저장 폴더 에러
+                return false;
+            }
+            catch (IOException ex)
+            {
+                _saveDataErrorCode[index] = -12;
+                _saveData[index] = null;
+                Logger.Error($"{index} : 파일 읽기 실패 - {ex.Message}");
+                // 파일 읽기 실패
+                return false;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _saveDataErrorCode[index] = -13;
+                _saveData[index] = null;
+                Logger.Error($"{index} : 파일 접근 실패 - {ex.Message}");
+                // 파일 접근 실패
+                return false;
+            }
+            catch (ArgumentException ex)
+            {
+                _saveDataErrorCode[index] = -14;
+                _saveData[index] = null;
+                Logger.Error($"{index} : 파일 형식 오류 - {ex.Message}");
+                // 파일 형식 오류
+                return false;
             }
         }
-        Logger.Success($"불러오기 성공 : {index} 데이터 불러옴");
-        return _saveData[index];
-    }
-    public static bool DeleteData(int index)
-    {
-        string path = GetSavepath(index);
-        if (File.Exists(path))
+        else
         {
-            File.Delete(path);
+            _saveDataErrorCode[index] = 0;
             return true;
         }
-        return false;
+    }
+
+    public static int CheckSaveData(CSaveData loadedData)
+    {
+        if (loadedData == null)
+        {
+            // 저장 데이터 비어있음
+            return 1;
+            
+        }
+        if (loadedData.Version != Version)
+        {
+            // 저장 데이터 버전 다름
+            return 2;
+        }
+        if (loadedData._resources == null || loadedData._resources.Count != 10)
+        {
+            // 자원 데이터 오류
+            return 3;
+        }
+
+        if (loadedData._currentTechEnum == null || loadedData._currentTechLevel == null ||
+            loadedData._currentTechEnum.Count != loadedData._currentTechLevel.Count)
+        {
+            // 기술 데이터 오류
+            return 4;
+        }
+
+        if (loadedData.CardsOnHand == null || loadedData.CardsOnDeck == null || loadedData.CardsPinoDeck == null)
+        {
+            // 카드 데이터 오류
+            return 5;
+        }
+
+        if (loadedData.TileInt == null || loadedData.TilePoint == null ||
+            loadedData.TileInt.Count == 0 || loadedData.TileInt.Count != loadedData.TilePoint.Count)
+        {
+            // 타일 데이터 오류
+            return 6;
+        }
+        if (loadedData.CurrentDay < 1 || loadedData.CurrentDay > 16)
+        {
+            // 진행 일수 오류
+            return 7;
+        }
+        return 0;
+    }
+
+    public static bool DeleteData(int index)
+    {
+        if (index < 0 || index >= _maxSaveSlot)
+        {
+            Logger.Error($"{index} : 잘못된 슬롯 번호");
+            return false;
+        }
+
+        try
+        {
+            string path = GetSavepath(index);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            _saveData[index] = null;
+            _saveDataErrorCode[index] = -10;
+            _saveFlag &= ~(SaveSlot)(1 << index);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error($"{index} : 삭제 오류 - {ex.Message}");
+            return false;
+        }
+        
     }
 
     public static bool Available(int index)
     {
+        if (index < 0 || index >= _maxSaveSlot)
+        {
+            Logger.Error($"{index} : 잘못된 슬롯 번호");
+            return false;
+        }
         SaveSlot targetFlag = (SaveSlot)(1 << index);
         if ((_saveFlag & targetFlag) != SaveSlot.None) return true;
         else return false;
+    }
+
+    public static bool GetData(int index, out CSaveData data)
+    {
+        data = null;
+
+        if (!LoadData(index))
+        {
+            return false;
+        }
+            
+        data = _saveData[index];
+        return true;
     }
 }

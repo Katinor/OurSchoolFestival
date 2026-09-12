@@ -34,6 +34,8 @@ public class SaveSlotUI : MonoBehaviour
 
     public void LoadSavedata(CSaveData data)
     {
+        _input = 0;
+        _loadButton.interactable = true;
         if (data.CurrentDay >= 16) _dayDesc.text = $"게임 종료";
         else _dayDesc.text = $"{data.CurrentDay}일차";
 
@@ -50,8 +52,55 @@ public class SaveSlotUI : MonoBehaviour
         _deleteButton.interactable = true;
     }
 
+    public void ShowLoadError(int errorCode)
+    {
+        _dayDesc.text = "오류슬롯";
+        string tempText = "저장 데이터 읽기 실패\n";
+        switch (errorCode)
+        {
+            case -12:
+                tempText += ": 파일 읽기 실패";
+                break;
+            case -13:
+                tempText += ": 파일 접근 실패";
+                break;
+            case -14:
+                tempText += ": 파일 형식 오류";
+                break;
+            case 1:
+                tempText += ": 빈 파일";
+                break;
+            case 2:
+                tempText += ": 버전 오류";
+                break;
+            case 3:
+                tempText += ": 자원 데이터 오류";
+                break;
+            case 4:
+                tempText += ": 기술 데이터 오류";
+                break;
+            case 5:
+                tempText += ": 카드 데이터 오류";
+                break;
+            case 6:
+                tempText += ": 타일 데이터 오류";
+                break;
+            case 7:
+                tempText += ": 진행 일수 오류";
+                break;
+            default:
+                tempText += $": 알 수 없는 오류 - {errorCode}";
+                break;
+        }
+        _slotDesc.text = tempText;
+        _loadButton.interactable = false;
+        _deleteButton.interactable = true;
+    }
+
     public void ResetSavedata()
     {
+        _input = 0;
+        _loadButton.interactable = true;
         _dayDesc.text = "-";
         _slotDesc.text = "-데이터 없음-";
         _deleteButton.interactable = false;
