@@ -46,14 +46,14 @@ public enum EGameState
 public enum EGameAchievement
 {
     None = 0,
-    GameClear = 1 << 0,
-    FoodMaster = 1 << 1,
-    NatureMaster = 1 << 2,
-    BrainMaster = 1 << 3,
-    ScienceMaster = 1 << 4,
-    MusicMaster = 1 << 5,
-    ArtMaster = 1 << 6,
-    SportsMaster = 1 << 7
+    GameClear = 1 << 0,     // 축제성공
+    FoodMaster = 1 << 1,    // 먹거리장인
+    NatureMaster = 1 << 2,  // 환경보호가
+    BrainMaster = 1 << 3,   // 아이디어뱅크
+    ScienceMaster = 1 << 4, // 과학왕
+    MusicMaster = 1 << 5,   // 음악왕
+    ArtMaster = 1 << 6,     // 미술왕
+    SportsMaster = 1 << 7   // 체육왕
 }
 
 public partial class GameManager : MonoBehaviour
